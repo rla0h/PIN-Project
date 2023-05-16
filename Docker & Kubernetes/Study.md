@@ -157,3 +157,128 @@ spec:
         * Azure Kubernetes Service(AKS)
         * Elastic Kubernetes Service(EKS)
 
+# 4장 API 리소스와 kubectl
+## 4.2 쿠버네티스 기초
+* 쿠버네티스는 쿠버네티스 마스터와 쿠버네티스 노드로 구성되어 있다.
+    * 쿠버네티스 마스터는 API 엔드포인트 제공, 컨테이너 스케줄링, 컨테이너 스케일링 등을 담당하는 노드
+    * 쿠버네티스 노드는 이른바 도커 호스트에 해당하며 실제로 컨테이너를 기동시키는 노드
+* 쿠버네티스 클러스터를 관리하려면 CLI 도구인 kubectl과 YAML 형식이나 JSON 형식으로 작성된 매니페스트 파일을 사용하여 쿠버네티스 마스터에 '리소스'를 등록
+* 매니페스트 파일은 가독성을 고려하여 YAML 형식으로 작성하는 것이 일반적이며 확장자(.yamlm .yml, .json)로 구분
+* kubectl 은 매니페스트 파일 정보를 바탕으로 쿠버네티스 마스터가 가진 API 요청을 보내어 쿠버네티스를 관리
+> 쿠버네티스 API는 일반적으로 RESTful API로 구현되어 있다.
+
+## 4.3 쿠버네티스와 리소스
+* 쿠버네티스를 관리하기 위해 등록하는 '리소스'는 컨테이너의 실행과 로드 밸런서 생성 등 많은 종류가 있다.
+    * 워크로드 API 카테고리 : 컨테이너 실행에 관련된 리소스
+    * 서비스 API 카테고리 : 컨테이너를 외부에 공개하는 엔드포인트를 제공하는 리소스
+    * 컨피그 & 스토리지 API 카테고리 : 설정/기밀 정보/영구 볼륨 등에 관련된 리소스
+    * 클러스터 API 카테고리 : 보안이나 쿼터 등에 관련된 리소스
+    * 메타데이터 API 카테고리 : 클러스터 내부의 다른 리소스를 관리하기 위한 리소스
+
+### 4.3.1 워크로드 API 카테고리
+* 워크로드 API 카테고리는 클러스터 위에서 컨테이너를 기동하기 위해 사용되는 리소스
+    * 내부적으로 사용되는 것을 제외하고 사용자가 직접 관리할 수 있는 것으로 총 여덟가지 종류의 워크로드 리소스가 있음
+        * 파드
+        * 레플리케이션 컨트롤러
+        * 레플리카셋
+        * 디플로이먼트
+        * 데몬셋
+        * 스테이트풀셋
+        * 잡
+        * 크론잡
+
+### 4.3.2 서비스 API 카테고리
+* 서비스 API 카테고리는 컨테이너 서비스 디스커버리와 클러스터 외부에서도 접속이 가능한 엔드포인트 등을 제공하는 리소스
+    * 내부적으로 사용되는 것을 제외하고 사용자가 직접 관리할 수 있는 리소스로 서비스와 인그레스라는 두 종류의 서비스 API 카테고리가 있다.
+        * 서비스
+            * ClusterIP
+            * ExternalIP
+            * NodePort
+            * LoadBalancer
+            * Headless
+            * ExternalName
+            * None-Selector
+        * 인그레스
+
+### 4.3.3 컨피그 & 스토리지 API 카테고리
+* 컨피그 & 스토리지 API 카테고리는 설정과 기밀 데이터를 컨테이너에 담거나 영구 볼륨을 제공하는 리소스
+    * 시크릿과 컨피그맵은 모두 key-value 형태의 데이터 구조로 되어 있음
+    * 저장할 데이터가 기밀데이터인지 일반적인 설정 정보인지에 따라 구분
+        * 시크릿
+        * 컨피그맵
+        * 영구 볼륨 클레임
+            > 컨테이너에서 영구 볼륨을 요청할 때 사용
+
+### 4.3.4 클러스터 API 카테고리
+* 클러스터 API 카테고리는 클러스터 자체 동작을 정의하는 리소스
+    * 보안 관련 설정이나 정책, 클러스터 관리성을 향상시키는 기능을 위한 리소스 등 여러 리소스가 있다.
+        * 노드(Node)
+        * Namespace
+        * PersistentVolume
+        * ResourceQuota
+        * ServiceAccount
+        * Role
+        * ClusterRole
+        * RoleBinding
+        * ClusterRoleBinding
+        * NetworkPolicy
+### 4.3.5 메타데이터 API 카테고리
+* 메타데이터 API 카테고리는 클러스터 내부의 다른 리소스 동작을 제어하기 위한 리소스
+> 파드를 오토 스케일링 시키기 위해 사용하는 HorizontalPodAutoscaler(HPA)는 디플로이먼트 리소스를 조작해 레플리카 수를 변경함으로써 오토 스케일링을 구현 
+   * LimitRange
+   * HorizontalPodAutoscaler(HPA)
+   * PodDisruptionBudget(PDB)
+   * 커스텀 리소스 데피니션(CustomResourceDefinition)
+
+## 4.4 네임스페이스로 가상적인 클러스터 분리
+* Namespace : 가상적인 쿠버네티스 클러스터 분리 기능
+* 하나의 쿠버네티스 클러스터를 여러팀에서 사용하거나 서비스 환경/스테이징 환경/개발 환경으로 구분하는 경우 사용
+* 기본 설정에는 4가지 네임스페이스 생성
+    * kube-system
+        * 쿠버네티스 클러스터 구성 요소와 애드온이 배포될 네임스페이스
+    * kube-public
+        * 모든 사용자가 사용할 수 있는 컨피그맵 등을 배치하는 네임스페이스
+    * kube-node-lease
+        * 노드 하트비트 정보가 저장된 네임스페이스
+    * default
+        * 기본 네임스페이스
+    
+* 네임스페이스 분리 범위에 대해서는 권한 분리 관점에서 마이크로서비스를 개발하는 팀마다 분리하는 것이 좋음.
+* 서비스 환경/스테이징 환경/개발 환경을 네임스페이스로 분리하는 시스템도 있지만, 저자는 네임스페이스가 아닌 클러스터별로 나눠야 한다고 생각
+    * WHY?
+        * 클러스터 업그레이드 시 동시에 모든 환경에서 장애가 발생할 가능성이 있음
+        * 네임스페이스 명명 규칙이 prd-ns1/stg-ns1처럼 되면 매니페스트 재사용성이 현저하게 저하
+        > 클러스터를 분리하면 각 환경에서 같은 네임스페이스 이름을 사용할 수 있기 때문에 완전히 같은 매니페스트를 재사용 할 수 있다.
+        * 서비스 이름 해석 시 SERVICE, prd-ns1, svc, cluster, local 등의 다른 목적지에 통신을 해야함
+
+## 4.5 커맨드 라인 인터페이스(CLI) 도구 kubectl
+* 쿠버네티스 클러스터 조작은 보통 마스터의 API를 통해 이루어진다.
+* 수동으로 조작하는 경우에는 CLI 도구인 'kubectl'을 사용하는것이 일반적
+
+### 4.5.1 인증 정보와 컨텍스트(config)
+* kubectl이 쿠버네티스 마스터와 통신할 때는 접속 대상의 서버 정보, 인증 정보 등이 필요
+* kubectl은 kubeconfig(기본 위치는 ~/.kube/config)에 쓰여 있는 정보를 사용하여 접속
+* kubeconfig도 매니페스트와 동일한 형식으로 작성
+```
+apiVersion: v1
+kind: Config
+preferences: {}
+clusters: # 접속 대상 클러스터
+    - name: sample-cluster
+      cluster:
+        server: https://localhost:6443
+users: # 인증정보
+    - name: sample-user
+      user:
+        client-certificate-data: LS0tLS1CRUDjTi...
+        client-key-data: LS0tLS1CRUdJTi...
+contexts: # 접속 대상과 인증 정보 조합
+    - name: sample-context
+      context:
+        cluster: sample-cluster
+        namespace: default
+        user: sample-user
+current-context: sample-context
+```
+* kubeconfig에 구체적으로 설정이 이루어지는 부분은 clusters/users/contexts 세가지
+    * 세 가지 설정 항목은 모두 배열로 되어 있어 여러 대상을 등록 할 수 있다.
