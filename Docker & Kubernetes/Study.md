@@ -138,3 +138,22 @@ spec:
         * Fluentd: 쿠버네티스에 컨테이너 로그 전송
         * 그외 다수
 * 쿠버네티스는 기능을 확장할 수 있는 여러 구조를 가지고 있으며 자체 기능을 추가하거나 쿠버네티스 자체를 프레임워크로 자체 플랫폼을 구현하여 사용할 수도 있다.
+
+# 3장 쿠버네티스 환경 선택
+## 3.1 쿠버네티스 환경의 종류
+* 쿠버네티스는 여러 플랫폼 환경에서 클러스터를 구성하여 사용할 수 있다.
+    * 로컬 쿠버네티스
+        * 물리 머신 한 대에 구축하여 사용
+        * 미니큐브(Minikube)
+        * Docker Desktop for Mac/Windows
+        * kind(Kubernets in Docker)
+    * 쿠버네티스 구축 도구
+        * 도구를 사용하여 온프레미스/클라우드에 클러스터를 구축하여 사용
+        * 큐브어드민(kubeadm)
+        * 랜처(Rancher)
+    * 관리형 쿠버네티스 서비스
+        * 퍼블릭 클라우드의 관리형 서비스로 제공하는 클러스터를 사용
+        * Google Kubernetes Engine(GKE)
+        * Azure Kubernetes Service(AKS)
+        * Elastic Kubernetes Service(EKS)
+
