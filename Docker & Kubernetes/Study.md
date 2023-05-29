@@ -65,7 +65,7 @@
     * 컨테이너가 두개 들어 있는 파드를 생성한 경우 이 두 컨테이너는 같은 IP 주소를 가짐
     * 파드의 내부 컨테이너는 서로 localhost로 통신할 수 있다.
 ## 파드 생성
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -77,13 +77,13 @@ spec:
 ```
 * sample-pod 내부에 nginx:1.16 이미지를 사용한 컨테이너 하나를 기동하고 80/TCP 포트를 바인드 하는 단순한 파드.
 * 매니패스트를 사용하여 파드 생성
-```
+```bash
 # 파드생성
 $ kubectl apply -f sample-pod.yaml
 ```
 
 * 기동한 파드 확인
-```
+```bash
 # 파드 목록을 표시
 $ kubectl get pods
 
@@ -92,7 +92,7 @@ $ kubectl get pods --output wide
 ```
 
 ## 두 개의 컨테이너를 포함한 파드 생성
-```
+```yaml
 apiversion: v1
 kind: pod
 metadata:
@@ -113,7 +113,7 @@ spec:
 
 ## 레플리카셋 생성
 * sample-rs.yamml
-```
+```yaml
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
@@ -133,7 +133,7 @@ spec:
               image: nginx:1.16
 ```
 * 레플리카셋 생성 및 확인
-```
+```bash
 # 레플리카셋 생성
 $ kubectl apply -f sample-rs.yaml
 
@@ -144,7 +144,7 @@ $ kubectl get replicasets -o wide
 ## 파드 정지와 자동화된 복구
 * 레클리카셋에서는 노드나 파드에 장애가 발생했을 때, 지정한 파드 수를 유지하기 위해 다른 노드에서 파드를 기동시켜 주기 때문에 장애 시에도 많은 영향을 받지 않음
 * 쿠버네티스의 컨셉 중 하나 '자동화된 복구'
-```
+```bash
 # 파드 하나를 정지 시켜서 확인해보자
 # 실제 기동 중인 파드명을 지정
 $ kubectl delete pod sample-rs-9f9kr
@@ -173,7 +173,7 @@ $ kubectl describe replicaset sample-rs
 * 레플리카셋으로만 배포한 경우에는 롤링 업데이트 등의 기능을 사용할 수 없다.
 
 ## 디플로이먼트 생성
-```
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -194,7 +194,7 @@ spec:
 ```
 
 * 디플로이먼트 기동
-```
+```bash
 # 업데이트 이력을 저장하는 옵션을 사용하여 디플로이먼트 기동
 $ kubectl apply -f sample-deployment.yaml --record
 
@@ -231,7 +231,7 @@ $ kubectl rollout status deployment sample-deployment
 * 롤백 기능의 실체는 현재 사용 중인 레플리카셋의 전환과 같은 것
 * 디플로이먼트가 생성한 기존 레플리카셋은 레플리카 수가 0인 상태로 남아있기 때문에 레플리카 수를 변경시켜 다시 사용할 수 있는 상태가 된다.
 * 변경 이력을 확인할 때는 kubectl rollout history 명령어를 사용
-```
+```bash
 # 변경 이력 확인
 $ kubectl rollout history deployment sample-deployment
 
@@ -294,7 +294,7 @@ $ kubectl get replicasets
 * 또한, 서비스는 로드 밸런싱의 접속 창구가 되는 엔드포인트도 제공
 
 * 엔드포인트 설정을 위한 예제
-```
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -315,7 +315,7 @@ spec:
 ```
 > 위 매니페스트에선 디플로이먼트가 생성할 파드에는 app: sample-app 레이블과 자동으로 부여되는 pod-template-hash:7c67dd9675(해시값) 레이블이 설정되어있음
 
-```
+```bash
 # 출력 시 특정 JSON Path(예제에서는 레이블) 값만 출력
 $ kubectl get pods sample-deployment-7c67dd9675-87v5d -o jsonpath='{.metadata.labels}'
 ```
@@ -324,7 +324,7 @@ $ kubectl get pods sample-deployment-7c67dd9675-87v5d -o jsonpath='{.metadata.la
 > ClusterIP는 클러스터 내부에서만 사용 가능한 가상 IP를 가진 엔드포인트를 제공하는 로드 밸런서를 구성
 * 서비스는 spec.selector에 정의할 셀렉터 조건에 따라 트래픽을 전송
 * 아래 예는 app: sample-app 레이블을 가진 파드에 트래픽 로드 밸런싱하여 전송
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -343,7 +343,7 @@ spec:
 * 생성된 로드 밸런서의 트래픽이 전송되는 파드를 확인
 > 먼저 app:sample-app 레이블을 가진 파드 IP 주소를 확인
 
-```
+```bash
 # 지정한 레이블을 가진 파드 정보 중 특정 JSON Path를 컬럼으로 출력
 $ kubectl get pods -l app=sample-app -o custom-columns="NAME:{metadata.name}, IP:{status.podIP}"
 ```
@@ -351,7 +351,7 @@ $ kubectl get pods -l app=sample-app -o custom-columns="NAME:{metadata.name}, IP
 * 방금 확인한 app: sample-app 레이블을 가진 파드 IP 주소가 같기 때문에 트래픽 전송이 셀렉터 조건에 따라 선택된 것을 확인
 * 또한 로드 밸런싱을 위한 엔드포인트의 가상 IP는 CLUSTER-IP 항목이나 IP 항목에서 <해당 IP> 할당된 것을 확인
 
-```
+```bash
 # 서비스 생성
 $ kubectl apply -f sample-clusterip.yaml
 
@@ -367,13 +367,13 @@ $ kubectl describe service sample-clusterip
 > 그러므로 클러스터 내 별도 컨테이너를 기동하고 그 컨테이너에서 엔드포인트로 HTTP 요청을 보내 동작을 확인
 > HTTP 요청은 로드 밸런싱 되어 어느 하나의 파드에서 요청을 처리하고 처리한 파드의 호스트 명을 포함한 HTTP 응답이 반환
 
-```
+```bash
 # 일시적으로 파드를 시작하여 서비스 엔드포인트로 요청
 $ kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http:<SERVICE_IP:PORT>
 ```
 
 * 하나의 서비스에 여러 포트를 할당 할 수도 있다.
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -397,7 +397,7 @@ spec:
 > 디플로이먼트의 포트 정의에서 80번 포트를 http라 명명하고, 서비스에서 참조할 때는 targetPort에ㅓ http로 참조
 
 * 이름이 붙여진 포트를 가진 두개의 파드 예제
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -412,7 +412,7 @@ spec:
     - name: http # 포트에 이름 지정
     containerPort: 80
 ```
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -432,7 +432,7 @@ spec:
 ```
 
 * 이름이 붙여진 포트를 참조하는 서비스 예제
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -455,14 +455,14 @@ spec:
 * ClusterIP는 쿠버네티스 클러스터 외부에서 트래픽을 수신할 필요가 없는 환경에서 클러스터 내부 로드 밸런서로 사용
 * 기본적으로 쿠버네티스 API 에 접속하기 위한 Kubernetes 서비스가 생성되어 있고, ClusterIP가 발급되어 있다.
 
-```
+```bash
 # 쿠버네티스 API에 접속할 수 있도록 쿠버네티스 서비스가 생성됨
 $ kubectl get services
 ```
 
 * ClusterIP 서비스 생성
 > ClusterIP 서비스는 매니페스트로 생성
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
