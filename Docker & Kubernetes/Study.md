@@ -498,3 +498,63 @@ spec:
 
 * NodePort나 ExternalIP 에서는 결국 하나의 쿠버네티스 노드에 할당된 IP 주소로 통신을 하기 때문에 그 노드가 단일 장애점(Single Point of Failure, SPoF)이 되어 버린다.
 * type: LoadBalancer에서는 쿠버네티스 노드와 별도로 외부 로드 밸런서를 사용하기 때문에 노드 장애가 발생해도 크게 문제되지 않음.
+
+
+# 볼륨
+> 쿠버네티스에서는 볼륨을 추상화하여 파드와 느슨하게 결합된 리소스로 정의하고 있다.
+* emptyDir
+* hostPath
+* downwardAPI
+* projected
+* nfs
+* iscsi
+* cephfs
+
+## empty dir
+* emptyDir은 파드용 임시 디스크 영역으로 사용 할 수 있다. 그리고 파드가 종료(Terminate)되면 삭제된다. 호스트의 임의 역역을 마운트 할 수 없으며 호스트에 있는 파일을 참조할 수도 없다.\
+
+* emptyDir 볼륨을 마운트 하는 예제(sample-emptyDir.yaml)
+``` yaml
+apiVersion: v1
+kind: Pod
+metadata:
+    name: sample-emptydir
+spec:
+    containers:
+    - image: nginx: 1.16
+      name: nginx-container
+      volumeMounts:
+      - mountPath: /cache
+        name: cache-volume
+    volmes:
+    - names: cache-volume
+      emptyDir: {}
+```
+## hostPath
+* hostPath는 쿠버네티스 노드상의 영역을 컨테이너에 매핑하는 플러그인
+* emptyDir과 다르게 호스트의 임의 영역을 마운트할 수 있기 때문에 사용할 때는 호스트의 어떤 영역을 사용할지 지정해야 한다.
+* type은 Directory/DirectoryOrCreate/File/Socket/BlockDevice 등을 선택할 수 있다.
+* DirectoryOrCreate와 Directory의 차이는 디렉터리가 존재하지 않을 경우 생성하고 기동하는지 여부에 있다.
+* 보안상의 이유로 안전하지 않은 컨테이너가 업로드될 수 있으므로 사용하지 말 것을 권장
+* 또한, 보안상 hostPath를 사용할 수 없는 쿠버네티스 환경도 있다.
+* hostPath 볼륨을 마운트하는 파드 예제
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+    name: sample-hostpath
+spec:
+    containers:
+    - image: nginx:1.16
+      name: nginx-container
+      volumeMounts:
+      - mouthPath: /srv
+        name: hostpath-sample
+    volumes:
+    - name: hostpath-sample
+      hostPath:
+        path: /etc
+        type: DirectoryOrCreate
+```
+
+
