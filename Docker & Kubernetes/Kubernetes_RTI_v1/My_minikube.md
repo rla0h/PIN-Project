@@ -123,21 +123,20 @@ $ kubectl get pods -l app=rti -o custom-columns="NAME:{metadata.name}, IP:{statu
 
 
 * db connection
-  ```txt
-  subscriber code 에서 postgres 연동 부분을 바꿔야한다.
-  내 DB의 테이블명은 rti_table 이고 db명은 rti 사용자는 pin, pw = 1234 이다.
-  postgresql 은 도커 컨테이너를 볼륨으로 만들어 컨테이너가 삭제되도 데이터는 유지되도록 하였다.
-  따라서 postgres 이미지로 컨테이너를 빌드할때, 아래와 같이 하였음
-
+  * subscriber code 에서 postgres 연동 부분을 바꿔야한다.
+  * 내 DB의 테이블명은 rti_table 이고 db명은 rti 사용자는 pin, pw = 1234 이다.
+  * postgresql 은 도커 컨테이너를 볼륨으로 만들어 컨테이너가 삭제되도 데이터는 유지되도록 하였다.
+  * 따라서 postgres 이미지로 컨테이너를 빌드할때, 아래와 같이 하였음
+  ```cmd
   docker run -p 30032:5432 --name postgres -e POSTGRES_PASSWORD=1234 -d -v ~/pgdata:/var/lib/postgresql/data postgres
-
-  여기서 30032는 쿠버네티스 Nodeport 서비스를 설정할때 nodePort의 값이다.
-  그리고 ~/pgdata는 내가 만들어준 볼륨을 로컬 폴더에 저장하기위해 만든 폴더 명이다.
-
-  이렇게 해서 postgresql을 컨테이너를 생성하였으면 Sub 파드와 연결을 해주어야 한다.
-
-  Sub 코드는 아래와 같다.
   ```
+
+  * 여기서 30032는 쿠버네티스 Nodeport 서비스를 설정할때 nodePort의 값이다.
+  * 그리고 ~/pgdata는 내가 만들어준 볼륨을 로컬 폴더에 저장하기위해 만든 폴더 명이다.
+
+  * 이렇게 해서 postgresql을 컨테이너를 생성하였으면 Sub 파드와 연결을 해주어야 한다.
+
+* Sub 코드는 아래와 같다.
   ```java
   String url = "jdbc:postgresql://192.168.136.128:30032/rti";
         String username = "pin";
@@ -153,12 +152,11 @@ $ kubectl get pods -l app=rti -o custom-columns="NAME:{metadata.name}, IP:{statu
                  " (? ,?, ?, ?, ?);";
                  PreparedStatement pstmt = conn.prepareStatement(sql);
   ```
-  ```txt
-  여기서 중요한 것은 192.168.136.128 IP 이다.
-  이 IP는 로컬 Ubuntu의 IP 번호이다.
-  Nodeport 서비스를 통해 포트포워딩을 파드로부터 로컬까지 해주었기 때문에 db에 연결하기 위해서 local Ubuntu의 IP Addr로 연결을 해주어야 한다.
-  ```
-  > 아래 나의 yaml 파일들을 적어 놓겠다.
+  
+  * 여기서 중요한 것은 192.168.136.128 IP 이다.
+  * 이 IP는 로컬 Ubuntu의 IP 번호이다.
+  * Nodeport 서비스를 통해 포트포워딩을 파드로부터 로컬까지 해주었기 때문에 db에 * * 연결하기 위해서 local Ubuntu의 IP Addr로 연결을 해주어야 한다.
+  * 아래 나의 yaml 파일들을 적어 놓겠다.
 
 * MY rti-service.yaml 파일
 ```yaml
