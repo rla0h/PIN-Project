@@ -125,7 +125,7 @@ $ kubectl get pods -l app=rti -o custom-columns="NAME:{metadata.name}, IP:{statu
 * db connection
   * subscriber code 에서 postgres 연동 부분을 바꿔야한다.
   * 내 DB의 테이블명은 rti_table 이고 db명은 rti 사용자는 pin, pw = 1234 이다.
-  * postgresql 은 도커 컨테이너를 볼륨으로 만들어 컨테이너가 삭제되도 데이터는 유지되도록 하였다.
+  * **postgresql 은 도커 컨테이너를 볼륨으로 만들어 컨테이너가 삭제되도 데이터는 유지되도록 하였다.**
   * 따라서 postgres 이미지로 컨테이너를 빌드할때, 아래와 같이 하였음
   ```cmd
   docker run -p 30032:5432 --name postgres -e POSTGRES_PASSWORD=1234 -d -v ~/pgdata:/var/lib/postgresql/data postgres
