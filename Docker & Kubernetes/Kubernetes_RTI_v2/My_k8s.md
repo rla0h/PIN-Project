@@ -3,6 +3,9 @@ KubeAdmin <!-- omit in toc -->
 **Table of Contents**
 - [Introduction](#introduction)
 - [Start Clustering](#start-clustering)
+    - [Master](#master)
+    - [Worker](#worker)
+- [Test](#test)
 # Introduction
 Kubnernets_RTI_V1과 달리 이번에는 **Kubeadm**을 활용한 다중 노드를 구현해보려고한다.
 
@@ -48,7 +51,7 @@ Kubnernets_RTI_V1과 달리 이번에는 **Kubeadm**을 활용한 다중 노드�
     * 마스터 노드의 IPv4의 주소를 API Server 주소로 사용
         * --apiserver-advertise-address 라는 옵션을 사용
 * 최종으로 위 해결방법 **3번**으로 사용
-* **Flannel** 적용
+* **Flannel** 적용 (위 3개 명령어는 꼭 root 계정이 아닌 사용자 계정에서 진행해야함)
 ```bash
 $ mkdir -p $HOME/.kube
 $ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -68,9 +71,9 @@ kubeadm token create
 ## Worker
 ```bash
 # worker node 1
-$ sudo kubeadm join 192.168.136.136:6443 --token 6mcn12.fr2fwoy698xvu4y1 --discovery-token-ca-cert-hash sha256:b6a918bd5e7f5f88b19b4fc15b5930024ab30df16642a04d094c3fa113e65a2b --node-name=worker1
+$ sudo kubeadm join 192.168.159.132:6443 --token 7qzh1c.ql2xpsurxjmhvb9a --discovery-token-ca-cert-hash sha256:43133ff004f43ba584f56520bb604bee5662d372716f6a646a3567db3306dda2 --node-name=worker1
 # worker node 2
-$ sudo kubeadm join 192.168.136.136:6443 --token 6mcn12.fr2fwoy698xvu4y1 --discovery-token-ca-cert-hash sha256:b6a918bd5e7f5f88b19b4fc15b5930024ab30df16642a04d094c3fa113e65a2b --node-name=worker2
+$ sudo kubeadm join 192.168.159.132:6443 --token 7qzh1c.ql2xpsurxjmhvb9a --discovery-token-ca-cert-hash sha256:43133ff004f43ba584f56520bb604bee5662d372716f6a646a3567db3306dda2 --node-name=worker2
 ```
 
 # Test
@@ -100,4 +103,79 @@ $ ifconfig
 ```bash
 $ curl http://10.244.3.2:8080
 Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-69fbc6f4cf-wn7h2 | v=1
+```
+# Apply Pod to Node
+> 원래 Local에 있는 도커 이미지를 사용하려 했지만 실패.. 그래서 도커 허브에 이미지를 올려서 Deployment에서 Pull 하여 적용하였다. (SSD의 소중함을 깨달았다)
+## Pub-Sub
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rti-pub-sub
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rti
+  template:
+    metadata:
+      labels:
+        app: rti
+    spec:
+      containers:
+        - name: publisher-subscriber
+          image: happykimyh/rti_pub_sub:v3
+          securityContext:
+             privileged: true
+          command: ["/bin/sh", "-ec", "while :; do echo 'Hello World'; sleep 5 ; 
+done"]
+      nodeName: worker1
+```
+
+## PostgreSQL
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rti-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rti
+  template:
+    metadata:
+      labels:
+        app: rti
+    spec:
+      containers:
+        - name: database
+          image: happykimyh/rti-db:v1
+          securityContext:
+             privileged: true
+          command: ["/bin/sh", "-ec", "while :; do echo 'Hello World'; sleep 5 ; done"]
+      nodeName: worker2
+```
+
+## Check there is a Pod in Node
+```bash
+kubectl get pods --field-selector spec.nodeName=worker1
+kubectl get pods --field-selector spec.nodeName=worker2
+```
+
+## If Not Command Kubectl get nodes at Worker Node
+* Worker Node에서 kubectl get nodes 하였는데 localhost:8080 이나 다른 오류가 발생할 때
+    * Master Node에서 만들었던 $HOME/.kube/config 파일을 Worker Node의 .kube/config 으로 복사해준 뒤 kubectl get nodes
+    * 잘 실행됨
+
+# Create Volume with Google Cloud(GCE)
+## install google cloud sdk
+```bash
+$ sudo apt update
+$ sudo apt install apt-transport-https ca-certificates gnupg
+$ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+$ echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+$ sudo apt update
+$ sudo apt install google-cloud-sdk
+$ gcloud --version
 ```
