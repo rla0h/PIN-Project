@@ -168,14 +168,63 @@ kubectl get pods --field-selector spec.nodeName=worker2
     * Master Node에서 만들었던 $HOME/.kube/config 파일을 Worker Node의 .kube/config 으로 복사해준 뒤 kubectl get nodes
     * 잘 실행됨
 
-# Create Volume with Google Cloud(GCE)
-## install google cloud sdk
-```bash
-$ sudo apt update
-$ sudo apt install apt-transport-https ca-certificates gnupg
-$ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-$ echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
-$ sudo apt update
-$ sudo apt install google-cloud-sdk
-$ gcloud --version
+# Connect from Publisher to Subscriber
+## Dockerfile 수정
+```docker
+FROM ubuntu:20.04
+
+RUN rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install openjdk-17-jdk
+
+WORKDIR /test
+COPY [".", "."]
+WORKDIR /test/src
+ENV NDDS_QOS_PROFILES=/test/src/k8s_v3_jar/USER_QOS_PROFILES.xml
+RUN javac -cp ../lib/*:. RecloserTopicSubscriber.java
+RUN javac -cp ../lib/*:. RecloserTopicPublisher.java
+#RUN java -cp ../lib/*:. -Djava.library.path=../x64Linux4gcc7.3.0 RecloserTopicPublisher 
+#172.17.0.2
 ```
+* 다른 Node에 있는 Subscriber와 통신하기 위해서 **USER_QOS_PROFILES.xml** 을 수정하여야한다.
+* 아래 discovery qos를 추가(pub, sub 둘다)
+```xml
+<discovery>
+		<initial_peers>
+			<element>(Pub or Sub IP Addr)</element>
+		</initial_peers>
+</discovery>
+```
+* 하지만 Pod 내에는 RTI관련 환경변수가 적용되어있지 않기때문에 **ENV** 명령어를 통해 환경변수를 적용시켜준다.
+
+* 만약 도중에 Pod IP가 달라졌다면 다시 xml을 수정하여 재빌드 해준다.
+
+# Connect from Subscriber to PostgreSQL
+## Subscriber 수정
+```java
+String url = "jdbc:postgresql://192.168.159.134:30035/rti";
+String username = "pin";
+String password = "1234";
+```
+**NodePort로 30032를 처음에 열어주고 계속 30032 Port로 Database 연동을 시도했었다.
+하지만 Nodeport도 30032, Postgres도 30032에서 Listen 하기 때문에 Port 충돌로 인해 연동이 되지 않았다.
+Nodeport는 사실상 외부에서 접속을 하기 위한건데 나는 클러스터 내부에서 계속 같은 포트가 2개인 30032로 연동을 하려 했기때문에 연동이 되지 않은것이다
+따라서 Postgres의 Listen Port를 30035로 변경하였더니 드디어 연동이 되었다.**
+
+* 통신하기전
+  * 방화벽 확인
+    ```bash
+    $ ufw allow <port>
+    ```
+  * ping 확인
+    ```bash
+    $ ping IP port
+    ```
+  * netcat 확인
+    ```bash
+    $ nc -l port
+    $ nc ip port
+    ```
+# Complete
+## ToDo
+* Node Port 사용(외부 클러스터에서 접속)
+* Kubernetes Volume 사용
