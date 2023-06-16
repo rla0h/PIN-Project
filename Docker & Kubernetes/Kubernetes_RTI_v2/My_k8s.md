@@ -227,4 +227,5 @@ Nodeport는 사실상 외부에서 접속을 하기 위한건데 나는 클러�
 # Complete
 ## ToDo
 * Node Port 사용(외부 클러스터에서 접속)
-* Kubernetes Volume 사용
+* Kubernetes PV/PVC
+* CI/CD
