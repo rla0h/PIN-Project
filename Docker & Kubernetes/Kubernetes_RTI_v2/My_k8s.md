@@ -111,7 +111,7 @@ Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-69fbc6f4cf-wn7h2 | 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rti-pub-sub
+  name: rti-pub
 spec:
   replicas: 3
   selector:
@@ -123,13 +123,38 @@ spec:
         app: rti
     spec:
       containers:
-        - name: publisher-subscriber
-          image: happykimyh/rti_pub_sub:v3
+        - name: publisher
+          image: happykimyh/rti_pub:v4
           securityContext:
              privileged: true
-          command: ["/bin/sh", "-ec", "while :; do echo 'Hello World'; sleep 5 ; 
-done"]
-      nodeName: worker1
+          command: ["/bin/sh", "-ec", "while :; do echo 'Hello World'; sleep 5 ; done"]
+      nodeName: worker2
+
+
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rti-sub
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rti
+  template:
+    metadata:
+      labels:
+        app: rti
+    spec:
+      containers:
+        - name: subscriber
+          image: happykimyh/rti_sub:v4
+          securityContext:
+             privileged: true
+          command: ["/bin/sh", "-ec", "while :; do echo 'Hello World'; sleep 5 ; done"]
+      nodeName: worker2
 ```
 
 ## PostgreSQL
