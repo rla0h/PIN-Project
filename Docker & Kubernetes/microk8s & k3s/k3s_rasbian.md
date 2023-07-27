@@ -7,7 +7,6 @@ Install K3S on Rasbian
   - Docker File 에서 Arm 기반의 OS를 받을 때에도 Host OS 도 ARM 기반의 OS 이어야 합니다.
   - Windows 11 Vmware 에서는 ARM 기반의 OS를 올리지 못한다.
   - **즉 라즈베리에 Docker Image를 받겠다? -> ARM 기반의 OS에서 도커를 설치하고 도커파일에 ARM 기반의 OS를 받고 다시 이미지로 푸쉬한후 라즈베리에서 불러와 사용**
-
 # Install K3S
 
 ## Master
@@ -55,7 +54,5 @@ $ sudo kubectl get nodes
 # If wokernode's role is none, You shoudl add role using this
 $ sudo kubectl label nodes <Node_Name> kubernetes.io/role=<Role_Name>
 ```
-
-
 
 
