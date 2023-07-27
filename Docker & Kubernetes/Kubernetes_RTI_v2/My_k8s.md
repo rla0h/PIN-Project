@@ -2,11 +2,31 @@ KubeAdmin <!-- omit in toc -->
 ===
 **Table of Contents**
 - [Introduction](#introduction)
+- [Installation](#installation)
 - [Start Clustering](#start-clustering)
-    - [Master](#master)
-    - [Worker](#worker)
+  - [Master](#master)
+  - [Worker](#worker)
 - [Test](#test)
-# Introduction
+  - [Run HelloWorld Deployment](#run-helloworld-deployment)
+  - [Check Pod IP](#check-pod-ip)
+  - [Check Node IP](#check-node-ip)
+  - [Check Worker Node IP (Worker Node 1)](#check-worker-node-ip-worker-node-1)
+  - [따라서 10.244.3.2의 IP 주소를 가진 Pod는 워커 노드와 같은 네트워크 대역을 사용하고 있으므로 Pod는 워커노드에 생성되었다는 것을 확인할 수 있다.](#따라서-1024432의-ip-주소를-가진-pod는-워커-노드와-같은-네트워크-대역을-사용하고-있으므로-pod는-워커노드에-생성되었다는-것을-확인할-수-있다)
+- [Apply Pod to Node](#apply-pod-to-node)
+  - [Pub-Sub](#pub-sub)
+  - [PostgreSQL](#postgresql)
+  - [Check there is a Pod in Node](#check-there-is-a-pod-in-node)
+  - [If Not Command Kubectl get nodes at Worker Node](#if-not-command-kubectl-get-nodes-at-worker-node)
+- [Connect from Publisher to Subscriber](#connect-from-publisher-to-subscriber)
+  - [Dockerfile 수정](#dockerfile-수정)
+- [Connect from Subscriber to PostgreSQL](#connect-from-subscriber-to-postgresql)
+  - [Subscriber 수정](#subscriber-수정)
+- [Complete](#complete)
+  - [ToDo](#todo)
+
+
+
+# Introduction 
 Kubnernets_RTI_V1과 달리 이번에는 **Kubeadm**을 활용한 다중 노드를 구현해보려고한다.
 
 # Installation
