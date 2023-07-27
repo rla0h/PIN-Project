@@ -42,6 +42,8 @@ OpenDDS with Ubuntu 20.04
        sudo ./configure --verbose --java --doc-group3 --features=java_pre_jpms=0 --ace=download
        # make
        sudo make
+       # apply setenv
+       source ./setenv.sh
     cd $DDS_ROOT/java/tests/multirepo
                 ./run_test.pl
     ```
