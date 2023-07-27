@@ -148,3 +148,18 @@ OpenDDS with Ubuntu 20.04
     $ java -ea -cp classes:/home/pin/lib/*:/home/pin/eclipse-workspace/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSInfoRepo <Publisher_IP>:12345 -r
     ```
 
+# Here is Dockerfile
+```md
+FROM arm64v8/ubuntu:20.04
+
+RUN apt-get update && apt-get upgrade -y
+
+RUN apt-get install openjdk-17-jdk -y && apt-get install curl -y
+RUN apt install build-essential -y
+WORKDIR /DDS
+RUN curl -LJO https://github.com/OpenDDS/OpenDDS/archive/DDS-3.23.1.tar.gz
+RUN tar -xzvf OpenDDS-DDS-3.23.1.tar.gz
+RUN rm OpenDDS-DDS-3.23.1.tar.gz
+COPY [".", "."]
+WORKDIR /OpenDDS-DDS-3.23.1
+```
