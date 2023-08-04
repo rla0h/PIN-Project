@@ -74,6 +74,13 @@ hostNetwork: true
 * 노드 두개 각각에서 kubectl top node를 해서 확인이 가능할때 add-node를 통해 멀티노드를 만들어준다
 
 ```bash
+# add host name about workers
+```
+### **change worker node's hostname (default = raspberrypi) to worker1 and worker2**
+```bash
+$ sudo nano /etc/hosts
+<worker1_IP>  worker1
+<Worker2_IP>  worker2
 # add node at master
 $ microk8s add-node
 # 이렇게 하면 토큰 IP 며 join하라는 명령어가 출력 그걸 worker node에 복사

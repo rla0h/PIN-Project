@@ -219,3 +219,12 @@ spec:
 ```
 
 
+* using multi-node cluster
+  * [reference site](https://minikube.sigs.k8s.io/docs/tutorials/multi_node/)
+  * labels node
+    * sudo kubectl label nodes <NODE_NAME> node-role=<ROLE_NAME>
+  * start to service
+    * sudo kubectl tunnel
+  * if you service's external ip = 127.0.0.1 
+    * sudo kubectl port-forward svc/<SERVICE_NAME> 30000:54 --address <IP>
+    * and testing IP

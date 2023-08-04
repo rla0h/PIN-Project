@@ -232,3 +232,33 @@ spec:
   # Start Subscriber
   $ cd /DDS/NWT/bin: java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSInfoRepo <Pub_IP>:12345 -r
   ```
+
+* If you change DB_HOST_IP
+  ```bash
+  # you should change DataReaderListernImpl code
+  $ cd /DDS/NWT/src: javac -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes NWT_DataReaderListenerImpl.java
+  # and remove /DDS/NWT/bin/NWT_DataReaderListenerImpl.class and move new class file
+  ```
+* My DataReaderListnerImpl.java code with Rasberry PI & MAC os connection 
+  ```java
+  // postgresql url, username, password input
+        String url = "jdbc:postgresql://192.168.86.167:30000/postgres";
+        String username = "postgres";
+        String password = "1234";
+  ```
+  * And you should uyse small size spelling query in Java code when you use PostgreSQL!!!!!
+  * 10.42.1.27
+
+## add hosts name
+```bash
+# 서로 netcat 통신, cni 통신 등 Pod 끼리의 통신은 확인 되었지만 어째선지, DCPSInfoRepo에 찍먹(?)만 하고 바로 TCPConnection:Close 가 발생하였다. 알고보니 서로의 HOST Name(?)을 몰라서 일어나게 된 현상이었따.
+
+$ vim /etc/hosts
+# ADD all Pods Namespace LIKE this
+# add..
+172.16.235.135  repo-pod
+172.16.189.71   opendds-sub-6964d4bc7b-jl7g6
+172.16.235.134  opendds-pub-974857f77-w2lz
+
+# 서로의 POD 를 각 Pod (Pub, sub, repo)에다 추가해준 뒤 통신해보니 잘되었따.
+```
