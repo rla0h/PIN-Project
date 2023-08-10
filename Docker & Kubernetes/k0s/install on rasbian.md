@@ -13,3 +13,6 @@ Install k0s on Rasbian
     
 # Install k0s
 [Official Link](https://docs.k0sproject.io/v1.23.6+k0s.2/raspberry-pi4/)
+
+# when you start new terminal
+* command export KUBECONFIG=$(pwd)/config.yaml
