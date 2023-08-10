@@ -199,9 +199,46 @@ spec:
       nodeName: <WORKERNODE_NAME>
       containers:
       - name: <PUB OR SUB>
-        image: happykimyh/opendds:<tag>
+      # this v1.2 version is latests version at 23/08/09
+        image: happykimyh/opendds:v1.2
         imagePullPolicy: Always
         command: ['sh', '-c', "while :; do echo '.'; sleep 5 ; done"]
+        apiVersion: apps/v1
+
+## this real using
+kind: Deployment
+metadata:
+    name: opendds-pub
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pub
+  template:
+    metadata:
+      labels:
+        app: pub
+    spec:
+      nodeName: worker1
+      containers:
+      - name: pub
+        image: happykimyh/opendds:v1.2
+        imagePullPolicy: Always
+        command: ['sh', '-c', "while :; do echo '.'; sleep 5 ; done"]
+# repo-pod
+apiVersion: v1
+kind: Pod
+metadata:
+    name: repo-pod
+    labels:
+      apps: repo
+spec:
+  nodeName: worker1
+  containers:
+  - name: repo
+    image: happykimyh/opendds:v1.2
+    imagePullPolicy: Always
+    command: ['sh', '-c', "while :; do echo '.'; sleep 5 ; done"]
 ```
 ## Inside making your Pub or Sub pod
 ### ***open a three terminal***
@@ -212,7 +249,7 @@ spec:
   # In pod..
   $ cd /DDS/NWT/
   # Execute DCPSInfoRepo
-  $ cd /DDS/NWT: DCPSInfoRepo -ORBListenEndpoints iiop://:12345
+  $ cd /DDS/NWT: DCPSInfoRepo -ORBListenEndpoints iiop://<IP>:12345
   ```
 * Terminal(Using Publisher Start)
   ```bash
@@ -221,7 +258,7 @@ spec:
   # In pod..
   $ cd /DDS/NWT/bin
   # Start Publisher
-  $ cd /DDS/NWT/bin: java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSInfoRepo localhost:12345 -w
+  $ cd /DDS/NWT/bin: java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSInfoRepo <repo_IP>:12345 -w
   ```
 * Terminal(Using Subscriber Start)
   ```bash
@@ -230,7 +267,7 @@ spec:
   # In pod..
   $ cd /DDS/NWT/bin
   # Start Subscriber
-  $ cd /DDS/NWT/bin: java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSInfoRepo <Pub_IP>:12345 -r
+  $ cd /DDS/NWT/bin: java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSInfoRepo <repo_IP>:12345 -r
   ```
 
 * If you change DB_HOST_IP
