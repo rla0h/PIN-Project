@@ -3,6 +3,8 @@ KubeAdmin <!-- omit in toc -->
 **Table of Contents**
 - [Introduction](#introduction)
 - [Installation](#installation)
+  - [error](#error)
+  - [install on rasbian](#install-on-rasbian)
 - [Start Clustering](#start-clustering)
   - [Master](#master)
   - [Worker](#worker)
@@ -30,6 +32,12 @@ KubeAdmin <!-- omit in toc -->
 Kubnernets_RTI_V1과 달리 이번에는 **Kubeadm**을 활용한 다중 노드를 구현해보려고한다.
 
 # Installation
+## error
+```bash
+# apt-get update 404 error after docker install
+$ cd /etc/apt/sources.list.d/
+$ sudo rm docker.list
+```
 * 아래 문서들을 참고하여 
 - [Official Documentation](https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 * Install Container Runtime
@@ -40,7 +48,187 @@ Kubnernets_RTI_V1과 달리 이번에는 **Kubeadm**을 활용한 다중 노드�
 - [Install containerd](https://github.com/containerd/containerd/blob/main/docs/getting-started.md) by [DevKimbob](https://github.com/DevKimbob/Study_2023/blob/master/Kubernetes/KubeAdm.md)★
     > 고마운 호중이..
 * [install containerd](https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-containerd-on-ubuntu-22-04.html)
+## install on rasbian
+```bash
+# Set Up br_netfilter module
+$ cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
 
+$ sudo modprobe overlay
+$ sudo modprobe br_netfilter
+
+# modify kernel parmameter
+$ cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward = 1
+EOF
+
+$ sudo sysctl --system
+```
+* ***쿠버네티스 1.24부터는 Docker Container Runtime이 쿠버네티스와 호환되지 않아 cri-dockerd 설치가 추가로 필요하다.***
+* Container Runtime Install
+
+```bash
+# Not USED THIS
+# $ sudo apt-get update
+# $ sudo apt-get install ca-certificates curl gnupg lsb-release
+# $ sudo curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+# $ sudo echo "deb [arch=arm64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker-ce.list
+
+# $ sudo apt-get update
+# $ sudo apt-get install docker-ce
+# $ sudo apt-get install pip
+# $ sudo pip3 install docker-compose
+# check docker & must show client & server
+$ sudo docker version
+
+# Try This using git
+$ sudo apt-get install git
+$ mkdir Downloads
+$ cd Downloads/
+$ git clone https://github.com/novaspirit/pi-hosted
+$ ls
+$ cd pi-hosted/
+$ sudo ./install_docker.sh
+
+$ suod docker version
+# install cri-dockerd
+$ wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.4/cri-dockerd-0.3.4.arm64.tgz
+$ sudo tar -xf cri-dockerd-0.3.4.arm64.tgz
+$ sudo cp cri-dockerd/cri-dockerd /usr/bin/
+$ sudo chmod +x /usr/bin/cri-dockerd
+# Setting systemctl daemon start file
+$ sudo su
+$ cat <<"EOF" > /usr/lib/systemd/system/cri-docker.service
+[Unit]
+Description=CRI Interface for Docker Application Container Engine
+Documentation=https://docs.mirantis.com
+After=network-online.target firewalld.service docker.service
+Wants=network-online.target
+Requires=cri-docker.socket
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd://
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutSec=0
+RestartSec=2
+Restart=always
+
+# Note that StartLimit* options were moved from "Service" to "Unit" in systemd 229.
+# Both the old, and new location are accepted by systemd 229 and up, so using the old location
+# to make them work for either version of systemd.
+StartLimitBurst=3
+
+# Note that StartLimitInterval was renamed to StartLimitIntervalSec in systemd 230.
+# Both the old, and new name are accepted by systemd 230 and up, so using the old name to make
+# this option work for either version of systemd.
+StartLimitInterval=60s
+
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+
+# Comment TasksMax if your systemd version does not support it.
+# Only systemd 226 and above support this option.
+TasksMax=infinity
+Delegate=yes
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# socket file config
+$ cat <<"EOF" > /usr/lib/systemd/system/cri-docker.socket
+[Unit]
+Description=CRI Docker Socket for the API
+PartOf=cri-docker.service
+
+[Socket]
+ListenStream=%t/cri-dockerd.sock
+SocketMode=0660
+SocketUser=root
+SocketGroup=docker
+
+[Install]
+WantedBy=sockets.target
+EOF
+
+$ start cri-dockerd
+systemctl daemon-reload
+systemctl enable --now cri-docker
+systemctl status cri-docker
+
+# install kube-adm & kubelet
+$ sudo su
+$ DOWNLOAD_DIR="/usr/local/bin"
+$ sudo mkdir -p "$DOWNLOAD_DIR"
+$ CRICTL_VERSION="v1.27.0"
+$ ARCH="arm64"
+$ curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/${CRICTL_VERSION}/crictl-${CRICTL_VERSION}-linux-${ARCH}.tar.gz" | sudo tar -C $DOWNLOAD_DIR -xz
+
+$ RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+$ ARCH="arm64"
+$ cd $DOWNLOAD_DIR
+$ sudo curl -L --remote-name-all https://dl.k8s.io/release/${RELEASE}/bin/linux/${ARCH}/{kubeadm,kubelet}
+$ sudo chmod +x {kubeadm,kubelet}
+
+$ RELEASE_VERSION="v0.15.1"
+$ curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/kubepkg/templates/latest/deb/kubelet/lib/systemd/system/kubelet.service" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /etc/systemd/system/kubelet.service
+$ sudo mkdir -p /etc/systemd/system/kubelet.service.d
+$ curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+$ sudo systemctl enable --now kubelet
+
+# install kubectl
+$ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+$ curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl.sha256"
+$ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+$ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+$ kubectl version --client --short
+
+# you need to install conntrack
+$ sudo apt-get install conntrack
+
+# start kubeadm
+# Runtime	Path to Unix domain socket
+# containerd	unix:///var/run/containerd/containerd.sock
+# CRI-O	unix:///var/run/crio/crio.sock
+# Docker Engine (using cri-dockerd)	unix:///var/run/cri-dockerd.sock
+$ sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///var/run/cri-dockerd.sock
+
+# reset kubeadm
+$ sudo kubeadm reset --cri-socket unix:///var/run/cri-dockerd.sock
+```
+  * If you have Error.. Try This..
+  * Error Message is
+  ```bash
+  # if you have error Try this
+  # Found multiple CRI endpoints on the host. Please define which one do you wish to use by setting the 'criSocket' field in the kubeadm configuration file: unix:///var/run/containerd/containerd.sock, unix:///var/run/cri-dockerd.sock
+  # To see the stack trace of this error execute with --v=5 or higher
+  $ sudo swapoff -a
+  $ cd /etc/docker
+  $ sudo nano daemon.json                         
+  {
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+  "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+  }
+  $ sudo systemctl enable docker
+  $ sudo systemctl daemon-reload
+  $ sudo systemctl restart docker
+
+  # start kubeadm at Master
+  $ sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///var/run/cri-dockerd.sock --apiserver-advertise-address <Master_IP> --apiserver-cert-extra-sans <Master_IP>
+  ```
 # Start Clustering
 ## Master
 * [kubeadm init](https://medium.com/finda-tech/overview-8d169b2a54ff)
@@ -51,6 +239,9 @@ Kubnernets_RTI_V1과 달리 이번에는 **Kubeadm**을 활용한 다중 노드�
         1. kubeadm reset
         2. kubelet restart
         3. sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=($Ubuntu-address)
+    * what's mean --pod-network-cidr=<ip>
+        1. 10.244.0.0/16 --> Flannel
+        2. 192.168.0.0/16 --> Calico
     * kubeadm pod networking settings
         * 세팅할 클러스터에서 Pod가 서로통신할 수 있도록 Pod 네트워크애드온을 설치해야함
         * kubeadm을 통해 만들어진 클러스터는 CNI(Container Network Interface)기반의 애드온이 필요
@@ -87,7 +278,13 @@ $ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outf
 ```bash
 kubeadm token create
 ``` 
-
+## Error Like Node Not Ready and Node describe no plugin on /opt/cni/bin
+[reference link](https://vqiu.cn/k8s-cni-failed-to-find-plugein-bridge/)
+```bash
+$ wget https://github.com/containernetworking/plugins/releases/download/v1.0.1/cni-plugins-linux-arm64-v1.0.1.tgz
+$ sudo tar axvf ./cni-plugins-linux-arm64-v1.0.1.tgz  -C /opt/cni/bin/
+$ ls -l /opt/cni/bin/bridge
+```
 ## Worker
 ```bash
 # worker node 1
