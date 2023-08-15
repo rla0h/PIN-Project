@@ -206,7 +206,7 @@ spec:
         apiVersion: apps/v1
 
 ## this real using
-kind: Deployment
+kind: StatefulSet
 metadata:
     name: opendds-pub
 spec:
@@ -222,23 +222,44 @@ spec:
       nodeName: worker1
       containers:
       - name: pub
-        image: happykimyh/opendds:v1.2
+        image: happykimyh/opendds:v1.3
         imagePullPolicy: Always
         command: ['sh', '-c', "while :; do echo '.'; sleep 5 ; done"]
 # repo-pod
 apiVersion: v1
 kind: Pod
 metadata:
-    name: repo-pod
+    name: reposvc-pod
     labels:
-      apps: repo
+      app: reposvc
 spec:
   nodeName: worker1
   containers:
-  - name: repo
-    image: happykimyh/opendds:v1.2
+  - name: reposvc
+    image: happykimyh/opendds:v1.3
     imagePullPolicy: Always
+    securityContext:
+      runAsUser: 0
     command: ['sh', '-c', "while :; do echo '.'; sleep 5 ; done"]
+   # command: ['sh', '-c', "DCPSInfoRepo -ORBListenEndpoints iiop://$(hostname -i):3434"]
+    ports:
+      - containerPort: 3434
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: repo-service
+spec:
+  selector:
+    app: reposvc
+  ports:
+  - name: repo-port
+    protocol: TCP
+    port: 1212
+    targetPort: 3434
+  type: ClusterIP
 ```
 ## Inside making your Pub or Sub pod
 ### ***open a three terminal***
@@ -250,6 +271,8 @@ spec:
   $ cd /DDS/NWT/
   # Execute DCPSInfoRepo
   $ cd /DDS/NWT: DCPSInfoRepo -ORBListenEndpoints iiop://<IP>:12345
+  # using Service on repo pod so i have static IP addr and port 1212:3434
+  $ DCPSInfoRepo -ORBListenEndPoints iiop://$(hostname -i):3434
   ```
 * Terminal(Using Publisher Start)
   ```bash
@@ -259,6 +282,8 @@ spec:
   $ cd /DDS/NWT/bin
   # Start Publisher
   $ cd /DDS/NWT/bin: java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSInfoRepo <repo_IP>:12345 -w
+  # using Service on repo-pod so I specify port like 1212 because portforward 1212:3434
+  $ java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSInfoRepo 10.105.253.179:1212 -w
   ```
 * Terminal(Using Subscriber Start)
   ```bash
@@ -299,3 +324,22 @@ $ vim /etc/hosts
 
 # 서로의 POD 를 각 Pod (Pub, sub, repo)에다 추가해준 뒤 통신해보니 잘되었따.
 ```
+
+## to use CI/CD
+```
+txtCI/CD를 사용하기 위해 Pods terminal에 접속하지 않고 OpenDDS 통신을 하는 방법을 수없이 찾아 보았지만 결국 완벽한 방법을 찾지 못했다.
+그나마 가능한 방법은 Pub, Sub, Repo Pod를 모두 Service로 만들어 IP를 주는 것이다.
+
+Pub과 Sub의 Pod Name를 고정 시키기 위해 Statefulset으로 만들었으며,
+ReplicaSet의 개수를 1개로 줄였다.(결국 통신하는건 하나 뿐이니까...)
+
+Pub과 Sub은 고정된 Repository 의 Service IP로 통신을 시도하고..
+Repository 에서는 /etc/hosts 에 pub과 Sub의 Servicce IP와 DomainName(pod name)을 명시해 준다.
+
+Pub과 sub은 서로의 Pod IP!! 와 Pod name을 알아 주어야한다.
+
+따라서 Repository는 고정된 IP만 이제 적용해주거나 설정을 해주면 되는데 Pub과 Sub은 따로 설정을 해주어야 할거 같다.. 
+
+따라서 Jenkins 파일에서 Pod를 설정할 수 잇는 방법을 시도해보려고 한다.(230815 밤.)
+```
+
