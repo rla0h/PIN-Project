@@ -7,6 +7,8 @@ KubeAdmin <!-- omit in toc -->
   - [install on rasbian](#install-on-rasbian)
 - [Start Clustering](#start-clustering)
   - [Master](#master)
+  - [Metrics-server install](#metrics-server-install)
+  - [Error Like Node Not Ready and Node describe no plugin on /opt/cni/bin](#error-like-node-not-ready-and-node-describe-no-plugin-on-optcnibin)
   - [Worker](#worker)
 - [Test](#test)
   - [Run HelloWorld Deployment](#run-helloworld-deployment)
@@ -25,6 +27,7 @@ KubeAdmin <!-- omit in toc -->
   - [Subscriber 수정](#subscriber-수정)
 - [Complete](#complete)
   - [ToDo](#todo)
+- [Get Service(Cluster-IP) from repo-pod](#get-servicecluster-ip-from-repo-pod)
 
 
 
@@ -229,6 +232,7 @@ $ sudo kubeadm reset --cri-socket unix:///var/run/cri-dockerd.sock
   # start kubeadm at Master
   $ sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket unix:///var/run/cri-dockerd.sock --apiserver-advertise-address <Master_IP> --apiserver-cert-extra-sans <Master_IP>
   ```
+
 # Start Clustering
 ## Master
 * [kubeadm init](https://medium.com/finda-tech/overview-8d169b2a54ff)
@@ -278,6 +282,24 @@ $ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outf
 ```bash
 kubeadm token create
 ``` 
+
+## Metrics-server install
+```bash
+$ curl -LO https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+# edit file
+spec:
+  containers:
+  - args:
+    - --cert-dir=/tmp
+    - --secure-port=4443
+    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+    - --kubelet-use-node-status-port
+    - --metric-resolution=15s
+    - --kubelet-insecure-tls # add this line
+    
+$ kubectl apply -f components.yaml
+$ kubectl top node
+```
 ## Error Like Node Not Ready and Node describe no plugin on /opt/cni/bin
 [reference link](https://vqiu.cn/k8s-cni-failed-to-find-plugein-bridge/)
 ```bash
@@ -471,3 +493,54 @@ Nodeport는 사실상 외부에서 접속을 하기 위한건데 나는 클러�
 * Node Port 사용(외부 클러스터에서 접속)
 * Kubernetes PV/PVC
 * CI/CD
+
+
+# Get Service(Cluster-IP) from repo-pod
+* To use CI/CD so I have to make service about repo-pod
+* my service yaml file is...
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+    name: reposvc-pod
+    labels:
+      app: reposvc
+spec:
+  nodeName: worker1
+  containers:
+  - name: reposvc
+    image: happykimyh/opendds:v1.2
+    imagePullPolicy: Always
+    command: ['sh', '-c', "while :; do echo '.'; sleep 5 ; done"]
+    ports:
+      - containerPort: 3434
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: repo-service
+spec:
+  selector:
+    app: reposvc
+  ports:
+  - name: repo-port
+    protocol: TCP
+    port: 1212
+    targetPort: 3434
+  type: ClusterIP
+```
+
+* and Checking Service IP (kubectl get service)
+* to start in repository cmd..
+```bash
+# DCPSInfoRepo -ORBListenEndpoints iiop://$(hostname -i):<target port in service>
+$ DCPSInfoRepo -ORBListenEndpoints iiop://$(hostname -i):3434
+```
+* to check tcp connection in pub/sub pod
+```bash
+# java -ea -cp classes:/DDS/NWT/lib/*:/DDNWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSInfoRepo <service_clusterIP>:<port in service> -w
+$ java -ea -cp classes:/DDS/NWT/lib/*:/DDNWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSInfoRepo 10.111.221.56:1212 -w
+```
+  * it can do it
