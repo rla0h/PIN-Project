@@ -284,6 +284,18 @@ spec:
   $ cd /DDS/NWT/bin: java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSInfoRepo <repo_IP>:12345 -w
   # using Service on repo-pod so I specify port like 1212 because portforward 1212:3434
   $ java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSInfoRepo 10.105.253.179:1212 -w
+
+  # to use CI/CD I apply tcp.ini (편리하게 하기 위해서 CI/CD)
+  $ cat > tcp.ini
+  [common]
+  DCPSInfoRepo=10.99.229.105:1212 (Repo_service_IP:port)
+  GlobalTransportConfig=$file
+  DCPSBitTransportPort=1213 (Pub_service_port say to repo)
+
+  [transport/1]
+  transport_type=tcp
+  # And start Publisher
+  $ java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestPublisher -DCPSConfigFile tcp.ini -DCPSTransportDebugLevel 0 -w
   ```
 * Terminal(Using Subscriber Start)
   ```bash
@@ -293,6 +305,18 @@ spec:
   $ cd /DDS/NWT/bin
   # Start Subscriber
   $ cd /DDS/NWT/bin: java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSInfoRepo <repo_IP>:12345 -r
+
+  # to use CI/CD I apply tcp.ini (편리하게 하기 위해서 CI/CD)
+  $ cat > tcp.ini
+  [common]
+  DCPSInfoRepo=10.99.229.105:1212
+  DCPSGlobalTransportConfig=$file
+  #DCPSBitTransportIPAddress=10.98.132.8
+  DCPSBitTransportPort=1223 (Sub_Service_port say to repo 리포지토리에게 자신의 트를 알리기 위해)
+
+  [transport/1]
+  transport_type=tcp
+  $ java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSConfigFile tcp.ini -DCPSTransportDebugLevel 0 -r
   ```
 
 * If you change DB_HOST_IP
