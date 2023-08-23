@@ -272,7 +272,7 @@ spec:
   # Execute DCPSInfoRepo
   $ cd /DDS/NWT: DCPSInfoRepo -ORBListenEndpoints iiop://<IP>:12345
   # using Service on repo pod so i have static IP addr and port 1212:3434
-  $ DCPSInfoRepo -ORBListenEndPoints iiop://$(hostname -i):3434
+  $ DCPSInfoRepo -ORBListenEndPoints iiop://$(hostname -i):1212
   ```
 * Terminal(Using Publisher Start)
   ```bash
