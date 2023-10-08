@@ -87,8 +87,8 @@ $ vim /etc/hosts
 # ADD all Pods Namespace LIKE this
 # add..
 172.16.235.135  repo-pod
-172.16.189.71   opendds-sub-6964d4bc7b-jl7g6
-172.16.235.134  opendds-pub-974857f77-w2lz
+172.16.189.71   opendds-sub-0
+172.16.235.134  opendds-pub-0
 
 # 서로의 POD 를 각 Pod (Pub, sub, repo)에다 추가해준 뒤 통신해보니 잘되었따.
 ```

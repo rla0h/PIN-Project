@@ -13,6 +13,11 @@ Install k0s on Rasbian
     
 # Install k0s
 [Official Link](https://docs.k0sproject.io/v1.23.6+k0s.2/raspberry-pi4/)
+[Calico set LINK 1](https://www.mirantis.com/blog/how-to-set-up-k0s-kubernetes-a-quick-and-dirty-guide/)
+[Calico set LINK 2](https://docs.k0sproject.io/v1.20.6+k0s.0/configuration/)
+```bash
+sudo k0s kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+```
 
 # when you start new terminal
 * command export KUBECONFIG=$(pwd)/config.yaml
