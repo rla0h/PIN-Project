@@ -9,3 +9,5 @@ RTI DDS ARM
   - rti_connext_dds-6.1.1-lm-x64Linux4gcc7.3.0.run
 - 관련 문서는 아래에 나와있다.
 - [How do I create connext dds application rti code generator and build it my embedded target arm?](https://community.rti.com/kb/how-do-i-create-connext-dds-application-rti-code-generator-and-build-it-my-embedded-target-arm)
+
+- java -ea -cp classes:$DDS_ROOT/lib/java/*:/home/pin/eclipse-workspace/NWT_RTI/bin:classes RecloserTopicPublisher
