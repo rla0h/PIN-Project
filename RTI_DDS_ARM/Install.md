@@ -9,6 +9,25 @@ RTI DDS ARM
   - rti_connext_dds-6.1.1-lm-x64Linux4gcc7.3.0.run
 - 관련 문서는 아래에 나와있다.
 - [How do I create connext dds application rti code generator and build it my embedded target arm?](https://community.rti.com/kb/how-do-i-create-connext-dds-application-rti-code-generator-and-build-it-my-embedded-target-arm)
+### RTI ARM Docker_file
+```Dockerfile
+FROM arm64v8/ubuntu:20.04
+
+RUN apt-get update && apt-get -y install openjdk-17-jdk && apt-get install git -
+y
+WORKDIR /
+RUN git clone https://github.com/wolfcw/libfaketime.git
+WORKDIR /libfaketime/src
+RUN make install
+
+ENV LD_PRELOAD="/usr/local/lib/faketime/libfaketime.so.1"
+ENV FAKETIME_NO_CACHE=1
+ENV FAKETIME="2021-10-01 10:00:00"
+
+WORKDIR /rti
+COPY [".", "."]
+ENV LD_LIBRARY_PATH "/rti/lib"
+```
 
 - java -ea -cp classes:$DDS_ROOT/lib/java/*:/home/pin/eclipse-workspace/NWT_RTI/bin:classes RecloserTopicPublisher
 - java -ea -cp classes:/rti/lib/*:/rti/bin:classes RecloserTopicPublisher
