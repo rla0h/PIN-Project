@@ -67,6 +67,8 @@ $ sudo kubectl get nodes
 ### Calico
 ```bash
 $ sudo kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml
+### Calico Not connect to Internete -->
+[Reference Site](https://sungup.github.io/2019/12/26/Install-K8s-on-Raspberry-Pi-4.html)
 # check the Installation
 $ watch kubectl get pods --all-namespaces
 

@@ -309,7 +309,7 @@ spec:
   # to use CI/CD I apply tcp.ini (편리하게 하기 위해서 CI/CD)
   $ cat > tcp.ini
   [common]
-  DCPSInfoRepo=10.99.229.105:1212
+i  DCPSInfoRepo=10.99.229.105:1212
   DCPSGlobalTransportConfig=$file
   #DCPSBitTransportIPAddress=10.98.132.8
   DCPSBitTransportPort=1223 (Sub_Service_port say to repo 리포지토리에게 자신의 트를 알리기 위해)
@@ -367,3 +367,35 @@ Pub과 sub은 서로의 Pod IP!! 와 Pod name을 알아 주어야한다.
 따라서 Jenkins 파일에서 Pod를 설정할 수 잇는 방법을 시도해보려고 한다.(230815 밤.)
 ```
 
+## RTPS in Pod to Pod Transport
+* RTPS 통신에 사용한 ini 파일
+```ini
+[common]
+# DCPSInfoRepo=file://repo.ior
+DCPSDefaultDiscovery=DEFAULT_RTPS
+DCPSGlobalTransportConfig=$file
+
+[domain/4]
+DiscoveryConfig=uni_rtps
+
+[rtps_discovery/uni_rtps]
+SedpMulticast=0
+ResendPeriod=2
+SpdpSendAddrs=Peer_IP:Port
+
+[transport/the_rtps_transport]
+transport_type=rtps_udp
+use_multicast=0
+local_address=Host_IP:
+```
+* 위 ini 파일에서 **Port** 는 직접 계산을 하여 Port Number를 알아야한다. 
+  * [참고문헌1](https://www.omg.org/spec/DDSI-RTPS/2.3/PDF#page=165&view=FitH,261.68)
+  * [참고문헌2](https://opendds.readthedocs.io/en/latest/devguide/run_time_configuration.html#run-time-configuration-configuring-for-multiple-dcpsinforepo-instances)
+  * 간단히 말해 Unicast 일땐 PB + DG * domainId + d1 + PG * participandId
+  * Multicast 일땐 PB + DG * domainId + d0
+    * PB = PortBaseNumber (default = 7400)
+    * DB = Domain Gain (default = 250)
+    * multicast에 쓰이는 d0 (default = 0)
+    * unicast에 쓰이는 d1 (default = 10)
+    * participantId 및 DomainID는 소스코드에서 찾아볼 수 있음
+    * participantId = 0 (default)
