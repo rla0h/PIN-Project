@@ -11,3 +11,4 @@ RTI DDS ARM
 - [How do I create connext dds application rti code generator and build it my embedded target arm?](https://community.rti.com/kb/how-do-i-create-connext-dds-application-rti-code-generator-and-build-it-my-embedded-target-arm)
 
 - java -ea -cp classes:$DDS_ROOT/lib/java/*:/home/pin/eclipse-workspace/NWT_RTI/bin:classes RecloserTopicPublisher
+- java -ea -cp classes:/rti/lib/*:/rti/bin:classes RecloserTopicPublisher
