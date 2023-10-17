@@ -87,7 +87,7 @@ My study Expression
     ],
     "participants": [
       { "name": "participant_01",
-        "domain": 4,
+        "domain": 7,
 
         "qos": { "entity_factory": { "autoenable_created_entities": false } },
         "qos_mask": { "entity_factory": { "has_autoenable_created_entities": false } },
@@ -95,6 +95,42 @@ My study Expression
         "topics": [
           { "name": "topic_01",
             "type_name": "Bench::Data"
+          },
+          { "name": "topic_02",
+            "type_name": "Bench::Data"
+          }
+        ],
+        "subscribers": [
+          { "name": "subscriber_01",
+
+            "qos": { "partition": { "name": [ "bench_partition" ] } },
+            "qos_mask": { "partition": { "has_name": true } },
+
+            "datareaders": [
+              { "name": "datareader_02",
+                "topic_name": "topic_02",
+                "listener_type_name": "bench_drl",
+                "listener_status_mask": 4294967295,
+                "listener_properties": [
+                  { "name": "expected_match_count",
+                    "value": { "$discriminator": "PVK_ULL", "ull_prop": 1 }
+                  },
+                  { "name": "expected_sample_count",
+                    "value": { "$discriminator": "PVK_ULL", "ull_prop": 1000 }
+                  },
+                  { "name": "expected_per_writer_sample_count",
+                    "value": { "$discriminator": "PVK_ULL", "ull_prop": 1000 }
+                  }
+                ],
+
+                "qos": { "reliability": { "kind": "RELIABLE_RELIABILITY_QOS" },
+                         "history": { "kind": "KEEP_ALL_HISTORY_QOS" }
+                       },
+                "qos_mask": { "reliability": { "has_kind": true },
+                              "history": { "has_kind": true }
+                            }
+              }
+            ]
           }
         ],
         "publishers": [
@@ -231,13 +267,16 @@ My study Expression
     ],
     "participants": [
       { "name": "participant_01",
-        "domain": 4,
+        "domain": 7,
 
         "qos": { "entity_factory": { "autoenable_created_entities": false } },
         "qos_mask": { "entity_factory": { "has_autoenable_created_entities": false } },
 
         "topics": [
           { "name": "topic_01",
+            "type_name": "Bench::Data"
+          },
+          { "name": "topic_02",
             "type_name": "Bench::Data"
           }
         ],
@@ -273,6 +312,33 @@ My study Expression
               }
             ]
           }
+        ],
+        "publishers": [
+          { "name": "publisher_01",
+
+            "qos": { "partition": { "name": [ "bench_partition" ] } },
+            "qos_mask": { "partition": { "has_name": true } },
+
+            "datawriters": [
+              { "name": "datawriter_02",
+                "topic_name": "topic_02",
+                "listener_type_name": "bench_dwl",
+                "listener_status_mask": 4294967295,
+                "listener_properties": [
+                  { "name": "expected_match_count",
+                    "value": { "$discriminator": "PVK_ULL", "ull_prop": 1 }
+                  }
+                ],
+
+                "qos": { "reliability": { "kind": "RELIABLE_RELIABILITY_QOS" },
+                         "history": { "kind": "KEEP_ALL_HISTORY_QOS" }
+                       },
+                "qos_mask": { "reliability": { "has_kind": true },
+                              "history": { "has_kind": true }
+                            }
+              }
+            ]
+          }
         ]
       }
     ]
@@ -282,7 +348,7 @@ My study Expression
       "name": "forward_action_01",
       "type": "forward",
       "readers": [ "datareader_01" ],
-      "writers": [ "datawriter_01" ]
+      "writers": [ "datawriter_02" ]
     }
   ]
 }
