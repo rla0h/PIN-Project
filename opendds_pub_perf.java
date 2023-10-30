@@ -164,14 +164,15 @@ public class NWT_TestPublisher {
         RecloserTopic rt = new RecloserTopic();
         UnitSymbol us;
         us = UnitSymbol;
-        byte[] dataPacket = new byte[10000];
-        String sendmsg = new String(dataPacket);
-        // rt.r.io.aliasName = "Recloser";
-        rt.r.io.aliasName = sendmsg;
-        // rt.r.io.description = "Recloser Data";
+        String text = String.format("%-" + 4995 + "s", "00");
+        //byte[] dataPacket = new byte[10000];
+        //String sendmsg = new String(dataPacket);
+        //rt.r.io.aliasName = "0";
+        rt.r.io.aliasName = text;
+        rt.r.io.description = "0";
 
-        //rt.r.io.mRID = "000012000001";
-        //rt.r.io.name = "DGSW1";
+        rt.r.io.mRID = "0";
+        rt.r.io.name = "0";
        
         
         int handle = rtdw.register_instance(rt);
