@@ -262,6 +262,8 @@ $ sudo kubeadm reset --cri-socket unix:///var/run/cri-dockerd.sock
                 ``` 
             * 명령어를 실행하여 /proc/sys/net/bridge/bridge-nf-call-iptables 의 값을 1로 설정
                 #### _[자세한내용 참조](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/#network-plugin-requirements)_
+            * error fix it
+              * kubelet not working ? ==> kubeadm init phase kubelet-start
 * API Server 주소 설정
     * 마스터 노드의 IPv4의 주소를 API Server 주소로 사용
         * --apiserver-advertise-address 라는 옵션을 사용

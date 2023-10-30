@@ -23,5 +23,4 @@ $ ./test_controller ../example/ SCENARIO_NAME --domain NUMBER
 # sub pod  terminal
 $ ./node_controller daemon-exit-on-error --domain NUMBER
 $ ./test_controller ../example/ SCENARIO_NAME --domain NUMBER
-
 ```

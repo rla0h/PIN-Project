@@ -32,3 +32,41 @@ spec:
     port: 1212
 #    targetPort: 3434
 #  type: ClusterIP
+
+========
+# 23/10/15 Update
+
+apiVersion: v1
+kind: Pod
+metadata:
+    name: reposvc-pod
+    labels:
+      app: reposvc
+spec:
+  nodeName: worker1
+  containers:
+  - name: reposvc
+    image: happykimyh/opendds:v1.4
+    imagePullPolicy: Always
+    securityContext:
+      runAsUser: 0
+    command: ['sh', '-c', "while :; do echo '.'; sleep 5 ; done"]
+   # command: ['sh', '-c', "DCPSInfoRepo -ORBListenEndpoints iiop://$(hostname -i):3434"]
+#    ports:
+#      - containerPort: 3434
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: repo-service
+spec:
+  selector:
+    app: reposvc
+  ports:
+  - name: repo-port
+    protocol: TCP
+    port: 1212
+#    targetPort: 3434
+#  type: ClusterIP

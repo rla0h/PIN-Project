@@ -317,7 +317,7 @@ i  DCPSInfoRepo=10.99.229.105:1212
   [transport/1]
   transport_type=tcp
   $ java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSConfigFile tcp.ini -DCPSTransportDebugLevel 0 -r
-  ```
+  ```v
 
 * If you change DB_HOST_IP
   ```bash
@@ -394,8 +394,23 @@ local_address=Host_IP:
   * 간단히 말해 Unicast 일땐 PB + DG * domainId + d1 + PG * participandId
   * Multicast 일땐 PB + DG * domainId + d0
     * PB = PortBaseNumber (default = 7400)
-    * DB = Domain Gain (default = 250)
+    * DG = Domain Gain (default = 250)
     * multicast에 쓰이는 d0 (default = 0)
     * unicast에 쓰이는 d1 (default = 10)
     * participantId 및 DomainID는 소스코드에서 찾아볼 수 있음
     * participantId = 0 (default)
+
+
+```sh
+javac -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes NWT_TestPublisher.java
+mv NWT_TestPublisher.class ../bin
+cd ../bin
+```
+
+```sh
+javac -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes NWT_TestSubscriber.java
+mv NWT_TestSubscriber.class ../bin
+cd ../bin
+
+javac -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes NWT_DataReaderListenerImpl.java
+```

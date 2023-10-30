@@ -21,3 +21,10 @@ sudo k0s kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 
 # when you start new terminal
 * command export KUBECONFIG=$(pwd)/config.yaml
+
+## k0s master
+* Why doesn't kubectl get nodes list the k0s controllers?
+  * As a default, the control plane does not run kubelet at all, and will not accept any workloads, so the controller will not show up on the node list in kubectl. If you want your controller to accept workloads and run pods, you do so with: **k0s controller --enable-worker** (recommended only as test/dev/POC environments).
+* 기본적으로 k0s controller가 get node 했을 때 안보임. k0s controller --enable-worker를 해주면 서버와 같이 controller에 관한 로그들이 쫘라락 뜨게됨
+  * 대신 k0s가 시작된 상태라면 k0s stop을 해주고 실행
+  * 다른 k0s master node 터미널에서 get node를 한다면 master worker1 worker2 출력이 될것임
