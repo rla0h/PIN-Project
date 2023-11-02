@@ -414,3 +414,10 @@ cd ../bin
 
 javac -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes NWT_DataReaderListenerImpl.java
 ```
+
+
+OpenDDS Reference Link
+===
+* DCPS & RTPS
+  * [참고링크](https://opendds.readthedocs.io/en/latest/devguide/introduction.html#discovery)
+  * 

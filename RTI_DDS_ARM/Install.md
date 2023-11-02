@@ -31,3 +31,22 @@ ENV LD_LIBRARY_PATH "/rti/lib"
 
 - java -ea -cp classes:$DDS_ROOT/lib/java/*:/home/pin/eclipse-workspace/NWT_RTI/bin:classes RecloserTopicPublisher
 - java -ea -cp classes:/rti/lib/*:/rti/bin:classes RecloserTopicPublisher
+
+- java -ea -classpath ".:/rti/rti_connext_dds-rpi/lib/java/nddsjava.jar" RecloserTopicPublisher
+- java -ea -classpath ".:/rti/rti_connext_dds-rpi/lib/java/nddsjava.jar" RecloserTopicSubscriber 
+
+
+RTI reference LINK
+===
+- DDS overview & RTPS
+  - [참고링크](https://lab-notes.tistory.com/entry/DDS-DDS%EC%99%80-RTPS-%EA%B0%9C%EB%85%90%EC%A0%95%EB%A6%AC)
+- RTI's default Protocol is RTPS
+  - [참고링크](https://community.rti.com/static/documentation/connext-dds/5.2.0/doc/manuals/connext_dds/html_files/RTI_ConnextDDS_CoreLibraries_UsersManual/index.htm#UsersManual/Application_Discovery.htm#dcps_181524751_156833%3FTocPath%3DPart%25201%253A%2520Introduction%7CData-Centric%2520Publish-Subscribe%2520Communications%7C_____6)
+- RTI error about : **Reliable large data requires asynchronous write**
+  - [참고링크](https://community.rti.com/kb/what-error-reliable-large-data-requires-asynchronous-write)
+- What is the maximum message size supported by RTI Connext 4.x and above?
+  - [참고링크](https://community.rti.com/kb/what-maximum-message-size-supported-rti-connext-4x-and-above)
+- Discovery Traffic Summary
+  - [참고링크](https://community.rti.com/static/documentation/connext-dds/5.2.0/doc/manuals/connext_dds/html_files/RTI_ConnextDDS_CoreLibraries_UsersManual/Content/UsersManual/Discovery_Traffic_Summary.htm)
+- RTI + Wireshark
+  - [참고링크](https://community.rti.com/static/documentation/wireshark/current/doc/wireshark_features.html)
