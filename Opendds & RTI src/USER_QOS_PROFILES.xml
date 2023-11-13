@@ -68,25 +68,42 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                 <publish_mode>
                     <kind>ASYNCHRONOUS_PUBLISH_MODE_QOS</kind>
                 </publish_mode>
+                <resource_limits>
+                    <max_samples>LENGTH_UNLIMITED</max_samples>
+                    <max_instances>LENGTH_UNLIMITED</max_instances>
+                    <max_samples_per_instance>LENGTH_UNLIMITED</max_samples_per_instance>
+                </resource_limits>
                 <reliability>
                     <kind>RELIABLE_RELIABILITY_QOS</kind>
                 </reliability>
                 <history>
                     <kind>KEEP_ALL_HISTORY_QOS</kind>
                 </history>
+                <durability>
+                    <kind>PERSISTENT_DURABILITY_QOS</kind>
+                </durability>
                 <publication_name>
                     <name>RecloserDataWriter</name>
                 </publication_name>
             </datawriter_qos>
 
-            <!-- QoS used to configure the data reader created in the example code -->                
+            <!-- QoS used to configure the data reader created in the example code -->
+              
             <datareader_qos>
+                <resource_limits>
+                    <max_samples>LENGTH_UNLIMITED</max_samples>
+                    <max_instances>LENGTH_UNLIMITED</max_instances>
+                    <max_samples_per_instance>LENGTH_UNLIMITED</max_samples_per_instance>
+                </resource_limits>
                 <reliability>
                     <kind>RELIABLE_RELIABILITY_QOS</kind>
                 </reliability>
                 <history>
                     <kind>KEEP_ALL_HISTORY_QOS</kind>
                 </history>
+                <durability>
+                    <kind>PERSISTENT_DURABILITY_QOS</kind>
+                </durability>
                 <subscription_name>
                     <name>RecloserDataReader</name>
                 </subscription_name>
@@ -103,20 +120,17 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                 <property>
                     <value>
                         <element>
-                        <name>dds.transport.UDPv4.builtin.parent.message_size_max</name>
-                        <value>65535</value>
+                        <name>dds.transport.UDPv4.builtin.parent.message_size_max</name>                        <value>65535</value>
                         </element>
                         <element>
                         <name>dds.transport.UDPv4.builtin.send_socket_buffer_size </name>
                         <value>65535</value>
                         </element>
                         <element>
-                        <name>dds.transport.UDPv4.builtin.recv_socket_buffer_size</name>
-                        <value>65535</value>
+                        <name>dds.transport.UDPv4.builtin.recv_socket_buffer_size</name>                        <value>65535</value>
                         </element>
                         <element>
-                        <name>dds.transport.shmem.builtin.parent.message_size_max</name>
-                        <value>65535</value>
+                        <name>dds.transport.shmem.builtin.parent.message_size_max</name>                        <value>65535</value>
                         </element>
                         <element>
                         <name>dds.transport.shmem.builtin.receive_buffer_size</name>
@@ -126,7 +140,7 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                 </property>
                 <discovery>
                     <initial_peers>
-                        <element>ip_addr</element>
+                        <element>192.168.189.68</element>
                     </initial_peers>
                 </discovery>
                 <participant_name>

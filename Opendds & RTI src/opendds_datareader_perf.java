@@ -16,7 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import dbis.*;
+//import dbis.*;
 public class NWT_DataReaderListenerImpl extends DDS._DataReaderListenerLocalBase {
 
         // postgresql url, username, password input
@@ -28,19 +28,19 @@ public class NWT_DataReaderListenerImpl extends DDS._DataReaderListenerLocalBase
     private int num_msgs = 0;
 
     private int expected_count = 100;
-    private ServiceController sc =null;
+    //private ServiceController sc =null;
     private int resultCnt = 0;
-    public NWT_DataReaderListenerImpl() {
-    	super();
-    	try {
-    		sc = new ServiceController();
-    		String testPubkey = sc.printMsg("hello");
+    //public NWT_DataReaderListenerImpl() {
+    //	super();
+    //	try {
+    		//sc = new ServiceController();
+    		//String testPubkey = sc.printMsg("hello");
     		//sc.getCount(expected_count);
-    		System.out.println(testPubkey);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    } 
+    		//System.out.println(testPubkey);
+    //	} catch (Exception e) {
+    //		e.printStackTrace();
+    //	}
+    //} 
     private static final int N_EXPECTED = 100;
     private ArrayList<Boolean> counts = new ArrayList<Boolean>(N_EXPECTED);
    
@@ -111,11 +111,11 @@ public class NWT_DataReaderListenerImpl extends DDS._DataReaderListenerLocalBase
                     }
                 }
                 
-                try {
-                	sc.insertSQL(rth.value.r.io.aliasName, rth.value.r.io.description, rth.value.r.io.mRID, rth.value.r.io.name);
-                } catch (Exception e) {
-                	e.printStackTrace();
-                }
+                //try {
+                //	sc.insertSQL(rth.value.r.io.aliasName, rth.value.r.io.description, rth.value.r.io.mRID, rth.value.r.io.name);
+                //} catch (Exception e) {
+                //	e.printStackTrace();
+                //}
                 
                 //print message comment
                 //System.out.println(rth.value.topicCount);

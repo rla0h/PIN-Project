@@ -2,12 +2,18 @@ import java.util.Objects;
 
 import com.rti.dds.domain.DomainParticipant;
 import com.rti.dds.domain.DomainParticipantFactory;
-import com.rti.dds.infrastructure.InstanceHandle_t;
-import com.rti.dds.infrastructure.StatusKind;
-import com.rti.dds.publication.DataWriterQos;
+import com.rti.dds.infrastructure.ConditionSeq;
+import com.rti.dds.infrastructure.DurabilityQosPolicyKind;
+import com.rti.dds.infrastructure.Duration_t;
 import com.rti.dds.infrastructure.HistoryQosPolicyKind;
+import com.rti.dds.infrastructure.InstanceHandle_t;
+import com.rti.dds.infrastructure.RETCODE_ERROR;
+import com.rti.dds.infrastructure.RETCODE_TIMEOUT;
 import com.rti.dds.infrastructure.ReliabilityQosPolicyKind;
+import com.rti.dds.infrastructure.StatusCondition;
 import com.rti.dds.infrastructure.StatusKind;
+import com.rti.dds.infrastructure.WaitSet;
+import com.rti.dds.publication.DataWriterQos;
 import com.rti.dds.publication.Publisher;
 import com.rti.dds.topic.Topic;
 
@@ -53,6 +59,7 @@ public class RecloserTopicPublisher extends Application implements AutoCloseable
 
         dwqos.history.kind = HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS;
         dwqos.reliability.kind = ReliabilityQosPolicyKind.RELIABLE_RELIABILITY_QOS;
+        dwqos.durability.kind = DurabilityQosPolicyKind.PERSISTENT_DURABILITY_QOS;
         // This DataWriter writes data on "Example RecloserTopic" Topic
         RecloserTopicDataWriter writer = (RecloserTopicDataWriter) Objects.requireNonNull(
             publisher.create_datawriter(
@@ -64,28 +71,50 @@ public class RecloserTopicPublisher extends Application implements AutoCloseable
 
         // Create data sample for writing
         RecloserTopic data = new RecloserTopic();
-
-        String message = String.format("%-" + 39995 + "s", "00");
+        StatusCondition sc = writer.get_statuscondition();
+        WaitSet waitset = new WaitSet();
+        waitset.attach_condition(sc);
+        ConditionSeq activeConditions = new ConditionSeq();
+        final Duration_t waitTimeout = new Duration_t(10, 0);
+        boolean is_cond_triggered = false;
+        String message = String.format("%-" + 9995 + "s", "00");
         data.r.description=message;
         data.r.aliasName="0";
         data.r.mRID="0";
         data.r.name="0";
-        startTime = System.currentTimeMillis();
-        for (int samplesWritten = 0; !isShutdownRequested()
-        && samplesWritten < getMaxSampleCount(); samplesWritten++) {
-            // Modify the data to be written here
-            //data.topicCount = samplesWritten;
-            //System.out.println("Writing RecloserTopic, count " + samplesWritten);
-            writer.write(data, InstanceHandle_t.HANDLE_NIL);
-            try {
-                final long sendPeriodMillis = 100; // 0.1 second
-                Thread.sleep(sendPeriodMillis);
-            } catch (InterruptedException ix) {
-                System.err.println("INTERRUPTED");
-                break;
+        try {
+            waitset.wait(activeConditions, waitTimeout);
+            for (int i = 0; i < activeConditions.size(); ++i) {
+                if (activeConditions.get(i) == sc) {
+                    System.out.println("Triggered!");
+                    is_cond_triggered = true;
+                }
             }
+            if (is_cond_triggered) {
+                startTime = System.currentTimeMillis();
+                for (int samplesWritten = 0; !isShutdownRequested()
+                && samplesWritten < getMaxSampleCount(); samplesWritten++) {
+                    // Modify the data to be written here
+                    // data.topicCount = samplesWritten;
+                    //System.out.println("Writing RecloserTopic, count " + samplesWritten);
+                    writer.write(data, InstanceHandle_t.HANDLE_NIL);
+                    try {
+                        final long sendPeriodMillis = 100; // 0.1 second
+                        Thread.sleep(sendPeriodMillis);
+                    } catch (InterruptedException ix) {
+                        System.err.println("INTERRUPTED");
+                        break;
+                    }
+                }
+                endTime=System.currentTimeMillis();
+            }
+        } catch (RETCODE_TIMEOUT timed_out) {
+            System.out.println("Wait Timted Out!! None of the conditions was triggered!");
+        } catch (RETCODE_ERROR ex) {
+            throw ex;
         }
-        endTime=System.currentTimeMillis();
+        waitset.delete();
+        waitset = null;
     }
 
     @Override
