@@ -91,22 +91,30 @@ public class RecloserTopicPublisher extends Application implements AutoCloseable
                 }
             }
             if (is_cond_triggered) {
-                startTime = System.currentTimeMillis();
+                double all_time = 0;
+                //startTime = System.currentTimeMillis();
                 for (int samplesWritten = 0; !isShutdownRequested()
                 && samplesWritten < getMaxSampleCount(); samplesWritten++) {
                     // Modify the data to be written here
                     // data.topicCount = samplesWritten;
                     //System.out.println("Writing RecloserTopic, count " + samplesWritten);
+                    double startTime = System.currentTimeMillis();
                     writer.write(data, InstanceHandle_t.HANDLE_NIL);
-                    try {
+                    double endTime = System.currentTimeMillis();
+                    double RTT = endTime - startTime;
+                    System.out.println("Data per RTT : " + RTT);
+
+                    all_time += RTT;
+                    /*try {
                         final long sendPeriodMillis = 100; // 0.1 second
                         Thread.sleep(sendPeriodMillis);
                     } catch (InterruptedException ix) {
                         System.err.println("INTERRUPTED");
                         break;
-                    }
+                    }*/
                 }
-                endTime=System.currentTimeMillis();
+                //endTime=System.currentTimeMillis();
+                System.out.printf("Mean RTT : %.4f\n",all_time / 100);
             }
         } catch (RETCODE_TIMEOUT timed_out) {
             System.out.println("Wait Timted Out!! None of the conditions was triggered!");

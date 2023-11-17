@@ -97,12 +97,16 @@ public class NWT_TestSubscriber {
 
         DataReaderQosHolder qosh = new DataReaderQosHolder(dr_qos);
         sub.get_default_datareader_qos(qosh);
-        if (reliable) {
+        
         qosh.value.reliability.kind =
             ReliabilityQosPolicyKind.RELIABLE_RELIABILITY_QOS;
-        }
+    
         qosh.value.history.kind = HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS;
-
+        qosh.value.durability.kind = DurabilityQosPolicyKind.PERSISTENT_DURABILITY_QOS;
+        qosh.value.resource_limits.max_samples = LENGTH_UNLIMITED.value;
+        qosh.value.resource_limits.max_instances = LENGTH_UNLIMITED.value;
+        qosh.value.resource_limits.max_samples_per_instance = LENGTH_UNLIMITED.value;
+        double startTime = System.currentTimeMillis();
         NWT_DataReaderListenerImpl listener = new NWT_DataReaderListenerImpl();
         DataReader dr = sub.create_datareader(top,
                                             qosh.value,
@@ -130,6 +134,7 @@ public class NWT_TestSubscriber {
             System.err.println("ERROR: wait() failed.");
             return;
         }
+        double endTime = System.currentTimeMillis();
         System.out.println("Subscriber Report Validity");
         listener.report_validity();
 
@@ -141,7 +146,10 @@ public class NWT_TestSubscriber {
         dpf.delete_participant(dp);
         TheServiceParticipant.shutdown();
         
-
+        
         System.out.println("Subscriber exiting");
+        double latency = endTime - startTime;
+        int byte_size = Integer.parseInt(args[args.length-1]);
+        System.out.println("Throughput : " +  byte_size * 10000 / latency);
     }
 }

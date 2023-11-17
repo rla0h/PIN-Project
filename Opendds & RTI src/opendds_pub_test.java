@@ -12,7 +12,7 @@ import NWT.*;
 
 public class NWT_TestPublisher {
 
-    private static final int N_MSGS = 100;
+    private static final int N_MSGS = 10000;
         private static final UnitSymbol UnitSymbol = null;
 
     public static boolean checkReliable(String[] args) {
@@ -104,10 +104,13 @@ public class NWT_TestPublisher {
         DataWriterQosHolder qosh = new DataWriterQosHolder(dw_qos);
         pub.get_default_datawriter_qos(qosh);
         qosh.value.history.kind = HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS;
-        if (reliable) {
         qosh.value.reliability.kind =
             ReliabilityQosPolicyKind.RELIABLE_RELIABILITY_QOS;
-        }
+        
+        qosh.value.durability.kind = DurabilityQosPolicyKind.PERSISTENT_DURABILITY_QOS;
+        qosh.value.resource_limits.max_samples = LENGTH_UNLIMITED.value;
+        qosh.value.resource_limits.max_instances = LENGTH_UNLIMITED.value;
+        qosh.value.resource_limits.max_samples_per_instance = LENGTH_UNLIMITED.value;
         DataWriter dw = pub.create_datawriter(top,
                                             qosh.value,
                                             null,
@@ -155,7 +158,7 @@ public class NWT_TestPublisher {
         RecloserTopic rt = new RecloserTopic();
         UnitSymbol us;
         us = UnitSymbol;
-        String text = String.format("%-" + 4995 + "s", "00");
+        String text = String.format("%-" + Integer.parseInt(args[args.length-1]) + "s", "00");
         //byte[] dataPacket = new byte[10000];
         //String sendmsg = new String(dataPacket);
         //rt.r.io.aliasName = "0";
@@ -170,14 +173,19 @@ public class NWT_TestPublisher {
 
         int ret = RETCODE_TIMEOUT.value;
 
-        //double all_time = 0;
-        double all_startTime = System.currentTimeMillis();
+        double all_time = 0;
+        //double all_startTime = System.currentTimeMillis();
         //int count = 1;
         for (; rt.topicCount < N_MSGS; ++rt.topicCount) {
             //double one_check = 0;
-            //double startTime = System.currentTimeMillis();
+            double startTime = System.currentTimeMillis();
             while ((ret = rtdw.write(rt, handle)) == RETCODE_TIMEOUT.value) {
             }
+            double endTime = System.currentTimeMillis();
+
+            double RTT = endTime - startTime;
+            System.out.println("Data per RTT : " + RTT);
+            all_time += RTT;
             if (ret != RETCODE_OK.value) {
                 System.err.println("ERROR " + rt.topicCount +
                                 " write() returned " + ret);
@@ -187,11 +195,11 @@ public class NWT_TestPublisher {
             //one_check = endTime - startTime;
             //System.out.printf("count : %d\nRTT per data : %f Average RTT : %f\n", count, one_check, all_time/count);
             //count++;
-            try {
+            /*try {
             Thread.sleep(100);
             
             } catch(InterruptedException ie) {
-            }
+            }*/
             //System.out.println("SEND MESSAGE");
             //System.out.println("REAL msg.cout : " + rt.topicCount);
             //System.out.print("\n\n");
@@ -205,7 +213,7 @@ public class NWT_TestPublisher {
             //  System.out.println("msg.cout : " + rt.topicCount * us._UnitSymbol_m);
             //}
         }
-        double all_endTime = System.currentTimeMillis();
+        //double all_endTime = System.currentTimeMillis();
 
         while (matched.value.current_count != 0) {
         final int result = rtdw.get_publication_matched_status(matched);
@@ -216,7 +224,7 @@ public class NWT_TestPublisher {
         }
         
 
-        double all_RTT = all_endTime - all_startTime;
+        //double all_RTT = all_endTime - all_startTime;
         System.out.println("Stop Publisher");
 
         // Clean up
@@ -227,6 +235,6 @@ public class NWT_TestPublisher {
         System.out.println("Publisher exiting");
 
         //System.out.println("Throughput (messages/RTT): " + (sendmsg.length() * 100 / latency));
-        System.out.printf("ALL RTT : %.3f\n",all_RTT / 100);
+        System.out.printf("Mean RTT : %.4f\n",all_time / 10000);
     }
 }

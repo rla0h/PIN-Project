@@ -28,3 +28,82 @@ sudo k0s kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 * 기본적으로 k0s controller가 get node 했을 때 안보임. k0s controller --enable-worker를 해주면 서버와 같이 controller에 관한 로그들이 쫘라락 뜨게됨
   * 대신 k0s가 시작된 상태라면 k0s stop을 해주고 실행
   * 다른 k0s master node 터미널에서 get node를 한다면 master worker1 worker2 출력이 될것임
+
+## k0s install using k0sctl <-- calico can use
+* [Reference Link](https://ko.linux-console.net/?p=20569)
+* Calico setup -> [Link](https://kengz.gitbook.io/blog/setting-up-a-private-kubernetes-cluster-with-k0sctl)
+
+## create SSH keygen (only root user)
+* master node
+```bash 
+$ sudo su
+$ ssh-keygen
+$ ssh-copy-id root@(MASTER_NODE hostname)
+$ ssh-copy-id root@(WORKER_NODE1 hostname)
+$ ssh-copy-id root@(WORKER_NODE2 hostname)
+# create k0sctl.yaml file <-- default cni : kube-router
+$ k0sctl-linux-arm64 init > k0sctl.yaml
+# or using "My file" <-- can use calico
+# start k0sctl
+$ k0sctl-linux-arm64 apply --config k0sctl.yaml
+```
+
+* Worker node
+```bash
+# root 계정에 password 설정 해줘야함
+$ passwd
+```
+
+* k0sctl.yaml file (My file)
+```yaml
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: k0s-cluster
+spec:
+  hosts:
+  - ssh:
+      address: 127.0.0.1
+      user: root
+      port: 22
+      keyPath: ~/.ssh/id_rsa
+    role: controller
+  - ssh:
+      address: 192.168.86.7 #worker_node 1 ip
+      user: root
+      port: 22
+      keyPath: ~/.ssh/id_rsa
+    role: worker
+  - ssh:
+      address: 192.168.86.6 #worker_node 2 ip
+      user: root
+      port: 22
+      keyPath: ~/.ssh/id_rsa
+    role: worker
+  k0s:
+    version: v1.28.3+k0s.0
+    dynamicConfig: false
+    config:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: ClusterConfig
+      metadata:
+        name: k0s-cluster
+      spec:
+        network:
+          provider: calico
+        extensions:
+          storage:
+            type: openebs_local_storage
+          helm:
+            repositories:
+              - name: openebs-cstor
+                url: https://openebs.github.io/cstor-operators
+            charts:
+              - name: openebs-cstor
+                chartname: openebs-cstor/cstor
+                version: "3.1.0"
+                values: |
+                  csiNode:
+                    kubeletDir: /var/lib/k0s/kubelet/
+                namespace: openebs
+```

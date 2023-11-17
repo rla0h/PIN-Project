@@ -27,7 +27,7 @@ public class NWT_DataReaderListenerImpl extends DDS._DataReaderListenerLocalBase
 
     private int num_msgs = 0;
 
-    private int expected_count = 100;
+    private int expected_count = 10000;
     //private ServiceController sc =null;
     private int resultCnt = 0;
     //public NWT_DataReaderListenerImpl() {
@@ -41,7 +41,7 @@ public class NWT_DataReaderListenerImpl extends DDS._DataReaderListenerLocalBase
     //		e.printStackTrace();
     //	}
     //} 
-    private static final int N_EXPECTED = 100;
+    private static final int N_EXPECTED = 10000;
     private ArrayList<Boolean> counts = new ArrayList<Boolean>(N_EXPECTED);
    
     private GuardCondition gc;

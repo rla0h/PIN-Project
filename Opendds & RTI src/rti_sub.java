@@ -28,7 +28,7 @@ import com.rti.dds.subscription.InstanceStateKind;
 import com.rti.dds.subscription.ReadCondition;
 import com.rti.dds.subscription.SampleInfo;
 import com.rti.dds.subscription.SampleInfoSeq;
-import com.rti.dds.subscription.SampleStateKind;W
+import com.rti.dds.subscription.SampleStateKind;
 import com.rti.dds.subscription.Subscriber;
 import com.rti.dds.subscription.ViewStateKind;
 import com.rti.dds.topic.Topic;
@@ -131,6 +131,7 @@ public class RecloserTopicSubscriber extends Application implements AutoCloseabl
         ConditionSeq activeConditions = new ConditionSeq();
 
         // Main loop. Wait for data to arrive and process when it arrives
+        double startTime = System.currentTimeMillis();
         while (!isShutdownRequested() && samplesRead < getMaxSampleCount()) {
             try {
                 // Wait fills in activeConditions or times out
@@ -144,6 +145,10 @@ public class RecloserTopicSubscriber extends Application implements AutoCloseabl
                 System.out.printf("No data after %d seconds.%n", waitTimeout.sec);
             }
         }
+        double endTime = System.currentTimeMillis();
+        double latency = endTime - startTime;
+
+        System.out.println("Throughput : " +  5000 * 100 / latency);
     }
 
     @Override

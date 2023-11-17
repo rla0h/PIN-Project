@@ -414,10 +414,17 @@ cd ../bin
 
 javac -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes NWT_DataReaderListenerImpl.java
 ```
-
+```sh
+#!/bin/bash
+SET=$(seq 0 9)
+for i in $SET
+do
+        java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSConfigFile tcp.ini -DCPSTransportDebugLevel 0 -r
+done
+```
 
 OpenDDS Reference Link
 ===
 * DCPS & RTPS
   * [참고링크](https://opendds.readthedocs.io/en/latest/devguide/introduction.html#discovery)
-  * 
+
