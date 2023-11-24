@@ -21,8 +21,8 @@ import com.rti.dds.topic.Topic;
 * Simple example showing all Connext code in one place for readability.
 */
 public class RecloserTopicPublisher extends Application implements AutoCloseable {
-    static double startTime;
-    static double endTime;
+    static double allstartTime;
+    static double allendTime;
     // Usually one per application
     private DomainParticipant participant = null;
     
@@ -77,8 +77,7 @@ public class RecloserTopicPublisher extends Application implements AutoCloseable
         ConditionSeq activeConditions = new ConditionSeq();
         final Duration_t waitTimeout = new Duration_t(10, 0);
         boolean is_cond_triggered = false;
-        String message = String.format("%-" + 9995 + "s", "00");
-        data.r.description=message;
+        data.r.description=String.format("%-" + 4995 + "s", "00");
         data.r.aliasName="0";
         data.r.mRID="0";
         data.r.name="0";
@@ -92,35 +91,31 @@ public class RecloserTopicPublisher extends Application implements AutoCloseable
             }
             if (is_cond_triggered) {
                 double all_time = 0;
-                //startTime = System.currentTimeMillis();
+                allstartTime = System.currentTimeMillis();
                 for (int samplesWritten = 0; !isShutdownRequested()
                 && samplesWritten < getMaxSampleCount(); samplesWritten++) {
                     // Modify the data to be written here
-                    // data.topicCount = samplesWritten;
+                    //data.topicCount = samplesWritten;
                     //System.out.println("Writing RecloserTopic, count " + samplesWritten);
-                    double startTime = System.currentTimeMillis();
                     writer.write(data, InstanceHandle_t.HANDLE_NIL);
-                    double endTime = System.currentTimeMillis();
-                    double RTT = endTime - startTime;
-                    System.out.println("Data per RTT : " + RTT);
 
-                    all_time += RTT;
-                    /*try {
-                        final long sendPeriodMillis = 100; // 0.1 second
+                    
+                    try {
+                        final long sendPeriodMillis = 10; // 0.01 second
                         Thread.sleep(sendPeriodMillis);
                     } catch (InterruptedException ix) {
                         System.err.println("INTERRUPTED");
                         break;
-                    }*/
+                    }
                 }
-                //endTime=System.currentTimeMillis();
-                System.out.printf("Mean RTT : %.4f\n",all_time / 100);
             }
+            allendTime = System.currentTimeMillis();
         } catch (RETCODE_TIMEOUT timed_out) {
             System.out.println("Wait Timted Out!! None of the conditions was triggered!");
         } catch (RETCODE_ERROR ex) {
             throw ex;
         }
+        //allendTime = System.currentTimeMillis();
         waitset.delete();
         waitset = null;
     }
@@ -147,7 +142,8 @@ public class RecloserTopicPublisher extends Application implements AutoCloseable
 
         // Releases the memory used by the participant factory. Optional at application exit.
         DomainParticipantFactory.finalize_instance();
-        double latency = endTime - startTime;
-        System.out.printf("Lantency : %.3f\n\n", latency/100);
+        double latency = allendTime - allstartTime;
+        //latency = latency - (10 * 1000);
+        System.out.printf("Lantency : %.4f\n\n", latency/1000);
     }
 }

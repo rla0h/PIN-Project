@@ -16,13 +16,13 @@ FROM arm64v8/ubuntu:20.04
 RUN apt-get update && apt-get -y install openjdk-17-jdk && apt-get install git -
 y
 WORKDIR /
-RUN git clone https://github.com/wolfcw/libfaketime.git
-WORKDIR /libfaketime/src
-RUN make install
+# RUN git clone https://github.com/wolfcw/libfaketime.git
+# WORKDIR /libfaketime/src
+# RUN make install
 
-ENV LD_PRELOAD="/usr/local/lib/faketime/libfaketime.so.1"
-ENV FAKETIME_NO_CACHE=1
-ENV FAKETIME="2021-10-01 10:00:00"
+# ENV LD_PRELOAD="/usr/local/lib/faketime/libfaketime.so.1"
+# ENV FAKETIME_NO_CACHE=1
+# ENV FAKETIME="2021-10-01 10:00:00"
 
 WORKDIR /rti
 COPY [".", "."]

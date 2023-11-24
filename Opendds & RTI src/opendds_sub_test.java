@@ -150,6 +150,6 @@ public class NWT_TestSubscriber {
         System.out.println("Subscriber exiting");
         double latency = endTime - startTime;
         int byte_size = Integer.parseInt(args[args.length-1]);
-        System.out.println("Throughput : " +  byte_size * 10000 / latency);
+        System.out.println("Throughput : " +  byte_size * 1000 / latency);
     }
 }

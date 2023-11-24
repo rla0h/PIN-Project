@@ -12,7 +12,7 @@ import NWT.*;
 
 public class NWT_TestPublisher {
 
-    private static final int N_MSGS = 10000;
+    private static final int N_MSGS = 1000;
         private static final UnitSymbol UnitSymbol = null;
 
     public static boolean checkReliable(String[] args) {
@@ -159,9 +159,6 @@ public class NWT_TestPublisher {
         UnitSymbol us;
         us = UnitSymbol;
         String text = String.format("%-" + Integer.parseInt(args[args.length-1]) + "s", "00");
-        //byte[] dataPacket = new byte[10000];
-        //String sendmsg = new String(dataPacket);
-        //rt.r.io.aliasName = "0";
         rt.r.io.aliasName = text;
         rt.r.io.description = "0";
 
@@ -174,18 +171,17 @@ public class NWT_TestPublisher {
         int ret = RETCODE_TIMEOUT.value;
 
         double all_time = 0;
-        //double all_startTime = System.currentTimeMillis();
-        //int count = 1;
+        double all_startTime = System.currentTimeMillis();
         for (; rt.topicCount < N_MSGS; ++rt.topicCount) {
             //double one_check = 0;
-            double startTime = System.currentTimeMillis();
+            //double startTime = System.currentTimeMillis();
             while ((ret = rtdw.write(rt, handle)) == RETCODE_TIMEOUT.value) {
             }
-            double endTime = System.currentTimeMillis();
+            //double endTime = System.currentTimeMillis();
 
-            double RTT = endTime - startTime;
-            System.out.println("Data per RTT : " + RTT);
-            all_time += RTT;
+            //double RTT = endTime - startTime;
+            //System.out.println("Data per RTT : " + RTT);
+            //all_time += RTT;
             if (ret != RETCODE_OK.value) {
                 System.err.println("ERROR " + rt.topicCount +
                                 " write() returned " + ret);
@@ -195,11 +191,11 @@ public class NWT_TestPublisher {
             //one_check = endTime - startTime;
             //System.out.printf("count : %d\nRTT per data : %f Average RTT : %f\n", count, one_check, all_time/count);
             //count++;
-            /*try {
-            Thread.sleep(100);
+            try {
+            Thread.sleep(10);
             
             } catch(InterruptedException ie) {
-            }*/
+            }
             //System.out.println("SEND MESSAGE");
             //System.out.println("REAL msg.cout : " + rt.topicCount);
             //System.out.print("\n\n");
@@ -213,18 +209,18 @@ public class NWT_TestPublisher {
             //  System.out.println("msg.cout : " + rt.topicCount * us._UnitSymbol_m);
             //}
         }
-        //double all_endTime = System.currentTimeMillis();
+        double all_endTime = System.currentTimeMillis();
 
         while (matched.value.current_count != 0) {
         final int result = rtdw.get_publication_matched_status(matched);
-        try {
-            Thread.sleep(100);
-        } catch(InterruptedException ie) {
-        }
+        //try {
+        //    Thread.sleep(100);
+        //} catch(InterruptedException ie) {
+        //}
         }
         
 
-        //double all_RTT = all_endTime - all_startTime;
+        double all_RTT = all_endTime - all_startTime;
         System.out.println("Stop Publisher");
 
         // Clean up
@@ -235,6 +231,7 @@ public class NWT_TestPublisher {
         System.out.println("Publisher exiting");
 
         //System.out.println("Throughput (messages/RTT): " + (sendmsg.length() * 100 / latency));
-        System.out.printf("Mean RTT : %.4f\n",all_time / 10000);
+        //all_RTT = all_RTT - (10 * 1000);
+        System.out.printf("Mean RTT : %.4f\n",all_RTT / 1000);
     }
 }

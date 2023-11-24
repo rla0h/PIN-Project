@@ -16,32 +16,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-//import dbis.*;
+import dbis.*;
 public class NWT_DataReaderListenerImpl extends DDS._DataReaderListenerLocalBase {
-
-        // postgresql url, username, password input
-        //String url = "jdbc:postgresql://192.168.86.167:30000/postgres";
-        //String username = "postgres";
-        //String password = "1234";
-
 
     private int num_msgs = 0;
 
     private int expected_count = 1000;
-    //private ServiceController sc =null;
+    private ServiceController sc =null;
     private int resultCnt = 0;
-    //public NWT_DataReaderListenerImpl() {
-    //	super();
-    //	try {
-    		//sc = new ServiceController();
-    		//String testPubkey = sc.printMsg("hello");
-    		//sc.getCount(expected_count);
-    		//System.out.println(testPubkey);
-    //	} catch (Exception e) {
-    //		e.printStackTrace();
-    //	}
-    //} 
-    private static final int N_EXPECTED = 1000;
+    public NWT_DataReaderListenerImpl() {
+    	super();
+    	try {
+    		sc = new ServiceController();
+    		String testPubkey = sc.printMsg("hello");
+    		sc.getCount(expected_count);
+    		System.out.println(testPubkey);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    } 
+    private static final int N_EXPECTED = 10000;
     private ArrayList<Boolean> counts = new ArrayList<Boolean>(N_EXPECTED);
    
     private GuardCondition gc;
@@ -81,23 +75,7 @@ public class NWT_DataReaderListenerImpl extends DDS._DataReaderListenerLocalBase
         int status = stdr.take_next_sample(rth, sih);
 
         if (status == RETCODE_OK.value) {
-
-           // System.out.println("SampleInfo.sample_rank = "
-            //                    + sih.value.sample_rank);
-            //System.out.println("SampleInfo.instance_state = "
-            //                    + sih.value.instance_state);
-
             if (sih.value.valid_data) {
-            
-                // try - catch connection setting
-                         //try (Connection conn = DriverManager.getConnection(url, username, password))
-                         //{ System.out.println("Connected to the PostgreSQL server successfully.");
-                         
-                         //String sql =
-                         //"INSERT INTO public.\"data\" (\"aliasname\", description, \"mrid\", name) VALUES (?, ?, ?, ?)"
-                         //; PreparedStatement pstmt = conn.prepareStatement(sql);
-                                 
-
                 String prefix = "";
                 boolean invalid_count = false;
                 if (rth.value.topicCount < 0 || rth.value.topicCount >= counts.size()) {                    invalid_count = true;
@@ -111,47 +89,11 @@ public class NWT_DataReaderListenerImpl extends DDS._DataReaderListenerLocalBase
                     }
                 }
                 
-                //try {
-                //	sc.insertSQL(rth.value.r.io.aliasName, rth.value.r.io.description, rth.value.r.io.mRID, rth.value.r.io.name);
-                //} catch (Exception e) {
-                //	e.printStackTrace();
-                //}
-                
-                //print message comment
-                //System.out.println(rth.value.topicCount);
-                //System.out.println("aliasName    = " + rth.value.r.io.aliasName);
-                //pstmt.setString(1, rth.value.r.io.aliasName);
-                //System.out.println("description = " + rth.value.r.io.description);
-                //pstmt.setString(2, rth.value.r.io.description);
-                //System.out.println("mRID       = " + rth.value.r.io.mRID);
-                //pstmt.setString(3, rth.value.r.io.mRID);
-                //System.out.println("name      = " + rth.value.r.io.name);
-                //pstmt.setString(4, rth.value.r.io.name);
-                //System.out.println("SampleInfo.sample_rank = "
-                //                   + sih.value.sample_rank);
-                
-                // execute query
-                //pstmt.executeUpdate();
-
-                //if (invalid_count == true) {
-                //    System.out.println("ERROR: Invalid message.count (" + rth.value.topicCount + ")");
-                //}
-
-                //              if (!rth.value.r.io.aliasName.equals("Recloser")) {
-                //                      System.out.println("ERROR: aliasName (" + rth.value.r.io.aliasName + ")");
-                //              }
-                //              if (!rth.value.r.io.description.equals("Recloser Data")) {
-                //                      System.out.println("ERROR: description (" + rth.value.r.io.description + ")");
-                //              }
-                //              if (!rth.value.r.io.mRID.equals("000012000001")) {
-                //                      System.out.println("ERROR: mRID ("+ rth.value.r.io.mRID + ")"); } if (!rth.value.r.io.name.equals("DGSW1")) {
-                //                              System.out.println("ERROR: name (" + rth.value.r.io.name + ")");
-                //                      }
-                                 
-                 //  } catch (SQLException e) {
-                //System.out.println(e.getMessage());
-                //System.out.println(e.toString());
-                //   }
+                try {
+                	sc.insertSQL(rth.value.r.io.aliasName, rth.value.r.io.description, rth.value.r.io.mRID, rth.value.r.io.name);
+                } catch (Exception e) {
+                	e.printStackTrace();
+                }
             }
             else if (sih.value.instance_state ==
                      NOT_ALIVE_DISPOSED_INSTANCE_STATE.value) {

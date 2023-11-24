@@ -58,9 +58,10 @@ public class RecloserTopicSubscriber extends Application implements AutoCloseabl
                 SampleInfo info = infoSeq.get(i);
 
                 if (info.valid_data) {
-                    System.out.println("Received" + dataSeq.get(i));
+                    //System.out.println("Received" + dataSeq.get(i).topicCount);
+                    samplesRead++;
                 }
-                samplesRead++;
+                
             }
         } catch (RETCODE_NO_DATA noData) {
             // No data to process, not a problem
@@ -148,7 +149,7 @@ public class RecloserTopicSubscriber extends Application implements AutoCloseabl
         double endTime = System.currentTimeMillis();
         double latency = endTime - startTime;
 
-        System.out.println("Throughput : " +  5000 * 100 / latency);
+        System.out.println("Throughput : " +  5000 * 1000 / latency);
     }
 
     @Override

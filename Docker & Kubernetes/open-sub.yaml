@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: opendds-sub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sub
+  template:
+    metadata:
+      labels:
+        app: sub
+    spec:
+      nodeName: worker2
+      containers:
+      - name: sub
+        image: happykimyh/opendds:v1.5
+        imagePullPolicy: Always
+        securityContext:
+          runAsUser: 0
+        command: ['sh', '-c', "while :; do echo '.'; sleep 5 ; done"]
+        ports:
+          - containerPort: 1223
