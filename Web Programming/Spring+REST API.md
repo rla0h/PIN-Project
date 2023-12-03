@@ -1,5 +1,13 @@
 Spring Boot + REST Programming
 ===
+- [Spring Boot + REST Programming](#spring-boot--rest-programming)
+    - [Environment](#environment)
+- [RESTful API Annotation](#restful-api-annotation)
+  - [설정 관련 Annotation](#설정-관련-annotation)
+  - [RESTful API의 행위(Verb) Annotation](#restful-api의-행위verb-annotation)
+  - [RESTful API의 표현(Representation) Annotation](#restful-api의-표현representation-annotation)
+    - [JSON 데이터 형식의 전송 방식](#json-데이터-형식의-전송-방식)
+    - [데이터 형식 주요 Annotation](#데이터-형식-주요-annotation)
 
 
 *****
@@ -9,7 +17,7 @@ Spring Boot + REST Programming
 * Java 17
 * Spring Framework 
 * Spring Boot Starter Web
-* 
+* [Reference Link](https://adjh54.tistory.com/151) 
 *****
 
 # RESTful API Annotation
