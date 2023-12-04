@@ -18,6 +18,17 @@ GraphQL Study
       - [Multiple fields in mutations](#multiple-fields-in-mutations)
     - [Inline Fragments](#inline-fragments)
       - [Meta Fields](#meta-fields)
+  - [Schemas \& Types](#schemas--types)
+    - [Type system](#type-system)
+    - [Object types and fields](#object-types-and-fields)
+    - [Arguments](#arguments-1)
+    - [The Query and Mutation Types](#the-query-and-mutation-types)
+    - [Scalar Types](#scalar-types)
+    - [Enumeration Types](#enumeration-types)
+    - [Lists and Non-Null](#lists-and-non-null)
+    - [Interfaces](#interfaces)
+    - [Union Types](#union-types)
+    - [Input Types](#input-types)
 
 ***
 ## Reference Site
@@ -562,3 +573,309 @@ GraphQL Study
   }
   ```
 * ```search```는 3가지 중 하나인 UNION 타입을 반환, ```__typename```필드가 없으면 클라이언트가 다른 타입을 구별하는 것은 불가능하다.
+
+## Schemas & Types
+### Type system
+* Schemas가 필요한 이유
+  * 서버에서 요청할 수 있는 데이터에 대한 정확한 표현을 갖는것이 좋기에 어떤 필드를 선택할 수 있는지, 어떤 종류의 객체를 반환할 수 있는지, 하위 객체에서 사용할 수 있는 필드는 무엇인지 정확한 표현을 하기 위해
+* 모든 GraphQL 서비스는 해당 서비스에서 쿼리 가능한 데이터들을 완벽하게 설명할 수 있는 타입들을 정의하고, 쿼리가 들어오면 해당 스키마에 대해 유효성이 검사된 후 실행된다.
+
+### Object types and fields
+* Schema의 가장 기본적인 구성 요소는 객체 타입이다.
+* Example 13
+  ```GraphQL
+  type Character {
+    name: String!
+    appearsIn: [Epiosode]!
+  }
+  ```
+* ```Character``` : GraphQL의 객체 타입
+  * 필드가 있는 타입
+  * 스키마의 대부분의 타입은 객체 타입이다.
+* ```name```과 ```appearIn``` : Character Type의 필드
+  * ```name```과 ```appearIn```은 GraphQL 쿼리의 Character 타입 어디서든 사용할 수 있는 필드
+* ```String!``` : non-nullable(null 값을 가질 수 없음)을 의미
+  * 이 필드를 쿼리할 때 GraphQL 서비스가 항상 값을 반환한다는 것을 의미
+  * 타입 언어에서는 이것을 느낌표로 나타낸다.
+* ```[Episode]!``` : Episode 객체의 배열(array)을 나타낸다.
+  * non-nullable 이기 때문에 appearIn 필드를 쿼리할 때 항상(0개 이상의 아이템을 가진) 배열을 기대할 수 있다.
+
+### Arguments
+* GraphQL 객체 타입의 모든 필든느 0개 이상의 인수를 가질 수 있다.
+* Example 14
+  ```GraphQL
+  type Starship {
+    id: ID!
+    name: String!
+    length(unit: LengthUnit = METER): Float
+  }
+  ```
+* Arguments는 필수 이거나 Optional이다.
+  * Optional 일 경우 default 값을 정의할 수 있다.
+  * unit 인자가 전달 되지 않으면 METER로 설정
+
+### The Query and Mutation Types
+* 모든 GraphQL 서비스는 query 타입을 가지며 mutation 타입은 선택적이다.
+* 일반 객체 타입과 동일하지만 모든 GraphQL 쿼리의 진입점(entry point)을 정의한다.
+* Example 15
+  ```GraphQL
+  query {
+    hero {
+      name
+    }
+    droid(id: "2000") {
+      name
+    }
+  }
+  ```
+  ```json
+  {
+    "data": {
+      "hero": {
+        "name": "R2-D2"
+      },
+      "droid": {
+        "name": "C-3PO"
+      }
+    }
+  }
+  ```
+* 즉 GraphQL 서비스는 hero 및 droid 필드가 있는 Query 타입이 있어야 한다.
+  ```GraphQL
+  tyep Query {
+    hero(episode: Episode): Character
+    droid(id: ID!): Droid
+  }
+  ```
+* Mutation 타입도 필드를 정의하면 쿼리에서 호출할 수 있는 root Mutation 필드로 사용할 수 있다.
+
+### Scalar Types
+* GraphQL 객테 타입은 이름과 필드를 가지지만 어떤 시점에서 구체적인 데이터로 해석되어야 할때 Scalar Types을 사용
+* Example 16
+  ```GraphQL
+  {
+    hero {
+      name
+      appearsIn
+    }
+  }
+  ```
+  ```json
+  {
+    "data": {
+      "hero": {
+        "name": "R2-D2",
+        "appearsIn": [
+          "NEWHOPE",
+          "EMPIRE",
+          "JEDI"
+        ]
+      }
+    }
+  }
+  ```
+* Int: 부호가 있는 32비트 정수
+* Float: 부호가 있는 부동소수잠 값
+* String: UTF-8 문자열
+* Boolean: true 또는 false
+* ID: ID scalar type은 객체를 다시 요청하거나 캐시의 키로써 자주 사용되는 고유 식별자
+  * String과 같은 방법으로 직렬화되지만, ID로 정의하는 것은 사람이 읽을 수 있도록 하는 의도가 아니라는것을 의미
+* custom Scalary Type 지정 예
+  ```GraphQL
+  scalar Data
+  ```
+### Enumeration Types
+* Enums 라고도 하는 열거형 타입은 특정 값들로 제한되는 특별한 종류의 Scalar Type
+1. 타입의 인자가 허용된 값 중 하나임을 검증
+2. 필드가 항상 값의 열거형 집합 중 하나가 될 것임을 타입 시스템을 통해 의사소통
+* Scalar Type Enumeration Example
+  ```GraphQL
+  enum Episode {
+    NEWHOPE
+    EMPIRE
+    JEDI
+  }
+  ```
+* Episode 타입을 사용할 때마다 NEWHOPE, EMPIRE, JEDI 중 하나일 것이다.
+
+### Lists and Non-Null
+* 객체 타입, 스칼라 타입, 열거형 타입은 GraphQL에서 정의할 수 있는 유일한 타입
+* 하지만 스키마의 다른 부분이나 쿼리 변수 선언에서 타입을 사용하면 해당 값의 유효성 검사를 할 수 있는 타입 수정자(type modifiers)를 적용할 수 있다.
+* Example 17
+  ```GraphQL
+  type Character {
+    name: String!
+    appearsIn: [Episode]!
+  }
+  ```
+* String 타입을 사용하고 타입 뒤에 느낌표 ! 를 추가하여 Non-Null로 표시
+  * 서버는 항상 이 필드에 대해 null이 아닌 값을 반환
+  * null 값이 발생 시 GraphQL 실행오류 발생 및 클라이언트에 오류 알림
+* Non-Null type modifier는 Arguments에도 사용 가능
+  * GraphQL 서버가 문자열이나 변수 상관없이 null 값이 해당 인자로 전달되는 경우, 유효성 검사 오류를 반환
+* Example 18
+  ```GraphQL
+  query DroidById($id: ID!) {
+    droid(id: $id) {
+      name
+    }
+  }
+
+  # variable
+  {
+    "id": null
+  }
+  ```
+  ```json
+  {
+    "errors": [
+      {
+        "message": "Variable \"$id\" of required type \"ID!\" was not provided.",
+        "locations": [
+          {
+            "line": 1,
+            "column": 17
+          }
+        ]
+      }
+    ]
+  }
+  ```
+* List 는 해당 타입의 배열을 반환한다.
+  * 스키마 언어에서, 타입을 대괄호 []로 묶는 것으로 표현
+  * 유효성 검사 단계에서 해당 값에 대한 배열이 필요한 인자에 대해서도 동일하게 작동
+* Non-Null 및 List modifier를 결합 가능
+  * Null이 아닌 문자열 리스트를 가질 수 있음
+* Example 19
+  ```GraphQL
+  myField: [String!]
+  ```
+  ```GraphQL
+  myField: null  // valid
+  myField: []    // valid
+  myField: ['a', 'b']  // valid
+  myField: ['a', null, 'b'] // error
+  ```
+* Example 20
+  ```GraphQL
+  myField: [String]!
+  ```
+  ```GraphQL
+  myField: null  // error
+  myField: []    // valid
+  myField: ['a', 'b']  // valid
+  myField: ['a', null, 'b'] // valid
+  ```
+* 필요에 따라 여러개의 Null, List modifier를 중첩할 수 있다.
+
+### Interfaces
+* Interface는 Type이 포함해야하는 특정 필드들을 포함하는 추상 타입이다.
+* Example 20
+  ```GraphQL
+  interface Character {
+    id: ID!
+    name: String!
+    friends: [Character]
+    appearsIn: [Episode]!
+  }
+  ```
+* Character interface와 같은 Arguments와 return Type을 가진 필드만이 interface를 이용하여 사용할 수 있다.
+* Example 21
+  ```GraphQL
+  type Human implements Character {
+    id: ID!
+    name: String!
+    friends: [Character]
+    appearsIn: [Episode]!
+    starships: [Starship]
+    totalCredits: Int
+  }
+
+  type Droid implements Character {
+    id: ID!
+    name: String!
+    friends: [Character]
+    appearsIn: [Episode]!
+    primaryFunction: String
+  }
+  ```
+* interface에 존재하는 필드가 아닌 경우 오류를 발생
+* Example 22
+  ```GraphQL
+  query HeroForEpisode($ep: Episode!) {
+    hero(episode: $ep) {
+      name
+      ***primaryFunction***
+    }
+  }
+
+  # Variable
+  {
+    "ep": "JEDI"
+  }
+  ```
+  ```JSON
+  {
+    "errors": [
+      {
+        "message": "Cannot query field \"primaryFunction\" on type \"Character\". Did you mean to use an inline fragment on \"Droid\"?",
+        "locations": [
+          {
+            "line": 4,
+            "column": 5
+          }
+        ]
+      }
+    ]
+  }
+  ```
+
+### Union Types
+* Interface와 유사하지만 타입 간에 공통 필드를 특정하지 않는다.
+  ```GraphQL
+  union SearchResult = Human | Droid | Starship
+  ```
+* SearchResult 타입을 반환 할때마다, Human, Droid, Starship을 얻을 수 있다.
+* 유니온 타입의 멤버는 구체저인 객체 타입이어야 한다.
+  * 인터페이스나 유니온 타입에서 다른 유니온 타입을 사용할 수 없다.
+
+### Input Types
+* 열거형 타입이나 문자열과 같은 스칼라 값을 인자로 필드에 전달하는 방법 뿐만 아니라 좀더 복잡한 객체도 쉽게 전달할 수 있다.
+  * Mutations 보다 유용
+  * Mutation은 생성될 전체 객체를 전달하지만 type 대신 input을 사용하여 입력 객체 타입을 사용한다
+* Example 23
+  ```GraphQL
+  input ReviewInput {
+    stars: Int!
+    commentary: String
+  }
+  ```
+* Example 24
+  ```GraphQL
+  mutation CreateReviewForEpisode($ep: Episode!, $review: ReviewInput!) {
+    createReview(episode: $ep, review: $review) {
+      stars
+      commentary
+    }
+  }
+
+  # Variable
+  {
+    "ep": "JEDI",
+    "review": {
+      "stars": 5,
+      "commentary": "This is a great movie!"
+    }
+  }
+  ```
+  ```JSON
+  {
+    "data": {
+      "createReview": {
+        "stars": 5,
+        "commentary": "This is a great movie!"
+      }
+    }
+  }
+  ```
+
