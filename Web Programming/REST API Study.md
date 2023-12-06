@@ -25,6 +25,7 @@ API Studying
 ### API란?
   * **다른 소프트웨어 시스템과 통신하기 위해 따라야 하는 규칙을 정의**
   * 클라이언트에서 요청을 보내면 서버에서 응답하는 방식
+  * 애플리케이션 상에 있는 다수의 컴포넌트 간의 커뮤니케이션을 원할하게 만드는 인터페이스(interface)를 의미
 * 대표 API 종류
   * SOAP API
     * Simple Object Application Programming
