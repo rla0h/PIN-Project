@@ -51,6 +51,8 @@ Hasura GraphQL Engine
     - [Actions Relationships](#actions-relationships)
     - [REST connectors](#rest-connectors)
     - [Debugging](#debugging)
+  - [Remote Schemas](#remote-schemas-1)
+    - [](#)
   - [Hasura Enterprise Edition](#hasura-enterprise-edition)
 
 ## Introduction
@@ -313,7 +315,7 @@ Hasura GraphQL Engine
 ### Derive Actions
 * 데이터베이스의 변경 이벤트에 의해 자동으로 트리거 되는 사용자 정의 로직
 * 주로 데이터베이스의 특정 이벤트(삽입, 업데이트, 삭제 등)가 발생할 때 자동으로 실행되어 필드를 수정하거나 추가적인 작업을 수행
-* 데이터 변경 자겅ㅂ에 대한 리액션으로 실행되며, 이를 통해 자동화된 데이터 수정이 가능
+* 데이터 변경 작업에 대한 리액션으로 실행되며, 이를 통해 자동화된 데이터 수정이 가능
 * 주로 데이터의 변경에 반응하여 데이터의 유효성을 유지하거나 특정 필드를 업데이트하는 등의 작업을 수행
 #### vs Actions
 * Action은 개발자가 직접 정의하고 호출하는 사용자 지정 엔드포인트

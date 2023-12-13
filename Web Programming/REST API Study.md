@@ -107,11 +107,19 @@ API Studying
     * REST는 HTTP라는 기존 웹 표준을 그대로 사용하기 때문에, 웹에서 사용하는 기존 인프라를 그대로 활용이 가능하다.
     * HTTP가 가진 캐싱기능이 적용가능
     * HTTP 프로토콜 표준에서 사용하는 LAST-Modified 태그나 E-Tag를 이용하면 캐싱 구현 가능
+    * 대량의 요청을 효율적으로 처리하기 위해 캐시가 요구
+      * 캐시(Cache) : 웹 페이지의 이미지, Style Sheet, Script, API 응답 등을 브라우저의 캐시공간에 저장
+    * 캐시 사용을 통해 응답시간이 빨라지고 REST Server 트랜잭션이 발생하지 않음
+      * 웹 서버에서의 특정 요청에 대한 처리가 데이터베이스의 트랜잭션으로 처리되지 않음
+      * 각 요청이 독립적으로 처리되며, 하나의 요청이 다른 요청에 영향을 미치지 않음
+      * 전체 응답시간, 성능, 서버의 자원 이용률을 향상
     * The cacheable constraint requires that a response should implicitly(명시적) or explicitly(암시적) label itself as cacheable or non-cacheable.
     * If the response is cacheable, the client application gets the right(권리) to reuse the response data later for equivalent requests and a specified period.
   * **Layered System**
     * The layered system style allows an architecture to be composed(구성) of hierarchical layers(계층적 레이어) by constraining(제한) component behavior.
     * In a layered system, each component cannot see beyond(~너머) the immediate layer they are interacting with.
+    * Client와 Server 사이에 여러 계층(Layer)을 두는 Architecture Style
+    * 시스템을 다양한 Layer로 분할함으로써 각 Layer가 독립적으로 개발, 수정, 관리될 수 있도록 설계
     * REST 서버는 다중 계층으로 구성될 수 있으며, 보안로드 밸런싱, 암호화 계층을 추가해 구조상의 유연성을 둘 수 있고, Proxy, Gateway 같은 네트워크 기반의 중간매체를 사용할 수 있게 한다.
       * 자원의 이름(자원의 표현)으로 구분하여 해당 자원의 상태(정보)를 주고 받는 모든 것을 의미
       * HTTP URI(Uniform Resource Identifier)를 통해 자원(Resource)을 명시하고, HTTP Method(GET, POST, PUT, DELETE)를 통해 해당 자원에 대한 CRUD Operation을 적용하는 것을 의미
@@ -130,12 +138,19 @@ API Studying
     * 서버와 클라이언트의 역할을 명확하게 분리한다.
   * 단점
     * 표준이 존재하지않는다.
-    * 사용할 수 있는 메서드가 4가지 밖에 없다.
-      * HTTP Method 형태가 제한적
-    * 브라우저를 통해 테스트 할 일이 많은 서비스라면 쉽게 고칠 수 있는 URL보다 Header 값이 왠지 더 어렵게 느껴진다.
-    * 구형 브라우저가 아직 제대로 지원해주지 못하는 부분이 존재
-      * PUT, DELETE를 사용하지 못하는 점
-      * pushState를 지원하지 않는 점
+    * 안정성과 보안 문제
+      * 클라이언트와 서버간의 분리로 인해 보안 취약점이 발생
+      * 데이터 무결성과 보안을 보장하는 것의 어려움 존재
+    * 네트워크 오버헤드
+      * 매 요청마다 HTTP 요청이 발생하므로, 많은 요청을 처리해야 하는 경우 네트워크 오버헤드 발생
+    * 캐싱 관리의 어려움
+      * 캐싱을 통해 성능을 향상 시킬 수 있지만, 캐싱을 관리하는 것이 어려움
+      * 데이터의 적절한 갱신 및 캐시 무효화를 관리
+    * 구현과 설계의 복잡성
+      * REST의 원칙을 준수하고 지키는 것에 대한 어려움
+    * 기능 제약
+      * CRUD 기능에 초점을 맞추고 있어 특정 동작이나 복잡한 연산을 위한 표준화된 방법을 제공하지 않음
+
 ### REST가 필요한 이유
   * '애플리케이션의 분리 및 통합' & '다양한 클라이언트의 등장'으로 최근 서버 프로그램은 다양한 브라우저와 안드로이드 폰, 아이폰과 같은 모바일 디바이에서도 통신을 할 수 있어야한다. 따라서 멀티플랫폼에 대한 지원을 위해 서비스 자원에 대한 아키텍쳐를 세우고 이용하는 방법을 모색한 결과, REST에 관심을 가지게 되었다.
 ### **What is a Resource?**
