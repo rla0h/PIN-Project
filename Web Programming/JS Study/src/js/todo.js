@@ -5,7 +5,7 @@ const toDoList = document.getElementById("todo-list");
 
 let toDos = [];
 
-const TODOS_KEY = "todos"
+const TODOS_KEY = "todos";
 
 function deleteToDo(event) {
     const li = event.target.parentElement;
