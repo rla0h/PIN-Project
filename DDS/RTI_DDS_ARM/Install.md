@@ -46,7 +46,7 @@ RTI reference LINK
   - [참고링크](https://community.rti.com/kb/what-error-reliable-large-data-requires-asynchronous-write)
 - What is the maximum message size supported by RTI Connext 4.x and above?
   - [참고링크1](https://community.rti.com/kb/what-maximum-message-size-supported-rti-connext-4x-and-above)
-  - [참고링크2](https://community.rti.com/static/documentation/connext-dds/5.2.0/doc/manuals/connext_dds/html_files/RTI_ConnextDDS_CoreLibraries_UsersManual/Content/UsersManual/ASYNCHRONOUS_PUBL_Qos.htm#sending_2410472787_1293344)
+  - [참고링크2](https://community.rti.com/static/documentation/connext-dds/5.2.0/doc/manuals/connext_dds/html_files/ RTI_ConnextDDS_CoreLibraries_UsersManual/Content/UsersManual/ASYNCHRONOUS_PUBL_Qos.htm#sending_2410472787_1293344)
 - Discovery Traffic Summary
   - [참고링크](https://community.rti.com/static/documentation/connext-dds/5.2.0/doc/manuals/connext_dds/html_files/RTI_ConnextDDS_CoreLibraries_UsersManual/Content/UsersManual/Discovery_Traffic_Summary.htm)
 - RTI + Wireshark
