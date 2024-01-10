@@ -20,6 +20,22 @@
     - [DES 알고리즘 구조](#des-알고리즘-구조)
     - [DES 알고리즘 보안 정도](#des-알고리즘-보안-정도)
     - [DES 알고리즘의 변형](#des-알고리즘의-변형)
+    - [DES API 설명](#des-api-설명)
+  - [AES 알고리즘](#aes-알고리즘)
+    - [AES 알고리즘 개요](#aes-알고리즘-개요)
+    - [AES 파라미터](#aes-파라미터)
+    - [AES 실행 단계](#aes-실행-단계)
+    - [AES API 설명](#aes-api-설명)
+  - [ARIA 알고리즘](#aria-알고리즘)
+    - [ARIA 알고리즘 개요](#aria-알고리즘-개요)
+    - [ARIA 구조](#aria-구조)
+    - [ARIA API 설명](#aria-api-설명)
+  - [비대칭키 암호 알고리즘](#비대칭키-암호-알고리즘)
+    - [비대칭키 암호 알고리즘 개요](#비대칭키-암호-알고리즘-개요)
+  - [RSA 알고리즘](#rsa-알고리즘)
+    - [RSA 개요](#rsa-개요)
+    - [RSA 암호화 진행 단계](#rsa-암호화-진행-단계)
+    - [RSA API 설명](#rsa-api-설명)
 
 ## Security Overview
 ### Computer Security
@@ -150,4 +166,250 @@
   * EDE(Encrypt-Decrypt-Encrypt) 방식으로 2개의 키 사용
   * C = E(D(E(P,K<sub>1</sub>),K<sub>2</sub>),K<sub>1</sub>)
     ![Alt text](image-12.png)
-* fdaf
+### DES API 설명
+```c
+DES_set_key(const_DES_cblock *key, DES_key_schedule *schedule)
+```
+* DES 암/복호화에 필요한 키 생성 API
+* Parameter
+  * [in] key: 암호화 키
+  * [out] schedule : DES 키 스케줄러
+```c
+typedef unsigend char DES_cblock[8];
+typedef unsigend char const_DES_cblock[8];
+
+typedef struct DES_ks {
+    union {
+        DES_cblock cblock;
+        DES_LONG deslong[2];
+    } ks[16];
+} DES_key_schedule;
+```
+```c
+DES_encrypt1(DES_LONG *data, DES_key_schedule *ks, int enc);
+```
+  * DES 암/복호화 API(블록 암호 모드 사용x)
+  * enc 파라미터로 암호화 인지 복호화 인지 구분
+  * Parameter
+    * [inout] data : 암호화인 경우 평문, 복호화인 경우 암호문
+      * API에서 따로 출력 파라미터는 제공하지 않고 data 파라미터의 값이 변경됨
+    * [in] ks : DES 키 스케줄러
+    * [in] enc : 암/복호화 동작 구분
+  ```c
+  DES_cbc_encrypt(const unsigned char *input, unsigned char *output, long length, DES_key_schedule *schedule, DES_cblock *ivec, int enc);
+  ``` 
+  * DES 암/복호화 API(CBC 블록 암호 모드 사용)
+  * enc 파라미터로 암호화 인지 복호화 인지 구분
+  * Parameter
+    * [in] input : 암호화인 경우 평문, 복호화인 경우 암호문
+    * [out] output : 암호화인 경우 암호문, 복호화인 경우 복호문
+    * [in] length : 입력 데이터 크기
+    * [in] schedule : DES 키 스케줄러
+    * [in] ivec : 초기화 벡터
+    * [in] enc : 암/복호화 동작 구분
+## AES 알고리즘
+### AES 알고리즘 개요
+* AES
+  * 미국국립표준연구소에 의해 발표되고 유효화된 미국 표준 암호
+  * DES를 대신하기 위해 개발된 대칭 블럭 암호방식
+  * OpenSSL 이외에 20개 이상의 응용프로그램에서 사용
+  * 30개 이상의 라이브러리를 통해서 제공
+### AES 파라미터
+  * 평문의 블럭사이즈는 128bit
+  * 키 길이는 128bit, 192bit, 256bit
+  * 키 길이에 따라 AES-128, AES-192, AES-256 으로 나뉨
+  ![Alt text](image-14.png)
+### AES 실행 단계
+  * 바이트 치환 변환 (Substitue bytes)
+    * 블럭의 바이트 대 바이트 치환 변환을 수행
+  * 행 이동(Shift row)
+    * 행렬의 행 이동을 통한 순열 과정
+  * 열 혼합(Mix columns)
+    * GF(2<sup>8</sup>)산술식을 사용한 치환 과정
+  * 라운드 키 더하기(Add round key)
+    * 현재 블럭과 확장된 키의 일부로 단순 비트 단위의 XOR 과정
+### AES API 설명
+```c
+#define AES_MAXNR 14
+struct aes_key_st {
+    #ifdef AES_LONG
+        unsigned long rd_key[4 * (AES_MAXNR + 1)];
+    #else
+        unsigned int rd_key[4 * (AES_MAXNR + 1)];
+    #endif
+        int rounds;
+};
+typedef struct aes_key_st AES_KEY;
+```
+```c
+int AES_set_encrypt_key(const unsigned char *userKey, const int bit, AES_key *key);
+```
+  * AES 암호화에 필요한 키 생성 API
+  * Parameter
+    * [in] userkey : 암호화 키
+    * [in] bits : 암호화 키 크기
+    * [out] key : AES 라운드 키
+```c
+int AES_set_decrypt_key(const unsigned char *userKey, const int bits, AES_KEY *key);
+```
+  * AES 복호화에 필요한 키 생성 API
+  * Parameter
+    * [in] userkey : 암호화키
+    * [in] bits : 암호화 키 크기
+    * [out] key : AES 라운드 키
+```c
+void AES_encrypt(const unsigned char *in, unsigned char *out, const AES_KEY *key);
+```
+  * AES 암호화 API (블록 암호 모드x)
+  * Parameter
+    * [in] in : 평문
+    * [out] out : 암호문
+    * [in] key : AES 라운드 키
+```c
+void AES_decrypt(const unsigned char *in, unsigned char *out, const AES_KEY *key);
+```
+  * AES 복호화 API (블록 암호 모드x)
+  * Parameter
+    * [in] in : 암호문
+    * [out] out : 평문
+    * [in] key : AES 라운드 키
+```c
+void AES_cbc_encrypt(const unsigned char *in, unsigned char *out, size_t length, const AES_KEY *key, unsigned char *ivec, const int enc);
+```
+  * AES 암/복호화 API (CBC 블록 암호 모드 사용)
+  * enc 파라미터로 암호화 인지 복호화 인지 구분
+  * Parameter
+    * [in] in : 암호화인 경우 평문, 복호화인 경우 암호문
+    * [out] out : 암호화인 경우 암호문, 복호화인 경우 복호문
+    * [in] length : 입력 데이터 크기
+    * [in] key : AES 라운드 키
+    * [in] ivec : 초기화 벡터
+    * [in] enc : 암/복호화 동작 구분
+## ARIA 알고리즘
+### ARIA 알고리즘 개요
+* 대한민국의 국가보안기술연구소에서 개발한 블록 암호 체계
+* 학계(Academy), 연구소(Research Institue), 정부기관(Agency)이 공동으로 개발한 특징을 함축적으로 표현
+* 대한민국의 국가 표준 암호 알고리즘
+* 경량 환경 및 hardware 구현을 위해 최적화된 범용 블록 암호 알고리즘
+* 암호의 난이도에 따라 128bit, 192bit, 256bit 길이의 암호키 선택
+* 키의 길이에 따라서 라운드 함수가 12,14,16번 반복 실행
+* 라운드 키는 암호키로부터 키 확장을 통해 생성
+* 128bit 데이터 블록에 대해 암호화, 복호화 수행
+### ARIA 구조
+* ARIA의 암호화, 복호화는 Involution SPN 구조를 가짐
+* ISPN(Involution Substitution-Permutation-Networks) 구조
+  * ISPN 구조는 짝수 라운드와 홀수 라운드에서 치환계층이 서로 다름
+    * 일반적인 SPN 구조의 암호화 알고리즘 순서
+      * 평문 -> 치환계층 -> 확산계층 -> 암호문
+    * 일반적인 SPN 구조의 복호화 알고리즘 순서
+      * 암호문 -> Inverse 확산계층 -> Inverse 치환계층 -> 평문
+  * 짝수 라운드의 치환계층의 Inverse가 홀수 라운드의 치환계층이 됨
+  * 확산계층의 Matrix의 Inverse가 자기 자신이 됨
+### ARIA API 설명
+```c
+int EncKeySetup(const Byte *mk, Byte *rk, int keyBits)
+```
+  * 암호화에 사용되는 ARI 라운드 키 생성
+  * Parameter   
+    * [in] mk : 암호화 키
+    * [out] rk : ARIA 라운드 키
+    * [in] keyBits : 암호화 키 크기
+```c
+int DecKeySetup(const Byte *mk, Byte *rk, int keyBits)
+```
+  * 복호화에 사용되는 ARIA 라운드 키 생성
+  * Parameter
+    * [in] mk : 암호화 키
+    * [out] rk : ARIA 라운드 키
+    * [in] keyBits : 암호화 키 크기
+```c
+void Crypt(const Byte *i, int Nr, const Byte *rk, Byte *o)
+```
+  * ARIA 암/복호화 API
+  * Parameter
+    * [in] i : 암호화인 경우 평문, 복호화인 경우 암호문
+    * [in] Nr : 라운드 수
+    * [in] rk : ARIA 라운드 키
+    * [out] o : 암호화인 경우 암호문, 복호화인 경우 복호문
+## 비대칭키 암호 알고리즘
+### 비대칭키 암호 알고리즘 개요
+* 암호화에 사용되는 공개키는 공개적으로 배포
+* 복호화에 사용되는 개인키는 노출되지 않도록 함
+* 공개키와 개인키는 암호문을 받는 사람이 만듦
+* 자신에게 암호문을 보낼 사람에게 공개키 배포
+* 노출의 위험성이 매우 적음
+![Alt text](image-15.png)
+* 비대칭키 알고리즘은 크게 2가지 문제의 알고리즘으로 나뉨
+  * 소인수 분해, 이산대수
+  ![Alt text](image-16.png)
+## RSA 알고리즘
+### RSA 개요
+* 전자서명이 가능한 최초의 알고리즘
+  * 인증을 요구하는 전자 상거래 등에 RSA의 광범위한 활용을 가능하게 함
+* 안정성은 큰 숫자를 소인수 분해하는 것이 어려운 것에 기반
+  * 만일 큰 수의 소인수 분해를 빠르게 할 수 있는 알고리즘이 개발되면 가치 떨어짐
+* 모듈러 연산 사용
+### RSA 암호화 진행 단계
+* 키 생성
+  * 공개키와 개인키 생성
+  * 공개키는 상대방에게 전달
+  * 개인키는 생성자가 보관하며 복호화에 사용
+* 암호화
+  * 평문에 공개키를 사용하여 암호문 생성
+* 복호화
+  * 암호문에 개인키를 사용하여 평문 복원
+### RSA API 설명
+```c
+int RSA_public_encrypt(int flen, unsigned char *from, unsigned char *to, RSA *rsa, int padding);
+```
+  * RSA의 암호화 수행
+  * Parameter
+    * [in] flen : 입력 데이터 크기
+    * [in] from : 평문
+    * [out] to : 암호문
+    * [in] rsa : rsa 키 쌍(공개키, 개인키 쌍)
+      * 암호화를 수행하기 때문에 실제 사용되는 키는 공개키로 사용
+    * [in] padding : padding 방식을 선택
+      * RSA_PKCS1_PADDING
+      * RSA_PKCS1_OAEP_PADDING
+      * RSA_SSLV23_PADDING
+      * RSA_NO_PADDING
+```c
+int RSA_private_decrypt(int flen, unsigned char *from, unsigned char *to, RSA *rsa, int padding);
+```
+  * RSA의 복호화 수행
+  * Parameter
+    * [in] flen : 입력 데이터 크기
+    * [in] from : 암호문
+    * [out] to : 복호문
+    * [in] rsa : rsa 키 쌍(공개키, 개인키 쌍)
+      * 복호화를 수행하기 때문에 실제 사용되는 키는 개인키 사용
+    * [in] padding : padding 방식을 선택(암호화 할때 사용했던 방식 사용)
+      * RSA_PKCS1_PADDING
+      * RSA_PKCS1_OAEP_PADDING
+      * RSA_SSLV23_PADDING
+      * RSA_NO_PADDING
+```c
+int RSA_private_encrypt(int flen, unsigned char *from, unsigned char *to, RSA *rsa, int padding);
+```
+  * RSA의 인증(서명) 수행
+  * Parameter
+    * [in] flen : 입력 데이터 크기
+    * [in] from : 평문
+    * [out] to : 암호문(서명값)
+    * [in] rsa : RSA 키 쌍(공개키, 개인키 쌍)
+    * [in] padding : padding 방식을 선택
+      * RSA_PKCS1_PADDING
+      * RSA_NO_PADDING
+```c
+int RSA_public_decrypt(int flen, unsigned char *from, unsigned char *to, RSA *rsa, int padding);
+```
+  * RSA의 인증(서명)에 대한 검증 수행
+  * Parameter
+    * [in] flen : 입력 데이터 크기
+    * [in] from : 암호문(서명값)
+    * [out] to : 복호문
+    * [in] rsa : RSA키 쌍(공개키, 개인키 쌍)
+    * [in] padding : padding 방식을 선택
+      * RSA_PKCS1_PADDING
+      * RSA_NO_PADDING
