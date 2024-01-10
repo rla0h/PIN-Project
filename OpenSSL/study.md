@@ -66,7 +66,7 @@
     * 정보가 합법적인 수신인에게 도착하지 못하도록 하는 행위
     * DoS(Denial of Service) 공격이 이에 해당
     * 보안 원칙 중 가용성이 요구됨
-    ![Alt text](image-3.png)
+    ![Alt text](./imag/image-3.png)
 ## 기초 암호화 기법
 ### 평문과 암호문
 * 평문 : 암호화 되기전의 읽을 수 없는 문장
@@ -74,19 +74,19 @@
 * 암호화 : 평문을 암호문으로 바꾸는 과정
 * 복호화 : 암호문을 평문으로 바꾸는 과정
 * 비밀키 : 암호화 및 복호화 과정에서 사용되는 키
-![Alt text](image-4.png)
+![Alt text](./imag/image-4.png)
 ### 대칭키 암호화
 * 암호화 할 때의 키와 복호화 할 때의 키가 같은 경우를 말함
 * 암/복호화 할 때 사용되는 키는 보통 비밀키 또는 대칭키라고 함
   * 정보를 주고받는 당사자 두 명을 제외한 타인을 알지 못하도록 비밀을 관리해야 한다는 의미
-![Alt text](image-5.png)
+![Alt text](./imag/image-5.png)
 ### 비대칭키 암호화
 * 암호화 할 때의 키와 복호화 할 때의 키가 서로 다른 경우를 말함
 * 암호화 할 때 사용되는 키는 공개키
 * 복호화 할 때 사용되는 키는 개인키
   * 공개키는 타인에게 공개되어도 상관없음
   * 개인키는 타인에게 공개 되지 않아야 함
-![Alt text](image-6.png) 
+![Alt text](./imag/image-6.png) 
 ### 블록암호 알고리즘
 * 평문 블록 전체를 가지고 같은 크기의 암호문 블록 생성
 * 보통 64bit, 또는 128bit 크기로 블록을 나뉘어서 사용
@@ -102,14 +102,14 @@
   * 가장 단순한 모드
   * 블록간의 암호문이 독립적이며 추가적인 회로나 연산이 수행되지 않음
     * 암호문이 손상 되어도 다른 블록에 영향을 미치지 않음
-![Alt text](image-7.png)
+![Alt text](./imag/image-7.png)
 * CBC(Cipher-Block Chaining) 모드
   * ECB의 보안 결함을 위한 모드
     * 동일한 평문 블록에 대해 동일한 암호문 블록이 전송되는 문제를 해결하기 위함
   * 동일한 평문 블록이 반복되어도 상이한 암호 블록을 생성
   * 입력은 평문 블록과 선행 암호 블록의 XOR 연산 결과를 통해, 다음 블록을 얻게됨
-    ![Alt text](image-8.png)
-    ![Alt text](image-9.png)
+    ![Alt text](./imag/image-8.png)
+    ![Alt text](./imag/image-9.png)
 ## OpenSSL Library
 ### OpenSSL
 * 보안 프로토콜인 TLS/SSL를 오픈 된 소스의 형태로 지원하는 라이브러리
@@ -128,7 +128,7 @@
   * 암호화에 사용되는 키와 복호화에 사용되는 키가 동일
   * 한 키로부터 다른 키를 쉽게 생성할 수 있는 구조
   * 두개의 조건 중 하나이상 만족하면 됨
-  ![Alt text](image-10.png)
+  ![Alt text](./imag/image-10.png)
 ## DES 알고리즘
 ### DES 알고리즘 개요
 * DES (Data Encryption Standard)
@@ -161,11 +161,11 @@
   * DES 알고리즘 사용 두개의 키를 연속적으로 사용하는 것
   * 즉, 비밀키 K<sub>1</sub> 과 K<sub>2</sub> 사용 두 번 DES 암호화
   * C = E(E(P, K<sub>1</sub>),K<sub>2</sub>)
-    ![Alt text](image-11.png)
+    ![Alt text](./imag/image-11.png)
 * 삼중 DES
   * EDE(Encrypt-Decrypt-Encrypt) 방식으로 2개의 키 사용
   * C = E(D(E(P,K<sub>1</sub>),K<sub>2</sub>),K<sub>1</sub>)
-    ![Alt text](image-12.png)
+    ![Alt text](./imag/image-12.png)
 ### DES API 설명
 ```c
 DES_set_key(const_DES_cblock *key, DES_key_schedule *schedule)
@@ -218,7 +218,7 @@ DES_encrypt1(DES_LONG *data, DES_key_schedule *ks, int enc);
   * 평문의 블럭사이즈는 128bit
   * 키 길이는 128bit, 192bit, 256bit
   * 키 길이에 따라 AES-128, AES-192, AES-256 으로 나뉨
-  ![Alt text](image-14.png)
+  ![Alt text](./imag/image-14.png)
 ### AES 실행 단계
   * 바이트 치환 변환 (Substitue bytes)
     * 블럭의 바이트 대 바이트 치환 변환을 수행
@@ -338,10 +338,10 @@ void Crypt(const Byte *i, int Nr, const Byte *rk, Byte *o)
 * 공개키와 개인키는 암호문을 받는 사람이 만듦
 * 자신에게 암호문을 보낼 사람에게 공개키 배포
 * 노출의 위험성이 매우 적음
-![Alt text](image-15.png)
+![Alt text](./imag/image-15.png)
 * 비대칭키 알고리즘은 크게 2가지 문제의 알고리즘으로 나뉨
   * 소인수 분해, 이산대수
-  ![Alt text](image-16.png)
+  ![Alt text](./imag/image-16.png)
 ## RSA 알고리즘
 ### RSA 개요
 * 전자서명이 가능한 최초의 알고리즘
