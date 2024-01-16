@@ -59,4 +59,35 @@ export LD_LIBRARY_PATH=MY_BUILD_PATH${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 * Change SSL/TLS version to TLS_v1.2
 * Change Algorithm to ARIA
   * [Algorithm REF](https://www.openssl.org/docs/man1.1.1/man1/ciphers.html)
-* Continue...
+* To Do
+  * Chatting Program (server <-> client)
+
+# KCMVP + OpenSSL
+* Copy libkdnamicrypto.so file to /usr/lib/
+```bash
+sudo cp libkdnamicrypto.so /usr/lib
+export LD_LIBRARY_PATH=/usr/lib/libkdnamicrypto.so:$LD_LIBRARY_PATH
+```
+* Config
+```bash
+mkdir MY_BUILD_PATH
+cd MY_BUILD_PATH
+mkdir ssl
+cd /KCMVP_SOURCE
+./config --prefix=MY_BUILD_PATH --openssldir=MY_BUILD_PATH/ssl
+```
+* Modify  Makefile
+```Makefile
+line 98 : LDFLAGS=-L./kcmvp_lib # KCMVP add
+line 99 : EX_LIBS=-lepowercrypto # KCMVP add
+```
+* Make
+```bash
+make
+sudo make install
+```
+
+* Compile gcc
+```bash
+gcc -o test test.c -lepowercrypto -lssl -lcrypto
+```

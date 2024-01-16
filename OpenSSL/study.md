@@ -36,6 +36,22 @@
     - [RSA 개요](#rsa-개요)
     - [RSA 암호화 진행 단계](#rsa-암호화-진행-단계)
     - [RSA API 설명](#rsa-api-설명)
+  - [키교환 알고리즘](#키교환-알고리즘)
+    - [Diffie-Hellman 키교환](#diffie-hellman-키교환)
+    - [ECDH 키 교환](#ecdh-키-교환)
+  - [메시지 인증 알고리즘](#메시지-인증-알고리즘)
+    - [메시지 인증](#메시지-인증)
+    - [메시지 인증 코드](#메시지-인증-코드)
+  - [CMAC(Cipher-based MAC) 알고리즘](#cmaccipher-based-mac-알고리즘)
+  - [HMAC(Hash MAC) 알고리즘](#hmachash-mac-알고리즘)
+  - [CCM 알고리즘](#ccm-알고리즘)
+  - [GCM(Galois/Counter Mode) 알고리즘](#gcmgaloiscounter-mode-알고리즘)
+  - [메시지 압축 알고리즘](#메시지-압축-알고리즘)
+    - [Hash](#hash)
+    - [Hashing](#hashing)
+    - [Hash 권장 조건](#hash-권장-조건)
+    - [MD5](#md5)
+    - [MD5의 동작 순서](#md5의-동작-순서)
 
 ## Security Overview
 ### Computer Security
@@ -61,12 +77,12 @@
   * 변형
     * 전송되는 정보의 내용을 바꾸는 것을 말함
     * 이를 막기 위해 보안의 원칙 중 무결성이 요구됨
-    ![Alt text](./imag/image-2.png)
+    ![Alt text](./img/image-2.png)
   * 중단
     * 정보가 합법적인 수신인에게 도착하지 못하도록 하는 행위
     * DoS(Denial of Service) 공격이 이에 해당
     * 보안 원칙 중 가용성이 요구됨
-    ![Alt text](./imag/image-3.png)
+    ![Alt text](./img/image-3.png)
 ## 기초 암호화 기법
 ### 평문과 암호문
 * 평문 : 암호화 되기전의 읽을 수 없는 문장
@@ -74,19 +90,19 @@
 * 암호화 : 평문을 암호문으로 바꾸는 과정
 * 복호화 : 암호문을 평문으로 바꾸는 과정
 * 비밀키 : 암호화 및 복호화 과정에서 사용되는 키
-![Alt text](./imag/image-4.png)
+![Alt text](./img/image-4.png)
 ### 대칭키 암호화
 * 암호화 할 때의 키와 복호화 할 때의 키가 같은 경우를 말함
 * 암/복호화 할 때 사용되는 키는 보통 비밀키 또는 대칭키라고 함
   * 정보를 주고받는 당사자 두 명을 제외한 타인을 알지 못하도록 비밀을 관리해야 한다는 의미
-![Alt text](./imag/image-5.png)
+![Alt text](./img/image-5.png)
 ### 비대칭키 암호화
 * 암호화 할 때의 키와 복호화 할 때의 키가 서로 다른 경우를 말함
 * 암호화 할 때 사용되는 키는 공개키
 * 복호화 할 때 사용되는 키는 개인키
   * 공개키는 타인에게 공개되어도 상관없음
   * 개인키는 타인에게 공개 되지 않아야 함
-![Alt text](./imag/image-6.png) 
+![Alt text](./img/image-6.png) 
 ### 블록암호 알고리즘
 * 평문 블록 전체를 가지고 같은 크기의 암호문 블록 생성
 * 보통 64bit, 또는 128bit 크기로 블록을 나뉘어서 사용
@@ -102,14 +118,14 @@
   * 가장 단순한 모드
   * 블록간의 암호문이 독립적이며 추가적인 회로나 연산이 수행되지 않음
     * 암호문이 손상 되어도 다른 블록에 영향을 미치지 않음
-![Alt text](./imag/image-7.png)
+![Alt text](./img/image-7.png)
 * CBC(Cipher-Block Chaining) 모드
   * ECB의 보안 결함을 위한 모드
     * 동일한 평문 블록에 대해 동일한 암호문 블록이 전송되는 문제를 해결하기 위함
   * 동일한 평문 블록이 반복되어도 상이한 암호 블록을 생성
   * 입력은 평문 블록과 선행 암호 블록의 XOR 연산 결과를 통해, 다음 블록을 얻게됨
-    ![Alt text](./imag/image-8.png)
-    ![Alt text](./imag/image-9.png)
+    ![Alt text](./img/image-8.png)
+    ![Alt text](./img/image-9.png)
 ## OpenSSL Library
 ### OpenSSL
 * 보안 프로토콜인 TLS/SSL를 오픈 된 소스의 형태로 지원하는 라이브러리
@@ -128,7 +144,7 @@
   * 암호화에 사용되는 키와 복호화에 사용되는 키가 동일
   * 한 키로부터 다른 키를 쉽게 생성할 수 있는 구조
   * 두개의 조건 중 하나이상 만족하면 됨
-  ![Alt text](./imag/image-10.png)
+  ![Alt text](./img/image-10.png)
 ## DES 알고리즘
 ### DES 알고리즘 개요
 * DES (Data Encryption Standard)
@@ -161,11 +177,11 @@
   * DES 알고리즘 사용 두개의 키를 연속적으로 사용하는 것
   * 즉, 비밀키 K<sub>1</sub> 과 K<sub>2</sub> 사용 두 번 DES 암호화
   * C = E(E(P, K<sub>1</sub>),K<sub>2</sub>)
-    ![Alt text](./imag/image-11.png)
+    ![Alt text](./img/image-11.png)
 * 삼중 DES
   * EDE(Encrypt-Decrypt-Encrypt) 방식으로 2개의 키 사용
   * C = E(D(E(P,K<sub>1</sub>),K<sub>2</sub>),K<sub>1</sub>)
-    ![Alt text](./imag/image-12.png)
+    ![Alt text](./img/image-12.png)
 ### DES API 설명
 ```c
 DES_set_key(const_DES_cblock *key, DES_key_schedule *schedule)
@@ -413,3 +429,186 @@ int RSA_public_decrypt(int flen, unsigned char *from, unsigned char *to, RSA *rs
     * [in] padding : padding 방식을 선택
       * RSA_PKCS1_PADDING
       * RSA_NO_PADDING
+
+## 키교환 알고리즘
+* 송신자와 수신자가 보안통신을 하기 위한 키를 공유하는 알고리즘
+  * 공유된 키는 송신자와 수신자만 알아야함
+* 대표적인 알고리즘
+  * DH(Diffie-Hellman)
+  * ECDH(Elliptic Cruve DH)
+
+### Diffie-Hellman 키교환
+* 두 사용자가 안전하게 키를 교환하는 방식
+* DH 알고리즘은 이산로그 계산의 어려움에 의존
+  * 양의 정수 N과 G가 알려져 있고, G의 모듈러 지수연산을 통해 B가 만들어진 경우 미지수 X에 대하여 나타낼 시
+  ![Alt text](./img/image-17.png)
+  * 위의 X값을 구하는 것이 이산로그문제
+* 알고리즘 순서
+  1. 앨리스와 밥은 어떤 정수 N과 G를 사용할 것인지 합의
+  2. 앨리스는 x < N인 정수 x를 선택
+  3. 앨리스는 A=G<sup>x</sup>(mod N)을 계산한 뒤, A를 밥에게 전송
+  4. 밥은 y < N인 정수 y를 선택
+  5. 밥은 B= G<sup>y</sup>(mod N)을 계산한 뒤, B를 앨리스에게 전송
+  6. 앨리스는 밥에게 받은 B로부터 K<sub>A</sub>=B<sup>x</sup>(mod N)을 계산
+  7. 밥은 앨리스에게 받은 A로부터 K<sub>B</sub>=A<sup>y</sup>(mod N)을 계산
+    * K<sub>A</sub> = K<sub>B</sub> 이며 밥과 앨리스 간의 비밀키 생성
+* 공격자는 비밀키인 K<sub>A</sub>(또는  K<sub>B</sub>)를 얻으려고 시도
+  * 공격자는 현재 키 교환을 위해 주고받은 A와 B를 얻은 상태
+  * 공격자는 X나 Y를 얻으면 비밀키를 얻을 수 있음
+    * A와 B를 얻은 상태기 때문
+* 하지만 X와 Y값은 앨리스와 밥이 노출하지 않은 정보이며, 값이 관련된 내용은 A와 B만 관련
+* 만약 공격자가 X를 얻으려면 A=G<sup>x</sup>(mod N)을 계산
+  * A,G,N이 공격자에게 알려져있지만 x를 구하는 것은 이산로그 문제를 푸는것이기 때문에 오랜시간 필요
+### ECDH 키 교환
+* 타원 곡선 기반의 공개키를 사용하는 키 교환 알고리즘
+* 키 교환 순서
+  * 우선 소수 p (약 2<sup>180</sup>)와 타원형 곡선 인자 a,b를 선택
+    * 점 E<sub>q</sub>(a, b)의 타원형 그룹을 정의
+    * Ex) E<sub>23</sub>(9, 17)의 그룹 -> y<sup>2</sup>mod23 = (x<sup>3</sup> + 9x + 17)mod23 로 정의
+  * E<sub>p</sub>(a,b)에서 생성점 G=(x<sub>1</sub>, y<sub>1</sub>)를 선택)
+    * E<sub>p</sub>(a,b)와 G는 모든 참여자에게 알려진 인자
+  1. A는 n보다 적은 정수 n<sub>A</sub>를 선택, 이것은 A의 개인키가 되며 A는 공개키 P<sub>A</sub>=n<sub>A</sub> X G를 생성
+    * 공개키는 E<sub>p</sub>(a,b)에서의 점
+  2. B도 유사하게 개인키 n<sub>B</sub>를 선택하고 공개키 P<sub>B</sub>를 계산
+  3. A는 비밀키 k = n<sub>A</sub> X P<sub>B</sub>를 생성, B는 비밀키 K=n<sub>B</sub> x P<sub>A</sub>를 생성
+    * n<sub>A</sub> X P<sub>B</sub> = n<sub>A</sub> X (n<sub>B</sub> X G) = n<sub>B</sub> X (P<sub>B</sub> X G) = n<sub>B</sub> X P<sub>A</sub> 을 만족하기 때문에 동일
+## 메시지 인증 알고리즘
+### 메시지 인증
+* 메시지의 무결성을 검증하는데 이용하는 기법 또는 서비스
+* 수신받은 데이터가 전송된 것과 정확히 동일하며, 송신자로 알려진 주체의 신원이 타당함을 보장
+* 네트워크 통신상의 공격
+  1. 노출
+  2. 트래픽 분석
+  3. 위장
+  4. 내용수정
+  5. 순서수정
+  6. 시간수정
+  7. 송신처부인
+  8. 수신처부인
+   * 1~2 : 메시지 기밀성으로 방지
+   * 3~6 : 메시지 인증으로 방지
+   * 7 : 전자 서명으로 방지
+   * 8 : 전자서명 및 보안 프로토콜로 방지
+* 인증에 사용되는 값을 만들기 위한 알고리즘
+  * 해쉬 함수
+    * 임의 길이의 메시지를 고정된 길이의 해쉬값으로 대응
+  * 메시지 암호화
+    * 메시지의 암호문이 인증을 위해 사용
+  * 메시지 인증 코드
+    * 메시지의 인증에 쓰이는 작은 크기의 정보
+### 메시지 인증 코드
+* MAC(Message Authentication Code)라고 하며 메시지 인증에 사용
+  * 메시지의 비밀키를 입력으로 하여 고정된 작은 크기의 데이터 블록 생성
+  * 데이터 블록은 메시지 인증 코드가 됨
+  ![Alt text](./img/image-18.png)
+* 수신자는 받은 메시지에 동일한 연산을 수행
+  * 메시지에 대해서 생성된 MAC과 수신 받은 MAC과 비교
+    * 수신된 MAC과 계산된 MAC이 일치하면
+      * 메시지가 변경되지 않았음을 확신
+      * 합법적 송신자로부터 메시지가 왔다고 확신
+## CMAC(Cipher-based MAC) 알고리즘
+* 암호 기반의 메시지 인증코드
+  * AES, triple-DES 사용하여 인증코드 생성
+  ![Alt text](./img/image-19.png)
+    * T = 메시지 인증 코드, 태그라고도 불림
+    * Tlen = T의 비트 길이
+    * MSB = 최상위 비트, 가장 큰 숫자를 왼쪽에 기록하는 자리표기법
+## HMAC(Hash MAC) 알고리즘
+* 해쉬 기반의 메시지 인증 코드 생성 알고리즘
+  * 단방향 해쉬함수라면 어떤 것이든지 이용가능
+  * 사용되는 해쉬 알고리즘에 따라 암호 강도가 달라짐
+    * MAC-MD5, MAC-SHA1, MAC-SHA256 등
+
+![Alt text](./img/image-20.png)
+  * HMAC(K,M) = H[(K+ ⊕ opad) ∥ H[(K+ ⊕ ipad) ∥ M]] 
+  * H : 내장해쉬함수(MD5 등)
+  * K : 비밀키
+  * M : 입력메시지
+  * K<sup>+</sup> : b 비트 길이가 되도록 왼쪽을 0으로 채운 K
+  * b : 블록 내에 있는 비트 수
+  * IV : 해쉬 함수 초기값
+  * Y<sub>i</sub> : M의 i번째 블록, 0<= i<=L-1
+  * L : M에 있는 블록 수
+  * n : 해쉬 코드의 길이
+  * ipad : 00110110(16진수로 36)을 b/8번 반복
+  * opad : 01011100(16진수로 5C)을 b/8번 반복
+* 알고리즘 동작 과정
+  1. b-비트 스트링 K<sup>+</sup>를 생성하기 위해 K의 왼쪽 끝에 0을 첨가
+    * 예시로 K의 길이가 160 비트, b=512이면, K는 44개의 0바이트들이 첨가
+  2. b-비트 블록 S<sub>i</sub> 를 생성하기 위해 K<sup>+</sup>와 ipad를 XOR
+  3. M을 S<sub>i</sub>에 덧붙임
+  4. 3단계에서 만든 스트림에 H를 적용
+  5. b-비트 블록 S<sub>0</sub>를 생성하기 위해 K<sup>+</sup>와 opad를 XOR
+  6. 단계 4에서 만든 해쉬 결과를 S<sub>0</sub>에 붙임
+  7. 단계 6에서 만든 스트림 H를 적용하고 결과 출력
+## CCM 알고리즘
+* Counter with Cipther Block Chaining MAC
+* 블록 암호 모드 종류 중 하나로 블록 암호화와 메시지인증을 같이 처리
+* 알고리즘 구성요소
+  * AES 암호 알고리즘
+  * CTR 연산 모드
+  * CMAC 알고리즘
+* 하나의 키 K가 암호화와 MAC 알고리즘에 모두 사용
+* 인증은 CMAC을 통해 Tag를 얻음
+* 암호화는 CTR 모드를 통해 얻은 암호문, CMAC을 통해 얻은 Tag와 카운터 Ctr0를 이용하여 생성된 암호화된 태그가 합쳐져서 암호문 구성
+![Alt text](./img/image-21.png)
+## GCM(Galois/Counter Mode) 알고리즘
+* 블록 암호 모드 종류 중 하나로 블록암호화와 메시지 인증을 같이 처리
+* 적은 비용과 적은 대기시간으로 많은 처리량을 제공하도록 병렬화 하여 설계
+  * GCM 모드는 2개의 함수 사용
+    * GHASH : 해쉬 함수, 인증 태그를 생성하는데 사용
+    * GCTR : 본질적으로 CTR 모드와 유사
+* NIST SP 800-38D 표준
+![Alt text](./img/image-22.png)
+* IV : 초기화 벡터
+* J<sub>0</sub> : 초기화 벡터값을 인코딩한 블록
+* K : 비밀키
+* A : 추가 인증 데이터
+* H = E(K, 0<sup>128</sup>)
+* 0<sup>128</sup> : 128개의 0으로 구성된 블럭
+
+
+## 메시지 압축 알고리즘
+### Hash
+* Hashing에 의해 만들어진 요약이나 지문
+* CRC와 같이 해당 메시지의 무결성을 보장하기 위해 사용
+### Hashing
+* Message Digest 라고도 불림
+* 주어진 메시지를 정해진 크기의 요약 또는 지문으로 만드는 과정
+### Hash 권장 조건
+* 동일한 메시지에 대해서 동일한 해시가 생성되어야 함
+  * M = N이면 h(M) = h(N)
+* 메시지 M이 주어지면 해시 h(M)을 만드는 것은 매우 쉬워야 함
+* 해시 h(M)이 주어지면 원본 메시지(M)을 찾는 것은 어려워야 함
+  * 단방향성
+* 메시지 M과 해시 h(M)이 주어질 때 h(M)=h(N)이고 M≠N인 N을 찾기 어려워야 함
+  * 약한 충돌 방지
+* h(M) = h(N)이고 M≠N을 만족하는 M과 N을 찾기 어려워야 함
+  * 강한 충돌 방지
+### MD5
+* MD 는 Message Digest의 약자
+* MD, MD2, MD4 다음으로 개발
+* 32 비트 연산으로 구성
+  * 32비트 컴퓨터에서 효율적으로 실행하기 위함
+* 입력메시지는 512비트 크기로 처리 128 비트 크기의 해시 생성
+### MD5의 동작 순서
+* 패딩 (Padding)
+  * 입력된 메시지의 크기를 512bit의 배수에서 64bit 부족한 길이로 패딩
+  * EX) 메시지의 길이 : 600bit
+    * 512*2 = 1024 => 1024 - 64 = 960
+      * 즉 360 bit의 패딩 추가
+* 길이 붙임 (Append length)
+  * 패딩을 붙이기 전의 본래 메시지 크기를 앞서 단계의 결과물에 64bit 사이즈로 붙임
+  * 만약 메시지의 크기가 2<sup>64</sup>보다 클 경우 2<sup>64</sup>로 나눈 나머지 값을 붙임
+  * 길이 붙임으로 인해 전제 메시지는 512bit의 배수가 됨
+* 블록 분할 및 변수 초기화
+  * 길이 붙임을 한 메시지를 512bit의 블록으로 나눔
+  * 해싱에 필요한 4 word buffer를 초기화함
+    * 각 버퍼는 32-bits register
+    * 16진수
+    * low-order bytes first
+* 블록처리
+  * 512bit 길이의 블록을 16개의 32bit 길이의 부분 블록으로 나눔
+  * 16개의 연산을 그룹화한 4라운드로 구성
+  * 각 라운드마다 연산 함수는 다름
+
