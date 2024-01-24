@@ -358,10 +358,10 @@ void Crypt(const Byte *i, int Nr, const Byte *rk, Byte *o)
 * 공개키와 개인키는 암호문을 받는 사람이 만듦
 * 자신에게 암호문을 보낼 사람에게 공개키 배포
 * 노출의 위험성이 매우 적음
-![Alt text](./imag/image-15.png)
+![Alt text](./img/image-15.png)
 * 비대칭키 알고리즘은 크게 2가지 문제의 알고리즘으로 나뉨
   * 소인수 분해, 이산대수
-  ![Alt text](./imag/image-16.png)
+  ![Alt text](./img/image-16.png)
 ## RSA 알고리즘
 ### RSA 개요
 * 전자서명이 가능한 최초의 알고리즘
