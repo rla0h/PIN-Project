@@ -456,6 +456,7 @@ DNP 3.0
 ![Alt text](./img/image-17.png)
 * Aggressive Mode Request
 ![Alt text](./img/image-18.png)
+
 * 사용되는 알고리즘
   * 장치 최소 지원 항목
     * MAC
@@ -472,3 +473,168 @@ DNP 3.0
     * Key Wrap
       * AES-256 key wrap
       * RSAES-OAEP
+
+## DNP3.0 SA (Security Application)
+* Security Function Codes
+  * Three new function codes
+  * Authentication in either direction (양방향 인증)
+  * Receiver descides what must be authenticated
+
+  | Fucntion Code | Name | Description |
+  | :-----------: | :--- | :------ |
+  | 0x20 | Authentication Request | Master -> Outstation |
+  | 0x21 | Authentication Request - NO Ack | Master -> Outstation, no response required (error message only) |
+  | 0x83 | Authentication Response | Outstation -> Master |
+* Basic Authentication Objects
+
+  | Group | Var | Name                       | Transmitted by... |
+  |-------|-----|----------------------------|-------------------|
+  | 120   | 1   | Challenge                  | Either            |
+  | 120   | 2   | Reply                      | Either            |
+  | 120   | 3   | Aggressive Mode Request    | Either            |
+  | 120   | 4   | Session Key Status Request | Master            |
+  | 120   | 5   | Session Key Status         | Outstation        |
+  | 120   | 6   | Session Key Change         | Master            |
+  | 120   | 7   | Error                      | Either            |
+  | 120   | 9   | MAC                        | Either            |
+* Update Key Change Objects
+
+  | Group | Var | Name                                                  | Transmitted by... |
+  |-------|-----|-------------------------------------------------------|-------------------|
+  | 120   | 7   | Error                                                 | Either            |
+  | 120   | 8   | User Certificate (asymmetric methods only)            | Master            |
+  | 120   | 10  | User Status Change                                    | Master            |
+  | 120   | 11  | Update Key Change Request                             | Master            |
+  | 120   | 12  | Update Key Change Reply                               | Outstation        |
+  | 120   | 13  | Update Key Change                                     | Master            |
+  | 120   | 14  | Update Key Change Signature (asymmetric methods only) | Master            |
+  | 120   | 15  | Update Key Change Confirmation                        | Either            |
+* Statistics Objects
+
+  | Group | Var | Name                                                 | Transmitted by... |
+  |-------|-----|------------------------------------------------------|-------------------|
+  | 121   | 1   | Security Statistic - 32-bit with Flag                | Outstation        |
+  | 122   | 1   | Security Statistic Event - 32-bit with flag          | Outstation        |
+  | 122   | 2   | Security Statistic Event - 32-bit with flag and time | Outstation        |
+
+* Challenge - Reply
+  * Either end can challenge (어느쪽이든 challenge가 될 수 있음)
+  * Receiver defines which functions are considered "critical"
+  * Challenge contains
+    * Pseudo-random data (유사 난수 데이터)
+    * Sequence Number
+    * Required algorithm
+  * Reply contains
+    * Message Authentication Code (MAC) value based on the challenge and the key
+    * Sequence number
+* Aggressive Mode
+  * DNP3 메시지에 인증데이터가 포함
+  * 약간 덜 안전함
+  * 낮은 대역폭 사용
+  * challenge-reply가 먼저 요구
+  ![Alt text](./img/image-19.png)
+* Agressive Mode Message
+  * Normal DNP3 data "sandwiched" betwwen security objects
+  * Normal function code used
+  * Test sets can "skip over" the security objects
+  * Qualifier 0x1B is used
+  ![Alt text](./img/image-20.png)
+* 인증요청에 사용되는 오브젝트 구조
+![Alt text](./img/image-26.png)
+* Aggressive Mode Request에 사용되는 오브젝트 구조
+![Alt text](./img/image-27.png)
+  * Challenge Sequence Number : 인증 시퀀스
+  * User Number : 사용자 정보
+  * MAC Algorithm : HMAC(Keyed-Hash Message Authentication Code) 알고리즘 정보
+  * Reason for Challenge : HMAC 계산에 사용할 데이터 지정, 1인 경우 인증 요청 메시지와 Critical ASDU를 이용해 HMAC을 계산
+  * Challenge DATA : 랜덤 값, 최소 4바이트 이상 사용
+* 인증 요청 메시지를 수신한 인증 검증자(Responder)는 지정된 데이터로 HMAC을 계산한 후 인증 응답 메시지(Authentication Response)를 전송
+* 인증요구자는 수신한 HMAC과 직접 계산한 HMAC을 비교하여 일치하는 경우 Critical ASDU를 처리
+* 적극적 모드에서 인증 검증자는 Critical ASDU 전송 시 인증정보도 함께 전송
+* 적극적 모드에서 세션키 변경 후 첫 번째 Critical ASDU는 시도 응답 모드로 인증을 거쳐야 한다.
+* 인증 검증자는 이 때 수신한 인증 요청 메시지와 전송하고자 하는 적극적 모드에서의 요청 메시지(Aggressive Mode Request)를 이용해 HMAC을 계산한다.
+* Changing Session Key
+  * Two Types of keys in SAv2
+  * Session keys
+    * MAC 계산에 사용
+    * 시작시 초기화 됨
+    * 약 10분마다 교체됨
+    * 방향 마다 다름
+  * Update Keys
+    * Used to encrypt session keys
+    * Pre-shared (사전 공유됨)
+  * Keys encrypted using Advanced Encryption Standard(AES) "key wrap"
+  * Key change incorporates challenge-reply
+  ![Alt text](./img/image-21.png)
+* Communications Failure
+  * Keys are reset when protocol times out
+  ![Alt text](./img/image-22.png)
+* Initialization
+  * Initialize session keys in both directions
+  * Complete the initial challenge-reply sequence
+* Error Messages
+  * 디버깅에 사용됨
+  * 일반적으로 한쪽에서 잘못 구성되었을때 알림
+  * 에러 메시지에는 text msg 와 시간이 포함되어 있음
+  * 대체 링크로도 전송이 가능
+  * Error message가 공격적일수도 있기 때문에, 임계값에 도달한 후에는 전송을 중지
+  * Error Message 목록
+    1. Authentication failed
+    2. Unexpected response. NO LONGER SUPPORTED
+    3. No response. NO LONGER SUPPORTED
+    4. Aggressive Mode
+    5. MAC algorithm not supported
+    6. Key Wrap algorithm no supported
+    7. Authorization failed
+    8. Update Key Change Method not permitted
+    9. Invalid Signature
+    10. Invalid Certification Data
+    11. Unknown User
+    12. Max Session Key Status Requests Exceeded
+    13. ~ 127 : reservd for future standardization
+    14. 128~255 : private range for definition by each vendor
+* Users
+  * DNP3 보안 인증은 Master에 많은 사용자가 있을 수 있다고 가정
+  * 각 사용자는 각 방향에서 현재 활성화된 자신만의 세션키를 보유하고 있음
+  * 각 사용자에게는 세션 키 변경을 위한 업데이트 키, 사용자 이름(text 문자열), 비대칭 암호화가 사용되는 경우 공개 키, 역할(예: Operator or Engineer)이 있다.
+  * 각 역할에는 데이터 읽기, 제어 조작 또는 파일 전송 실행과 같은 고유한 권한 세트가 있다.
+  * 또한 각 역할 할당에는 만료 간격이 있다.
+  ![Alt text](./img/image-23.png)
+* Managing Users
+  * Authority
+    * Outstation이 어떤 사용자를 수용해야하는지 결정
+    * 사용자가 가질 수 있는 역할 선택
+    * 사용자의 권한이 지속되는 기간 결정
+  * Master
+    * Authority의 선택들을 적절한 Outstation에 전달한다.
+    * 이 선택은 수정할 수 없다.
+  * Outstaion
+    * Master 및 Authority을 인증
+    * Authority의 선택을 이행
+    * 각 사용자에게 짧은 사용자 번호를 할당
+  ![Alt text](./img/image-24.png)
+* User Numbers
+  * 사용자 번호는 특정 사용자를 나타내지만 모든 사용자를 대신하여 Master가 많은 기능을 수행한다.
+  * 사용자 번호는 고유한 연결에서만 유효
+  * Oustation은 어떤 사용자에게 Challenge 하는지 모른다.
+  * Oustation은 모든 사용자에게 응답과 원치 않는 응답을 보낸다.
+  ![Alt text](./img/image-25.png)
+
+## DNP 3.0 Secure Authentication (PPT Ver)
+* DNP3 표준에서는 Secure Authentication을 통해 challenge-response 방식과 HMAC을 이용한 인증 방법과 HMAC 알고리즘에서 사용할 세션키를 분배하는 키 분배 방법을 제시
+* Secure Authentication은 인증을 통해 Master에서 Oustation으로 전송하는 제어 명령과 같은 중요한 메시지 (Critical ASDU)들을 보호
+* 특징
+  * 인증 기능만 제공
+  * 사전 공유키
+  * Challenge-Response 방식 인증
+  * Aggressive mode 지원
+  * 키 관리
+    * 감시용 세션키
+    * 제어용 세션키
+    * 업데이트키
+* DNP 3.0 보안 데이터 구조
+  * Function Code and Object Group
+  ![Alt text](./img/image-28.png)
+  ![Alt text](./img/image-29.png)
+* DNP 3.0 프로토콜 취약성 예제
+![Alt text](./img/image-30.png)
