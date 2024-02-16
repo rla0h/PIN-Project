@@ -166,7 +166,6 @@
     * LN에 포함되는 DO, DA에 대한 타입들을 포함
 * SCL 파일은 4가지 형태로 작성
   * IED 구성정보를 표현하는 ICD(IED Capability Description files), 변전소의 물리적인 시스템 구성정보를 표현하는 SSD(System Specification Description files), IED를 포함한 변전소 전체의 구성정보를 표현하는 SCD(Substation Configuration Description files), 해당 변전소에서 세팅된 IED 구성정보를 표현하는 CID(Configured IED Description files)이 있다.
-* 
 * Data Class (defined in 7-2)
   * Data Class는 Logical Node에 포함된 품질 정보 및 타임스탬프가 있는 스위치 위치와 같은 입력된 정보를 지정하는 수단을 제공
 * CDCs (defined in 7-3)
@@ -177,4 +176,3 @@
 * Logical Nodes (defined in 7-4)
   * Logical Node (LN)은 CDC(CompositeCDC or SimpleCDC) 각각의 종류로 정의된 Data Objects(DO)의 집합이다
   * part 7-4에서는 Logical Nodes의 규정, Data Names, 추가로 Attributes 의미까지 정의되어 있다.
-  * 
