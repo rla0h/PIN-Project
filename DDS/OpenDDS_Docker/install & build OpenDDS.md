@@ -309,7 +309,7 @@ spec:
   # to use CI/CD I apply tcp.ini (편리하게 하기 위해서 CI/CD)
   $ cat > tcp.ini
   [common]
-i  DCPSInfoRepo=10.99.229.105:1212
+  DCPSInfoRepo=10.99.229.105:1212
   DCPSGlobalTransportConfig=$file
   #DCPSBitTransportIPAddress=10.98.132.8
   DCPSBitTransportPort=1223 (Sub_Service_port say to repo 리포지토리에게 자신의 트를 알리기 위해)
@@ -317,7 +317,7 @@ i  DCPSInfoRepo=10.99.229.105:1212
   [transport/1]
   transport_type=tcp
   $ java -ea -cp classes:/DDS/NWT/lib/*:/DDS/NWT/bin:classes -Djava.library.path=$DDS_ROOT/lib NWT_TestSubscriber -DCPSConfigFile tcp.ini -DCPSTransportDebugLevel 0 -r
-  ```v
+  ```
 
 * If you change DB_HOST_IP
   ```bash

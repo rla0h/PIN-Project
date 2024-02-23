@@ -158,15 +158,15 @@ DNP 3.0
   * 메시지 확인
   * 중복 메시지 검사
   * 순서 번호
-  * FIR field -> Frame Identifier ?
+  * FIR field -> First
     * single bit
     * FIR = 0 : 첫번째 fragment가 아님
     * FIR = 1 : 첫번째 fragment
-  * FIN field -> Finish
+  * FIN field -> Final
     * Single bit
     * FIN = 0 : more fragments
     * FIN = 1 : fragment의 마지막
-  * CON field -> Confirmation
+  * CON field -> Confirm
     * Single bit
     * CON = 0 : Confirmation Message 반환 필요없음
     * CON = 1 : Confirmation Message 반환 요구
