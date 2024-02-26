@@ -1,11 +1,16 @@
 Greenplum Database Installation
 ---
+- [Refsite](#refsite)
 - [Config](#config)
 - [Install Greenplum DB dev](#install-greenplum-db-dev)
 - [Modify hostname \& hostfile](#modify-hostname--hostfile)
 - [Configure GreenPlum DB](#configure-greenplum-db)
 
 ---
+# Refsite
+* https://www.greenplumdba.com/installing-the-greenplum-database
+* https://docs.vmware.com/en/VMware-Greenplum/6/greenplum-database/install_guide-install_gpdb.html#topic_install
+
 # Config
 * OS(Master, Seg1, Seg2)
   * Ubuntu 18.04 LTS
