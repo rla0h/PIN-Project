@@ -150,7 +150,15 @@ select * from gp_segment_configuration;
 \q
 ```
 
-* if you restart
+* 컴퓨터 재부팅 했을 시
 ```
 gpstart
+```
+* pg_hba.conf file path
+```
+/home/pin/data/master/seg-1/
+```
+* gpdb reload
+```bash
+gpstop -u
 ```
