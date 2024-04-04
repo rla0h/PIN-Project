@@ -1,0 +1,40 @@
+module Fep_module {
+    const long UnitSymbol_m = 2;
+    const long UnitSymbol_ohm = 30;
+    const long UnitMultiplier_z = -21;
+    const long UnitMultiplier_micro = -6;
+    const long UnitMultiplier_m_lower = -3;
+    const long UnitMultiplier_M_upper = 6;
+    const long UnitMultiplier_none = 0;
+
+    struct Length {
+        string unit;            
+        string multiplier;  
+        float value;
+    };
+
+    typedef Length Reactance;
+
+    typedef Length Resistance;
+
+    struct IdentifiedObject {
+        string description;
+        string mRID;
+        string name;
+        string aliasName;
+    };
+
+    struct Fep {
+        IdentifiedObject io;
+        Length l;
+    };
+
+    /* Topic */
+
+    @topic
+    struct FepTopic {
+        Fep f;
+        @key
+        long topicCount;
+    };
+};
