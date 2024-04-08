@@ -60,7 +60,9 @@ udo ./configure --verbose --java --doc-group3 --rapidjson --features=java_pre_jp
   * 구현 목표인 IDL을 재빌드 하지 않고, JSON 파싱과는 거리가 멈..
 
 # User JSON Encoder/Decoder
-* OpenDDS에서 제공해주는 클래스로는 적합 하지 않아 JSON 직접 구현
+* OpenDDS에서 제공해주는 클래스로는 적합 하지 않아 JSON Library를 사용하여 직접 구현
+* [JSON Library jar Path](https://www.json.org/json-en.html)
+  * 이곳에서 jar파일을 받아 import
 * JSON 파일을 불러온 후 message 객체에 불러온 json 그대로 넣어주면 JSON 형식으로 Subscriber에 전송해줌
 * 원하는 값만 출력하거나 DB 저장을 편하게 하기 위해...
   * Subscriber에서 받은 JSON을 DDS Encoder 클래스를 사용하여 String 형식으로 변경
