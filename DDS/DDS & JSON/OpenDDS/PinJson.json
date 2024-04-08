@@ -1,0 +1,13 @@
+{
+    "IdentifiedObject" : {
+        "description" : "PowerSystem Resource Topic",
+        "mRID" : "DDS1",
+        "name" : "IDLTOPIC",
+        "aliasName" : "DDS IDL Class Topic"
+    },
+    "Length" : {
+        "unit" : "PowerSystem Length",
+        "multiplier" : "DDS2",
+        "value" : 0.5
+    }
+}
