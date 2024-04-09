@@ -46,3 +46,5 @@ apt-get update
 
 apt-get install -y kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
+
+# bash auto-create https://kubernetes.io/ko/docs/tasks/tools/included/optional-kubectl-configs-bash-linux/
