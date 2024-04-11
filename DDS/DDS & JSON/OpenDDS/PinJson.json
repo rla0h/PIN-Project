@@ -1,13 +1,43 @@
 {
-    "IdentifiedObject" : {
-        "description" : "PowerSystem Resource Topic",
-        "mRID" : "DDS1",
-        "name" : "IDLTOPIC",
-        "aliasName" : "DDS IDL Class Topic"
+    "ACLineSegment" : {
+        "r" : {
+            "lr" : {
+                "unit" : 0,
+                "multi" : 2,
+                "value" : 0.2
+            }
+        },
+        "r0" : {
+            "lr0" : {
+                "unit" : 1,
+                "multi" : -1,
+                "value" : 0.5
+            }
+        },
+        "x" : {
+            "lx" : {
+                "unit" : 1,
+                "multi" : -3,
+                "value" : 1.2
+            }
+        },
+        "x0" : {
+            "lx0" : {
+                "unit" : -2,
+                "multi" : 3,
+                "value" : 2.5
+            }
+        },
+        "c" : {
+            "length" : 30
+        }
     },
-    "Length" : {
-        "unit" : "PowerSystem Length",
-        "multiplier" : "DDS2",
-        "value" : 0.5
+    "ACDCTerminal" : {
+        "io" : {
+            "description" : "This is ACDCTerminal",
+            "mRID" : 240409,
+            "name" : "Data",
+            "aliasName" : "PowerName"
+        }
     }
 }
