@@ -83,3 +83,25 @@ status:
 * 외부에서 http://ip:30090 으로 접속시 Promethus UI 확인 가능
 * http://ip:31000으로 접속하여 Grafana 접속
   * New Connnection (New data source0) => Prometheus 선택 => http://ip:30090 입력 후 Grafana와 연동
+
+### Edit Grafana.ini
+* /kube-prometheus-stack/charts/grafana 에 values.yaml 보면 grafana.ini 파일 설정할 수 있음
+* 예를 들어 dashboard refresh rate가 1초가 최소인데, 250ms로 바꾸고 싶다? 아래처럼
+```yaml
+grafana.ini:
+dashboards:  # add
+  min_refresh_interval: 250ms # add
+paths:
+  data: /var/lib/grafana/
+  logs: /var/log/grafana
+  plugins: /var/lib/grafana/plugins
+  provisioning: /etc/grafana/provisioning
+analytics:
+  check_for_updates: true
+log:
+  mode: console
+grafana_net:
+  url: https://grafana.net
+server:
+  domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
+```

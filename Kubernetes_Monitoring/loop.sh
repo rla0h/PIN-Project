@@ -4,7 +4,7 @@
 while :
 do
    echo "Starting OpenDDS Publisher (^C to quit)"
-   java -ea -cp classes:/fep_OpenDDS/classes/Fep_module/*:/fep_OpenDDS/lib/*:.:classes -Djava.library.path=/fep_OpenDDS/lib FEP_Publisher -DCPSConfigFile tcp.ini -r
+   java -ea -cp classes:/fep_OpenDDS/Fep_module/*:/fep_OpenDDS/lib/*:.:classes -Djava.library.path=/fep_OpenDDS/lib FEP_Publisher -DCPSConfigFile tcp.ini -r
    sleep 5
 done
 
@@ -14,7 +14,7 @@ done
 while :
 do
    echo "Starting OpenDDS Subscriber (^C to quit)"
-   java -ea -cp classes:/fep_OpenDDS/classes/Fep_module/*:/fep_OpenDDS/lib/*:.:classes -Djava.library.path=/fep_OpenDDS/lib FEP_Subscriber -DCPSConfigFile tcp.ini -r
+   java -ea -cp classes:/fep_OpenDDS/Fep_module/*:/fep_OpenDDS/lib/*:.:classes -Djava.library.path=/fep_OpenDDS/lib FEP_Subscriber -DCPSConfigFile tcp.ini -r
    sleep 5
 done
 
@@ -72,5 +72,14 @@ while :
 do
    echo "Starting DNPMaster (^C to quit)"
    ./DNPMaster    
+   sleep 3 
+done
+
+# DNPSlave
+#! /usr/bin/bash
+while :
+do
+   echo "Starting DNPSlave (^C to quit)"
+   ./DNPSlave     
    sleep 3 
 done

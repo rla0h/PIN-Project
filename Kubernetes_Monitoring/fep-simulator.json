@@ -35,24 +35,94 @@
           "type": "prometheus",
           "uid": "prometheus"
         },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unitScale": true
+          },
+          "overrides": []
+        },
         "gridPos": {
-          "h": 3,
-          "w": 5,
+          "h": 2,
+          "w": 2,
           "x": 0,
           "y": 0
         },
         "id": 126,
         "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
+          "SVGBaseFix": true,
+          "add100Percentage": true,
+          "calcsMutation": "standard",
+          "centerAlignContent": true,
+          "codeData": "{\n  \"text\": \"Random text\"\n}",
+          "css": "body {\n    margin: 0;\n    font-family: 'Arial', sans-serif;\n    background-color: #f4f4f4;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    text-align: center;\n}\n\n.center-container {\n    text-align: center;\n}\n\n.button {\n    background-color: transparent;\n    color: green;\n    padding: 7px 15px;\n    font-size: 20px;\n    border: 5px solid #87CEEB;\n    border-radius: 5px;\n    text-decoration: none;\n    transition: color 0.3s, border-color 0.3s;\n}\n\n.button:hover {\n    color: #87CEEB;\n    border-color: #6495ED;\n}\n",
+          "dynamicData": false,
+          "dynamicFieldDisplayValues": false,
+          "dynamicHtmlGraphics": false,
+          "dynamicProps": false,
+          "html": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <b><title>Button Styled Link</title><b>\n</head>\n<body>\n    <div class=\"center-container\">\n        <a href=\"/d/fffe0861-97d0-45f8-b53e-db4572a358d7/3c-ee80a0-home?orgId=1&refresh=250ms\" class=\"button\"><< Global</a>\n    </div>\n</body>\n</html>",
+          "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+          "onInitOnResize": false,
+          "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+          "overflow": "visible",
+          "panelupdateOnMount": true,
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull",
+              "last",
+              "firstNotNull",
+              "first",
+              "min",
+              "max",
+              "mean",
+              "sum",
+              "count",
+              "range",
+              "delta",
+              "step",
+              "diff",
+              "logmin",
+              "allIsZero",
+              "allIsNull",
+              "diffperc"
+            ]
           },
-          "content": "<b><span style=\"font-size:300%\">\n[👈Home](/d/fffe0861-97d0-45f8-b53e-db4572a358d7/3c-ee80a0-home?orgId=1&refresh=250ms)\n</span></b>",
-          "mode": "markdown"
+          "renderOnMount": true,
+          "rootCSS": "",
+          "useGrafanaScrollbar": true
         },
         "pluginVersion": "10.3.3",
-        "type": "text"
+        "type": "gapit-htmlgraphics-panel"
+      },
+      {
+        "gridPos": {
+          "h": 4,
+          "w": 24,
+          "x": 0,
+          "y": 2
+        },
+        "id": 151,
+        "libraryPanel": {
+          "name": "Dashboard_Title",
+          "uid": "e94bc9c2-bf48-4607-a804-c6f9af145f36"
+        },
+        "title": ""
       },
       {
         "collapsed": true,
@@ -60,7 +130,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 3
+          "y": 6
         },
         "id": 96,
         "panels": [
@@ -104,7 +174,7 @@
               "h": 6,
               "w": 6,
               "x": 0,
-              "y": 4
+              "y": 7
             },
             "id": 56,
             "options": {
@@ -174,9 +244,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
+              "w": 5,
               "x": 6,
-              "y": 4
+              "y": 7
             },
             "id": 134,
             "options": {
@@ -211,7 +281,7 @@
                 "refId": "A"
               }
             ],
-            "title": "Pod IP",
+            "title": "IP",
             "type": "stat"
           },
           {
@@ -245,9 +315,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
-              "x": 10,
-              "y": 4
+              "w": 5,
+              "x": 11,
+              "y": 7
             },
             "id": 136,
             "options": {
@@ -319,7 +389,7 @@
                     {
                       "id": "color",
                       "value": {
-                        "fixedColor": "red",
+                        "fixedColor": "text",
                         "mode": "fixed"
                       }
                     }
@@ -344,9 +414,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
-              "x": 14,
-              "y": 4
+              "w": 5,
+              "x": 16,
+              "y": 7
             },
             "id": 132,
             "options": {
@@ -415,9 +485,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 6,
-              "x": 18,
-              "y": 4
+              "w": 3,
+              "x": 21,
+              "y": 7
             },
             "id": 130,
             "options": {
@@ -451,7 +521,7 @@
                 "refId": "A"
               }
             ],
-            "title": "Last Terminated Exit Code",
+            "title": "Exit Code",
             "type": "stat"
           },
           {
@@ -523,7 +593,7 @@
               "h": 8,
               "w": 18,
               "x": 6,
-              "y": 8
+              "y": 11
             },
             "id": 53,
             "options": {
@@ -610,7 +680,7 @@
               "h": 6,
               "w": 6,
               "x": 0,
-              "y": 10
+              "y": 13
             },
             "id": 117,
             "options": {
@@ -659,7 +729,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 4
+          "y": 7
         },
         "id": 127,
         "panels": [
@@ -702,7 +772,7 @@
               "h": 6,
               "w": 6,
               "x": 0,
-              "y": 5
+              "y": 8
             },
             "id": 87,
             "options": {
@@ -771,9 +841,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
+              "w": 5,
               "x": 6,
-              "y": 5
+              "y": 8
             },
             "id": 137,
             "options": {
@@ -808,7 +878,7 @@
                 "refId": "A"
               }
             ],
-            "title": "Pod IP",
+            "title": "IP",
             "type": "stat"
           },
           {
@@ -841,9 +911,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
-              "x": 10,
-              "y": 5
+              "w": 5,
+              "x": 11,
+              "y": 8
             },
             "id": 140,
             "options": {
@@ -914,7 +984,7 @@
                     {
                       "id": "color",
                       "value": {
-                        "fixedColor": "red",
+                        "fixedColor": "text",
                         "mode": "fixed"
                       }
                     }
@@ -939,9 +1009,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
-              "x": 14,
-              "y": 5
+              "w": 5,
+              "x": 16,
+              "y": 8
             },
             "id": 141,
             "options": {
@@ -1009,9 +1079,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 6,
-              "x": 18,
-              "y": 5
+              "w": 3,
+              "x": 21,
+              "y": 8
             },
             "id": 142,
             "options": {
@@ -1045,7 +1115,7 @@
                 "refId": "A"
               }
             ],
-            "title": "Last Terminated Exit Code",
+            "title": "Exit Code",
             "type": "stat"
           },
           {
@@ -1114,7 +1184,7 @@
               "h": 8,
               "w": 18,
               "x": 6,
-              "y": 9
+              "y": 12
             },
             "id": 69,
             "options": {
@@ -1200,7 +1270,7 @@
               "h": 6,
               "w": 6,
               "x": 0,
-              "y": 11
+              "y": 14
             },
             "id": 118,
             "options": {
@@ -1249,7 +1319,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 5
+          "y": 8
         },
         "id": 97,
         "panels": [
@@ -1292,7 +1362,7 @@
               "h": 6,
               "w": 6,
               "x": 0,
-              "y": 6
+              "y": 18
             },
             "id": 89,
             "options": {
@@ -1361,9 +1431,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
+              "w": 5,
               "x": 6,
-              "y": 6
+              "y": 18
             },
             "id": 143,
             "options": {
@@ -1398,7 +1468,7 @@
                 "refId": "A"
               }
             ],
-            "title": "Pod IP",
+            "title": "IP",
             "type": "stat"
           },
           {
@@ -1431,9 +1501,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
-              "x": 10,
-              "y": 6
+              "w": 5,
+              "x": 11,
+              "y": 18
             },
             "id": 144,
             "options": {
@@ -1504,7 +1574,7 @@
                     {
                       "id": "color",
                       "value": {
-                        "fixedColor": "red",
+                        "fixedColor": "text",
                         "mode": "fixed"
                       }
                     }
@@ -1529,9 +1599,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
-              "x": 14,
-              "y": 6
+              "w": 5,
+              "x": 16,
+              "y": 18
             },
             "id": 145,
             "options": {
@@ -1599,9 +1669,9 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 6,
-              "x": 18,
-              "y": 6
+              "w": 3,
+              "x": 21,
+              "y": 18
             },
             "id": 146,
             "options": {
@@ -1635,7 +1705,7 @@
                 "refId": "A"
               }
             ],
-            "title": "Last Terminated Exit Code",
+            "title": "Exit Code",
             "type": "stat"
           },
           {
@@ -1704,7 +1774,7 @@
               "h": 8,
               "w": 18,
               "x": 6,
-              "y": 10
+              "y": 22
             },
             "id": 71,
             "options": {
@@ -1790,7 +1860,7 @@
               "h": 6,
               "w": 6,
               "x": 0,
-              "y": 12
+              "y": 24
             },
             "id": 119,
             "options": {
@@ -1839,7 +1909,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 6
+          "y": 9
         },
         "id": 128,
         "panels": [
@@ -1951,7 +2021,7 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
+              "w": 5,
               "x": 6,
               "y": 19
             },
@@ -1988,7 +2058,7 @@
                 "refId": "A"
               }
             ],
-            "title": "Pod IP",
+            "title": "IP",
             "type": "stat"
           },
           {
@@ -2021,8 +2091,8 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
-              "x": 10,
+              "w": 5,
+              "x": 11,
               "y": 19
             },
             "id": 148,
@@ -2094,7 +2164,7 @@
                     {
                       "id": "color",
                       "value": {
-                        "fixedColor": "red",
+                        "fixedColor": "text",
                         "mode": "fixed"
                       }
                     }
@@ -2119,8 +2189,8 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 4,
-              "x": 14,
+              "w": 5,
+              "x": 16,
               "y": 19
             },
             "id": 149,
@@ -2189,8 +2259,8 @@
             },
             "gridPos": {
               "h": 4,
-              "w": 6,
-              "x": 18,
+              "w": 3,
+              "x": 21,
               "y": 19
             },
             "id": 150,
@@ -2225,7 +2295,7 @@
                 "refId": "A"
               }
             ],
-            "title": "Last Terminated Exit Code",
+            "title": "Exit Code",
             "type": "stat"
           },
           {
@@ -2529,6 +2599,6 @@
     "timezone": "Asia/Yangon",
     "title": "FEP Simulator",
     "uid": "ef6239be-54c6-456a-970f-04699264613f",
-    "version": 8,
+    "version": 31,
     "weekStart": ""
   }
