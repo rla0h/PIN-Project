@@ -26,7 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 18283,
   "graphTooltip": 0,
-  "id": 36,
+  "id": 32,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -72,12 +72,12 @@
         "calcsMutation": "standard",
         "centerAlignContent": true,
         "codeData": "{\n  \"text\": \"Random text\"\n}",
-        "css": "body {\n    margin: 0;\n    font-family: 'Arial', sans-serif;\n    background-color: #f4f4f4;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    text-align: center;\n}\n\n.center-container {\n    text-align: center;\n}\n\n.button {\n    background-color: transparent;\n    color: green;\n    padding: 7px 15px;\n    font-size: 20px;\n    border: 5px solid #87CEEB;\n    border-radius: 5px;\n    text-decoration: none;\n    transition: color 0.3s, border-color 0.3s;\n}\n\n.button:hover {\n    color: #87CEEB;\n    border-color: #6495ED;\n}\n",
+        "css": "body {\n    margin: 0;\n    font-family: 'Arial', sans-serif;\n    background-color: #f4f4f4;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    text-align: center;\n}\n\n.center-container {\n    text-align: center;\n}\n\n.button {\n    background-color: transparent;\n    color: green;\n    padding: 7px 15px;\n    font-size: 20px;\n    border: 5px;\n    border-radius: 5px;\n    text-decoration: none;\n    transition: color 0.3s, border-color 0.3s;\n}\n\n.button:hover {\n    color: #87CEEB;\n    border-color: #6495ED;\n}\n",
         "dynamicData": false,
         "dynamicFieldDisplayValues": false,
         "dynamicHtmlGraphics": false,
         "dynamicProps": false,
-        "html": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <b><title>Button Styled Link</title><b>\n</head>\n<body>\n    <div class=\"center-container\">\n        <a href=\"/d/fffe0861-97d0-45f8-b53e-db4572a358d7/3c-ee80a0-home?orgId=1&refresh=250ms\" class=\"button\"><< Global</a>\n    </div>\n</body>\n</html>",
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <b><title>Button Styled Link</title><b>\n</head>\n<body>\n    <div class=\"center-container\">\n        <a href=\"/d/fffe0861-97d0-45f8-b53e-db4572a358d7/3c-ee80a0-home?orgId=1&refresh=250ms\" class=\"button\">< Global</a>\n    </div>\n</body>\n</html>",
         "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
         "onInitOnResize": false,
         "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
@@ -109,6 +109,7 @@
         "useGrafanaScrollbar": true
       },
       "pluginVersion": "10.3.3",
+      "transparent": true,
       "type": "gapit-htmlgraphics-panel"
     },
     {
@@ -142,9 +143,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 24,
-        "x": 0,
-        "y": 2
+        "w": 19,
+        "x": 2,
+        "y": 0
       },
       "id": 178,
       "options": {
@@ -153,7 +154,7 @@
         "calcsMutation": "standard",
         "centerAlignContent": true,
         "codeData": "{\n  \"text\": \"Random text\"\n}",
-        "css": "/* styles.css */\r\nbody {\r\n    margin: 0;\r\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n    background-color: #eaeaea;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 100vh;\r\n    color: #333;\r\n}\r\n\r\n.elegant-title {\r\n    font-size: 60px;\r\n    color: #5e81ac;\r\n    border-bottom: 4px solid #88c0d0;\r\n    padding-bottom: 10px;\r\n    margin: 20px;\r\n    letter-spacing: 2px;\r\n    transition: color 0.5s ease;\r\n}\r\n\r\n.elegant-title:hover {\r\n    color: #88c0d0;\r\n}\r\n",
+        "css": "/* styles.css */\r\nbody {\r\n    margin: 0;\r\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n    background-color: #eaeaea;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 100vh;\r\n    color: #333;\r\n}\r\n\r\n.elegant-title {\r\n    font-size: 60px;\r\n    color: #0052b7;\r\n    border-bottom: 4px solid #88c0d0;\r\n    padding-bottom: 10px;\r\n    margin: 20px;\r\n    letter-spacing: 2px;\r\n    transition: color 0.5s ease;\r\n}\r\n\r\n.elegant-title:hover {\r\n    color: #88c0d0;\r\n}\r\n",
         "dynamicData": false,
         "dynamicFieldDisplayValues": false,
         "dynamicHtmlGraphics": false,
@@ -190,6 +191,7 @@
         "useGrafanaScrollbar": true
       },
       "pluginVersion": "10.3.3",
+      "transparent": true,
       "type": "gapit-htmlgraphics-panel"
     },
     {
@@ -198,10 +200,75 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 4
       },
       "id": 99,
       "panels": [
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 6,
+            "x": 0,
+            "y": 5
+          },
+          "id": 182,
+          "libraryPanel": {
+            "name": "CPU Usage_2",
+            "uid": "e57aa9fe-254e-4453-9837-97dd5bcf4682"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 6,
+            "y": 5
+          },
+          "id": 184,
+          "libraryPanel": {
+            "name": "Container IP_2",
+            "uid": "f3d86462-1d23-4aaa-8fff-517264aff5a5"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 5,
+            "x": 10,
+            "y": 5
+          },
+          "id": 192,
+          "libraryPanel": {
+            "name": "Running on(Node)",
+            "uid": "cf54dd58-3d99-4fe7-a169-a898a2e6f18c"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 15,
+            "y": 5
+          },
+          "id": 190,
+          "libraryPanel": {
+            "name": "QoS Class",
+            "uid": "d08f87c7-d330-4547-b3b8-44d571661c58"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 5,
+            "x": 19,
+            "y": 5
+          },
+          "id": 194,
+          "libraryPanel": {
+            "name": "Terminated Reason",
+            "uid": "b6ef0588-bb0f-4b25-a957-e9d597e4f3b4"
+          }
+        },
         {
           "datasource": {
             "type": "prometheus",
@@ -220,7 +287,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "#EAB839",
@@ -241,7 +309,7 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 28
+            "y": 7
           },
           "id": 92,
           "options": {
@@ -277,7 +345,6 @@
               "refId": "A"
             }
           ],
-          "title": "CIM Module CPU Usage",
           "type": "gauge"
         },
         {
@@ -295,7 +362,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -308,10 +376,10 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 4,
-            "w": 5,
+            "h": 1,
+            "w": 4,
             "x": 6,
-            "y": 28
+            "y": 7
           },
           "id": 139,
           "options": {
@@ -327,6 +395,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -339,14 +410,14 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"cim-module\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"}",
               "instant": true,
               "legendFormat": "{{pod_ip}}",
               "range": false,
               "refId": "A"
             }
           ],
-          "title": "IP",
+          "transparent": true,
           "type": "stat"
         },
         {
@@ -368,7 +439,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "rgb(255, 255, 255)"
+                    "color": "rgb(255, 255, 255)",
+                    "value": null
                   }
                 ]
               },
@@ -378,10 +450,10 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 4,
+            "h": 1,
             "w": 5,
-            "x": 11,
-            "y": 28
+            "x": 10,
+            "y": 7
           },
           "id": 144,
           "options": {
@@ -397,6 +469,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -409,14 +484,14 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"cim-module\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"}",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ node }}",
               "refId": "A"
             }
           ],
-          "title": "Running on(Node)",
+          "transparent": true,
           "type": "stat"
         },
         {
@@ -435,7 +510,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -476,10 +552,10 @@
             ]
           },
           "gridPos": {
-            "h": 4,
-            "w": 5,
-            "x": 16,
-            "y": 28
+            "h": 1,
+            "w": 4,
+            "x": 15,
+            "y": 7
           },
           "id": 145,
           "options": {
@@ -493,6 +569,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -505,14 +584,14 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_status_qos_class{namespace=\"cim-module\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"} > 0",
+              "expr": "kube_pod_status_qos_class{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"} > 0",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ qos_class }}",
               "refId": "A"
             }
           ],
-          "title": "QOS Class",
+          "transparent": true,
           "type": "stat"
         },
         {
@@ -523,20 +602,28 @@
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "mappings": [],
+              "color": {
+                "mode": "thresholds"
+              },
+              "fieldMinMax": false,
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "red",
+                      "index": 0,
+                      "text": "Check the container"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "text"
-                  },
-                  {
                     "color": "red",
-                    "value": 1
-                  },
-                  {
-                    "color": "#EAB839",
-                    "value": 2
+                    "value": null
                   }
                 ]
               },
@@ -546,24 +633,30 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 4,
-            "w": 3,
-            "x": 21,
-            "y": 28
+            "h": 1,
+            "w": 5,
+            "x": 19,
+            "y": 7
           },
-          "id": 142,
+          "id": 197,
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
             "reduceOptions": {
-              "calcs": [],
+              "calcs": [
+                "lastNotNull"
+              ],
               "fields": "",
-              "values": true
+              "values": false
             },
             "showPercentChange": false,
-            "textMode": "value",
+            "text": {
+              "titleSize": 30,
+              "valueSize": 25
+            },
+            "textMode": "auto",
             "wideLayout": true
           },
           "pluginVersion": "10.3.3",
@@ -571,20 +664,69 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${datasource}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
-              "exemplar": false,
-              "expr": "kube_pod_container_status_last_terminated_exitcode{namespace=\"cim-module\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"}",
-              "instant": true,
-              "interval": "",
+              "expr": "count(kube_pod_container_status_terminated_reason{container=\"cimmodule\"}) by (reason)",
+              "instant": false,
               "legendFormat": "__auto",
-              "range": false,
+              "range": true,
               "refId": "A"
             }
           ],
-          "title": "Exit Code",
+          "transparent": true,
           "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 18,
+            "x": 6,
+            "y": 8
+          },
+          "id": 195,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "",
+            "mode": "markdown"
+          },
+          "pluginVersion": "10.3.3",
+          "transparent": true,
+          "type": "text"
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 18,
+            "x": 6,
+            "y": 11
+          },
+          "id": 188,
+          "libraryPanel": {
+            "name": "Pacekts per second",
+            "uid": "dc507cfc-a3f6-4026-ac6c-5e76ae0530a8"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 6,
+            "x": 0,
+            "y": 13
+          },
+          "id": 186,
+          "libraryPanel": {
+            "name": "Memory USage_2",
+            "uid": "f8bf8cf2-b801-479a-b999-d2825a527f28"
+          }
         },
         {
           "datasource": {
@@ -596,7 +738,7 @@
             "defaults": {
               "color": {
                 "fixedColor": "semi-dark-red",
-                "mode": "continuous-GrYlRd"
+                "mode": "palette-classic"
               },
               "custom": {
                 "axisBorderShow": false,
@@ -635,7 +777,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -652,7 +795,7 @@
             "h": 8,
             "w": 18,
             "x": 6,
-            "y": 32
+            "y": 13
           },
           "id": 77,
           "options": {
@@ -676,7 +819,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"cim-module\", pod=~\"cimmodule.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"default\", pod=~\"cimmodule.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Received",
               "range": true,
@@ -689,14 +832,13 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"cim-module\", pod=~\"cimmodule.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"default\", pod=~\"cimmodule.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Transmitted",
               "range": true,
               "refId": "B"
             }
           ],
-          "title": "CIM Module Packets per Second",
           "type": "timeseries"
         },
         {
@@ -716,7 +858,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "#EAB839",
@@ -737,7 +880,7 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 34
+            "y": 15
           },
           "id": 122,
           "options": {
@@ -773,7 +916,6 @@
               "refId": "A"
             }
           ],
-          "title": "CIM Module Memory Usage",
           "type": "gauge"
         }
       ],
@@ -786,10 +928,75 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 5
       },
       "id": 151,
       "panels": [
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 6,
+            "x": 0,
+            "y": 22
+          },
+          "id": 198,
+          "libraryPanel": {
+            "name": "CPU Usage_2",
+            "uid": "e57aa9fe-254e-4453-9837-97dd5bcf4682"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 6,
+            "y": 22
+          },
+          "id": 200,
+          "libraryPanel": {
+            "name": "Container IP_2",
+            "uid": "f3d86462-1d23-4aaa-8fff-517264aff5a5"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 5,
+            "x": 10,
+            "y": 22
+          },
+          "id": 201,
+          "libraryPanel": {
+            "name": "Running on(Node)",
+            "uid": "cf54dd58-3d99-4fe7-a169-a898a2e6f18c"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 15,
+            "y": 22
+          },
+          "id": 202,
+          "libraryPanel": {
+            "name": "QoS Class",
+            "uid": "d08f87c7-d330-4547-b3b8-44d571661c58"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 5,
+            "x": 19,
+            "y": 22
+          },
+          "id": 203,
+          "libraryPanel": {
+            "name": "Terminated Reason",
+            "uid": "b6ef0588-bb0f-4b25-a957-e9d597e4f3b4"
+          }
+        },
         {
           "datasource": {
             "type": "prometheus",
@@ -808,7 +1015,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "#EAB839",
@@ -829,7 +1037,7 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 29
+            "y": 24
           },
           "id": 157,
           "options": {
@@ -856,7 +1064,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"fep-pub-open\"}[1m])))",
+              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"opendds-pub\"}[1m])))",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -865,7 +1073,6 @@
               "refId": "A"
             }
           ],
-          "title": "OpenDDS Pub CPU Usage",
           "type": "gauge"
         },
         {
@@ -884,7 +1091,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -897,10 +1105,10 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 4,
-            "w": 5,
+            "h": 1,
+            "w": 4,
             "x": 6,
-            "y": 29
+            "y": 24
           },
           "id": 147,
           "options": {
@@ -916,6 +1124,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -928,14 +1139,14 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"open-dds\", container=\"kube-state-metrics\", pod=~\"fep-pub-open-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-pub-.*\"}",
               "instant": true,
               "legendFormat": "{{pod_ip}}",
               "range": false,
               "refId": "A"
             }
           ],
-          "title": "IP",
+          "transparent": true,
           "type": "stat"
         },
         {
@@ -957,7 +1168,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "rgb(255, 255, 255)"
+                    "color": "rgb(255, 255, 255)",
+                    "value": null
                   }
                 ]
               },
@@ -967,10 +1179,10 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 4,
+            "h": 1,
             "w": 5,
-            "x": 11,
-            "y": 29
+            "x": 10,
+            "y": 24
           },
           "id": 167,
           "options": {
@@ -986,6 +1198,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -998,14 +1213,14 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"open-dds\", container=\"kube-state-metrics\", pod=~\"fep-pub-open-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-pub-.*\"}",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ node }}",
               "refId": "A"
             }
           ],
-          "title": "Running on(Node)",
+          "transparent": true,
           "type": "stat"
         },
         {
@@ -1024,7 +1239,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -1065,10 +1281,10 @@
             ]
           },
           "gridPos": {
-            "h": 4,
-            "w": 5,
-            "x": 16,
-            "y": 29
+            "h": 1,
+            "w": 4,
+            "x": 15,
+            "y": 24
           },
           "id": 169,
           "options": {
@@ -1082,6 +1298,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -1094,14 +1313,14 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_status_qos_class{namespace=\"open-dds\", container=\"kube-state-metrics\", pod=~\"fep-pub-open-.*\"} > 0",
+              "expr": "kube_pod_status_qos_class{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-pub-.*\"} > 0",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ qos_class }}",
               "refId": "A"
             }
           ],
-          "title": "QOS Class",
+          "transparent": true,
           "type": "stat"
         },
         {
@@ -1112,20 +1331,28 @@
           "description": "",
           "fieldConfig": {
             "defaults": {
-              "mappings": [],
+              "color": {
+                "mode": "thresholds"
+              },
+              "fieldMinMax": false,
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "red",
+                      "index": 0,
+                      "text": "Check the container"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "text"
-                  },
-                  {
                     "color": "red",
-                    "value": 1
-                  },
-                  {
-                    "color": "#EAB839",
-                    "value": 2
+                    "value": null
                   }
                 ]
               },
@@ -1135,24 +1362,30 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 4,
-            "w": 3,
-            "x": 21,
-            "y": 29
+            "h": 1,
+            "w": 5,
+            "x": 19,
+            "y": 24
           },
-          "id": 153,
+          "id": 206,
           "options": {
             "colorMode": "value",
             "graphMode": "none",
             "justifyMode": "auto",
             "orientation": "auto",
             "reduceOptions": {
-              "calcs": [],
+              "calcs": [
+                "lastNotNull"
+              ],
               "fields": "",
-              "values": true
+              "values": false
             },
             "showPercentChange": false,
-            "textMode": "value",
+            "text": {
+              "titleSize": 30,
+              "valueSize": 25
+            },
+            "textMode": "auto",
             "wideLayout": true
           },
           "pluginVersion": "10.3.3",
@@ -1160,20 +1393,69 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${datasource}"
+                "uid": "prometheus"
               },
               "editorMode": "code",
-              "exemplar": false,
-              "expr": "kube_pod_container_status_last_terminated_exitcode{namespace=\"open-dds\", container=\"kube-state-metrics\", pod=~\"fep-pub-open-.*\"}",
-              "instant": true,
-              "interval": "",
+              "expr": "count(kube_pod_container_status_terminated_reason{container=\"opendds-pub\"}) by (reason)",
+              "instant": false,
               "legendFormat": "__auto",
-              "range": false,
+              "range": true,
               "refId": "A"
             }
           ],
-          "title": "Exit Code",
+          "transparent": true,
           "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 18,
+            "x": 6,
+            "y": 25
+          },
+          "id": 204,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "",
+            "mode": "markdown"
+          },
+          "pluginVersion": "10.3.3",
+          "transparent": true,
+          "type": "text"
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 18,
+            "x": 6,
+            "y": 28
+          },
+          "id": 205,
+          "libraryPanel": {
+            "name": "Pacekts per second",
+            "uid": "dc507cfc-a3f6-4026-ac6c-5e76ae0530a8"
+          }
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 6,
+            "x": 0,
+            "y": 30
+          },
+          "id": 199,
+          "libraryPanel": {
+            "name": "Memory USage_2",
+            "uid": "f8bf8cf2-b801-479a-b999-d2825a527f28"
+          }
         },
         {
           "datasource": {
@@ -1185,7 +1467,7 @@
             "defaults": {
               "color": {
                 "fixedColor": "semi-dark-red",
-                "mode": "continuous-GrYlRd"
+                "mode": "palette-classic"
               },
               "custom": {
                 "axisBorderShow": false,
@@ -1224,7 +1506,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1241,7 +1524,7 @@
             "h": 8,
             "w": 18,
             "x": 6,
-            "y": 33
+            "y": 30
           },
           "id": 161,
           "options": {
@@ -1265,7 +1548,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"open-dds\", pod=~\"fep-pub-open.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"default\", pod=~\"opendds-pub-.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Received",
               "range": true,
@@ -1278,14 +1561,13 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"open-dds\", pod=~\"fep-pub-open.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"default\", pod=~\"opendds-pub-.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Transmitted",
               "range": true,
               "refId": "B"
             }
           ],
-          "title": "OpenDDS Pub Packets per Second",
           "type": "timeseries"
         },
         {
@@ -1305,7 +1587,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "#EAB839",
@@ -1326,7 +1609,7 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 35
+            "y": 32
           },
           "id": 159,
           "options": {
@@ -1353,7 +1636,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(container_memory_working_set_bytes{container=\"fep-pub-open\"}) / sum(kube_pod_container_resource_limits{container=\"fep-pub-open\"}) * 100",
+              "expr": "sum(container_memory_working_set_bytes{container=\"opendds-pub\"}) / sum(kube_pod_container_resource_limits{container=\"opendds-pub\"}) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -1362,7 +1645,6 @@
               "refId": "A"
             }
           ],
-          "title": "OpenDDS Pub Memory Usage",
           "type": "gauge"
         }
       ],
@@ -1471,6 +1753,6 @@
   "timezone": "Asia/Yangon",
   "title": "CIM Adaptor",
   "uid": "baecdf1a-86ec-4245-a51a-c8d040370b65",
-  "version": 13,
+  "version": 9,
   "weekStart": ""
 }
