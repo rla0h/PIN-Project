@@ -26,7 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 18283,
   "graphTooltip": 0,
-  "id": 32,
+  "id": 33,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -65,7 +65,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 180,
+      "id": 158,
       "options": {
         "SVGBaseFix": true,
         "add100Percentage": true,
@@ -77,7 +77,7 @@
         "dynamicFieldDisplayValues": false,
         "dynamicHtmlGraphics": false,
         "dynamicProps": false,
-        "html": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <b><title>Button Styled Link</title><b>\n</head>\n<body>\n    <div class=\"center-container\">\n        <a href=\"/d/fffe0861-97d0-45f8-b53e-db4572a358d7/3c-ee80a0-home?orgId=1&refresh=250ms\" class=\"button\">< Global</a>\n    </div>\n</body>\n</html>",
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <b><title>Button Styled Link</title><b>\n</head>\n<body>\n    <div class=\"center-container\">\n        <a href=\"/d/fffe0861-97d0-45f8-b53e-db4572a358d7/3c-ee80a0-home?orgId=1&refresh=250ms\" class=\"button\">< Go Back</a>\n    </div>\n</body>\n</html>",
         "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
         "onInitOnResize": false,
         "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
@@ -143,11 +143,11 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 19,
-        "x": 2,
+        "w": 15,
+        "x": 4,
         "y": 0
       },
-      "id": 178,
+      "id": 156,
       "options": {
         "SVGBaseFix": true,
         "add100Percentage": true,
@@ -159,7 +159,7 @@
         "dynamicFieldDisplayValues": false,
         "dynamicHtmlGraphics": false,
         "dynamicProps": false,
-        "html": "<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>FEP Simulator</title>\r\n</head>\r\n<body>\r\n    <h1 class=\"elegant-title\">CIM Adaptor</h1>\r\n</body>\r\n</html>\r\n",
+        "html": "<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>FEP Simulator</title>\r\n    <link rel=\"stylesheet\" href=\"styles.css\">\r\n</head>\r\n<body>\r\n    <h1 class=\"elegant-title\">WEBIS</h1>\r\n</body>\r\n</html>\r\n",
         "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
         "onInitOnResize": false,
         "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
@@ -202,7 +202,7 @@
         "x": 0,
         "y": 4
       },
-      "id": 99,
+      "id": 129,
       "panels": [
         {
           "gridPos": {
@@ -211,7 +211,7 @@
             "x": 0,
             "y": 5
           },
-          "id": 182,
+          "id": 160,
           "libraryPanel": {
             "name": "CPU Usage_2",
             "uid": "e57aa9fe-254e-4453-9837-97dd5bcf4682"
@@ -224,7 +224,7 @@
             "x": 6,
             "y": 5
           },
-          "id": 184,
+          "id": 162,
           "libraryPanel": {
             "name": "Container IP_2",
             "uid": "f3d86462-1d23-4aaa-8fff-517264aff5a5"
@@ -237,7 +237,7 @@
             "x": 10,
             "y": 5
           },
-          "id": 192,
+          "id": 172,
           "libraryPanel": {
             "name": "Running on(Node)",
             "uid": "cf54dd58-3d99-4fe7-a169-a898a2e6f18c"
@@ -250,7 +250,7 @@
             "x": 15,
             "y": 5
           },
-          "id": 190,
+          "id": 168,
           "libraryPanel": {
             "name": "QoS Class",
             "uid": "d08f87c7-d330-4547-b3b8-44d571661c58"
@@ -263,10 +263,10 @@
             "x": 19,
             "y": 5
           },
-          "id": 194,
+          "id": 192,
           "libraryPanel": {
-            "name": "Terminated Reason",
-            "uid": "b6ef0588-bb0f-4b25-a957-e9d597e4f3b4"
+            "name": "Container_Condition_title",
+            "uid": "cc913cbf-d75e-48d3-891c-9c8a960864d5"
           }
         },
         {
@@ -281,14 +281,13 @@
                 "mode": "thresholds"
               },
               "mappings": [],
-              "max": 100,
+              "max": 97,
               "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "#EAB839",
@@ -306,12 +305,12 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 6,
+            "h": 5,
             "w": 6,
             "x": 0,
             "y": 7
           },
-          "id": 92,
+          "id": 93,
           "options": {
             "minVizHeight": 75,
             "minVizWidth": 75,
@@ -336,7 +335,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"cimmodule\"}[1m])))",
+              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"opendds-sub\"}[1m])))",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -362,8 +361,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -381,7 +379,7 @@
             "x": 6,
             "y": 7
           },
-          "id": 139,
+          "id": 143,
           "options": {
             "colorMode": "none",
             "graphMode": "none",
@@ -410,7 +408,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-sub-.*\"}",
               "instant": true,
               "legendFormat": "{{pod_ip}}",
               "range": false,
@@ -439,8 +437,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "rgb(255, 255, 255)",
-                    "value": null
+                    "color": "rgb(255, 255, 255)"
                   }
                 ]
               },
@@ -455,7 +452,7 @@
             "x": 10,
             "y": 7
           },
-          "id": 144,
+          "id": 148,
           "options": {
             "colorMode": "none",
             "graphMode": "none",
@@ -484,7 +481,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-sub-.*\"}",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ node }}",
@@ -510,8 +507,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -522,7 +518,7 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "Guaranteed"
+                  "options": "Burstable"
                 },
                 "properties": [
                   {
@@ -543,7 +539,7 @@
                   {
                     "id": "color",
                     "value": {
-                      "fixedColor": "orange",
+                      "fixedColor": "green",
                       "mode": "fixed"
                     }
                   }
@@ -557,7 +553,7 @@
             "x": 15,
             "y": 7
           },
-          "id": 145,
+          "id": 149,
           "options": {
             "colorMode": "value",
             "graphMode": "none",
@@ -584,7 +580,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_status_qos_class{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"cimmodule-.*\"} > 0",
+              "expr": "kube_pod_status_qos_class{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-sub-.*\"} > 0",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ qos_class }}",
@@ -595,87 +591,17 @@
           "type": "stat"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "fieldMinMax": false,
-              "mappings": [
-                {
-                  "options": {
-                    "1": {
-                      "color": "red",
-                      "index": 0,
-                      "text": "Check the container"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "none",
-              "unitScale": true
-            },
-            "overrides": []
-          },
           "gridPos": {
             "h": 1,
             "w": 5,
             "x": 19,
             "y": 7
           },
-          "id": 197,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {
-              "titleSize": 30,
-              "valueSize": 25
-            },
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.3.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "count(kube_pod_container_status_terminated_reason{container=\"cimmodule\"}) by (reason)",
-              "instant": false,
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "transparent": true,
-          "type": "stat"
+          "id": 190,
+          "libraryPanel": {
+            "name": "Container Condition",
+            "uid": "bba01d4d-f78e-4898-98ae-e089bfd9d53c"
+          }
         },
         {
           "datasource": {
@@ -683,12 +609,12 @@
             "uid": "${datasource}"
           },
           "gridPos": {
-            "h": 3,
-            "w": 18,
+            "h": 1,
+            "w": 9,
             "x": 6,
             "y": 8
           },
-          "id": 195,
+          "id": 196,
           "options": {
             "code": {
               "language": "plaintext",
@@ -703,26 +629,231 @@
           "type": "text"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "gridPos": {
             "h": 2,
-            "w": 18,
-            "x": 6,
-            "y": 11
+            "w": 9,
+            "x": 15,
+            "y": 8
           },
-          "id": 188,
+          "id": 175,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "",
+            "mode": "markdown"
+          },
+          "pluginVersion": "10.3.3",
+          "transparent": true,
+          "type": "text"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unitScale": true
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 8,
+            "x": 6,
+            "y": 9
+          },
+          "id": 166,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\r\nbody {\r\n    margin: 0;\r\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n    background-color: #eaeaea;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 100vh;\r\n    color: #333;\r\n    padding: 0 20px;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.elegant-title {\r\n    font-size: 25px;\r\n    color: #000000;\r\n    border-bottom: 4px solid #dfdfdf;\r\n    padding-bottom: 1px;\r\n    margin: 10px 0;\r\n    letter-spacing: 2px;\r\n    transition: color 0.5s ease;\r\n    padding: 1px 0;\r\n    border: 1px solid #dfdfdf;\r\n    border-radius: 10px;\r\n    background-color: #dfdfdf;\r\n    width: 100%;\r\n    box-sizing: border-box;\r\n    text-align: center;\r\n}\r\n.received {\r\n            color: green;\r\n        }\r\n\r\n.transmitted {\r\n    color: orange;\r\n}",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n</head>\r\n<body>\r\n    <h1 class=\"elegant-title\">Packets per Second (<span class=\"received\">Received</span>/<span class=\"transmitted\">Transmitted</span>)</h1>\r\n</body>\r\n</html>\r\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "pluginVersion": "10.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
+        },
+        {
+          "gridPos": {
+            "h": 2,
+            "w": 5,
+            "x": 14,
+            "y": 10
+          },
+          "id": 193,
           "libraryPanel": {
-            "name": "Pacekts per second",
-            "uid": "dc507cfc-a3f6-4026-ac6c-5e76ae0530a8"
+            "name": "ddstoptic_title",
+            "uid": "d5a960ee-3e7c-431b-9832-c38effdc9385"
           }
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unitScale": true
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 5,
+            "x": 19,
+            "y": 10
+          },
+          "id": 179,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\r\nbody {\r\n    margin: 0;\r\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n    background-color: #eaeaea;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    height: 100vh;\r\n    color: #333;\r\n    padding: 0 20px;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.elegant-title {\r\n    font-size: 30px;\r\n    color: #000000;\r\n    border-bottom: 4px solid #71e437;\r\n    padding-bottom: 2px;\r\n    margin: 10px 0;\r\n    letter-spacing: 2px;\r\n    transition: color 0.5s ease;\r\n    padding: 0.2px 0;\r\n    border: 1px solid #71e437;\r\n    border-radius: 10px;\r\n    background-color: #71e437;\r\n    width: 100%;\r\n    box-sizing: border-box;\r\n    text-align: center;\r\n}",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n</head>\r\n<body>\r\n    <h1 class=\"elegant-title\">DDS QoS</h1>\r\n</body>\r\n</html>\r\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "pluginVersion": "10.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
         },
         {
           "gridPos": {
             "h": 2,
             "w": 6,
             "x": 0,
-            "y": 13
+            "y": 12
           },
-          "id": 186,
+          "id": 164,
           "libraryPanel": {
             "name": "Memory USage_2",
             "uid": "f8bf8cf2-b801-479a-b999-d2825a527f28"
@@ -748,7 +879,7 @@
                 "axisPlacement": "auto",
                 "barAlignment": 0,
                 "drawStyle": "line",
-                "fillOpacity": 51,
+                "fillOpacity": 52,
                 "gradientMode": "opacity",
                 "hideFrom": {
                   "legend": false,
@@ -777,8 +908,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -792,12 +922,12 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
-            "w": 18,
+            "h": 7,
+            "w": 8,
             "x": 6,
-            "y": 13
+            "y": 12
           },
-          "id": 77,
+          "id": 80,
           "options": {
             "legend": {
               "calcs": [],
@@ -819,7 +949,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"default\", pod=~\"cimmodule.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"default\", pod=~\"opendds-sub-.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Received",
               "range": true,
@@ -832,14 +962,177 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"default\", pod=~\"cimmodule.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"default\", pod=~\"opendds-sub-.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Transmitted",
               "range": true,
               "refId": "B"
             }
           ],
+          "title": "OpenDDS Sub Packet per Second",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "d33c529e-6630-420a-98d7-5998c7935f2f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "color-text"
+                },
+                "filterable": false,
+                "inspect": false
+              },
+              "fieldMinMax": false,
+              "mappings": [
+                {
+                  "options": {
+                    "ACLineSegment": {
+                      "color": "green",
+                      "index": 0
+                    },
+                    "Switch": {
+                      "color": "blue",
+                      "index": 1
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unitScale": true
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 5,
+            "x": 14,
+            "y": 12
+          },
+          "id": 177,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "enablePagination": true,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "10.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "d33c529e-6630-420a-98d7-5998c7935f2f"
+              },
+              "query": "from(bucket: \"pin\")\r\n  |> range(start: -1y)\r\n  |> filter(fn: (r) => r._field == \"topic\")\r\n  |> sort(columns: [\"_time\"], desc: true)",
+              "refId": "A"
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "d33c529e-6630-420a-98d7-5998c7935f2f"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "color-text"
+                },
+                "filterable": false,
+                "inspect": false
+              },
+              "fieldMinMax": false,
+              "mappings": [
+                {
+                  "options": {
+                    "ACLineSegment": {
+                      "color": "green",
+                      "index": 0
+                    },
+                    "Switch": {
+                      "color": "blue",
+                      "index": 1
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unitScale": true
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 5,
+            "x": 19,
+            "y": 12
+          },
+          "id": 194,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "enablePagination": true,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "10.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "d33c529e-6630-420a-98d7-5998c7935f2f"
+              },
+              "query": "from(bucket: \"pin\")\r\n  |> range(start: -1y) \r\n  |> filter(fn: (r) => r._field == \"qos\")\r\n  |> sort(columns: [\"_time\"], desc: true)",
+              "refId": "A"
+            }
+          ],
+          "type": "table"
         },
         {
           "datasource": {
@@ -858,8 +1151,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "#EAB839",
@@ -877,12 +1169,12 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 6,
+            "h": 5,
             "w": 6,
             "x": 0,
-            "y": 15
+            "y": 14
           },
-          "id": 122,
+          "id": 123,
           "options": {
             "minVizHeight": 75,
             "minVizWidth": 75,
@@ -907,7 +1199,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(container_memory_working_set_bytes{container=\"cimmodule\"}) / sum(kube_pod_container_resource_limits{container=\"cimmodule\"}) * 100",
+              "expr": "sum(container_memory_working_set_bytes{container=\"opendds-sub\"}) / sum(kube_pod_container_resource_limits{container=\"opendds-sub\"}) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -919,7 +1211,7 @@
           "type": "gauge"
         }
       ],
-      "title": "CIM Module Container",
+      "title": "Node-OpenDDS Backend Container",
       "type": "row"
     },
     {
@@ -930,16 +1222,16 @@
         "x": 0,
         "y": 5
       },
-      "id": 151,
+      "id": 130,
       "panels": [
         {
           "gridPos": {
             "h": 2,
             "w": 6,
             "x": 0,
-            "y": 22
+            "y": 20
           },
-          "id": 198,
+          "id": 180,
           "libraryPanel": {
             "name": "CPU Usage_2",
             "uid": "e57aa9fe-254e-4453-9837-97dd5bcf4682"
@@ -950,9 +1242,9 @@
             "h": 2,
             "w": 4,
             "x": 6,
-            "y": 22
+            "y": 20
           },
-          "id": 200,
+          "id": 182,
           "libraryPanel": {
             "name": "Container IP_2",
             "uid": "f3d86462-1d23-4aaa-8fff-517264aff5a5"
@@ -963,9 +1255,9 @@
             "h": 2,
             "w": 5,
             "x": 10,
-            "y": 22
+            "y": 20
           },
-          "id": 201,
+          "id": 183,
           "libraryPanel": {
             "name": "Running on(Node)",
             "uid": "cf54dd58-3d99-4fe7-a169-a898a2e6f18c"
@@ -976,9 +1268,9 @@
             "h": 2,
             "w": 4,
             "x": 15,
-            "y": 22
+            "y": 20
           },
-          "id": 202,
+          "id": 184,
           "libraryPanel": {
             "name": "QoS Class",
             "uid": "d08f87c7-d330-4547-b3b8-44d571661c58"
@@ -989,9 +1281,9 @@
             "h": 2,
             "w": 5,
             "x": 19,
-            "y": 22
+            "y": 20
           },
-          "id": 203,
+          "id": 185,
           "libraryPanel": {
             "name": "Terminated Reason",
             "uid": "b6ef0588-bb0f-4b25-a957-e9d597e4f3b4"
@@ -1015,8 +1307,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "#EAB839",
@@ -1034,12 +1325,12 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 6,
+            "h": 5,
             "w": 6,
             "x": 0,
-            "y": 24
+            "y": 22
           },
-          "id": 157,
+          "id": 94,
           "options": {
             "minVizHeight": 75,
             "minVizWidth": 75,
@@ -1064,7 +1355,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"opendds-pub\"}[1m])))",
+              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"fep-sub-rti\"}[1m])))",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -1080,7 +1371,6 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -1091,8 +1381,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1108,9 +1397,9 @@
             "h": 1,
             "w": 4,
             "x": 6,
-            "y": 24
+            "y": 22
           },
-          "id": 147,
+          "id": 151,
           "options": {
             "colorMode": "none",
             "graphMode": "none",
@@ -1124,9 +1413,6 @@
               "values": false
             },
             "showPercentChange": false,
-            "text": {
-              "valueSize": 27
-            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -1139,7 +1425,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-pub-.*\"}",
+              "expr": "kube_pod_info{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"}",
               "instant": true,
               "legendFormat": "{{pod_ip}}",
               "range": false,
@@ -1168,8 +1454,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "rgb(255, 255, 255)",
-                    "value": null
+                    "color": "rgb(255, 255, 255)"
                   }
                 ]
               },
@@ -1182,9 +1467,9 @@
             "h": 1,
             "w": 5,
             "x": 10,
-            "y": 24
+            "y": 22
           },
-          "id": 167,
+          "id": 152,
           "options": {
             "colorMode": "none",
             "graphMode": "none",
@@ -1198,9 +1483,6 @@
               "values": false
             },
             "showPercentChange": false,
-            "text": {
-              "valueSize": 27
-            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -1213,7 +1495,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-pub-.*\"}",
+              "expr": "kube_pod_info{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"}",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ node }}",
@@ -1239,8 +1521,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1284,9 +1565,9 @@
             "h": 1,
             "w": 4,
             "x": 15,
-            "y": 24
+            "y": 22
           },
-          "id": 169,
+          "id": 154,
           "options": {
             "colorMode": "value",
             "graphMode": "none",
@@ -1298,9 +1579,6 @@
               "values": false
             },
             "showPercentChange": false,
-            "text": {
-              "valueSize": 27
-            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -1313,7 +1591,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_status_qos_class{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-pub-.*\"} > 0",
+              "expr": "kube_pod_status_qos_class{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"} > 0",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ qos_class }}",
@@ -1324,87 +1602,17 @@
           "type": "stat"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "fieldMinMax": false,
-              "mappings": [
-                {
-                  "options": {
-                    "1": {
-                      "color": "red",
-                      "index": 0,
-                      "text": "Check the container"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "none",
-              "unitScale": true
-            },
-            "overrides": []
-          },
           "gridPos": {
             "h": 1,
             "w": 5,
             "x": 19,
-            "y": 24
+            "y": 22
           },
-          "id": 206,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {
-              "titleSize": 30,
-              "valueSize": 25
-            },
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.3.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "count(kube_pod_container_status_terminated_reason{container=\"opendds-pub\"}) by (reason)",
-              "instant": false,
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "transparent": true,
-          "type": "stat"
+          "id": 195,
+          "libraryPanel": {
+            "name": "Container Condition",
+            "uid": "bba01d4d-f78e-4898-98ae-e089bfd9d53c"
+          }
         },
         {
           "datasource": {
@@ -1412,12 +1620,12 @@
             "uid": "${datasource}"
           },
           "gridPos": {
-            "h": 3,
+            "h": 2,
             "w": 18,
             "x": 6,
-            "y": 25
+            "y": 23
           },
-          "id": 204,
+          "id": 186,
           "options": {
             "code": {
               "language": "plaintext",
@@ -1436,9 +1644,9 @@
             "h": 2,
             "w": 18,
             "x": 6,
-            "y": 28
+            "y": 25
           },
-          "id": 205,
+          "id": 187,
           "libraryPanel": {
             "name": "Pacekts per second",
             "uid": "dc507cfc-a3f6-4026-ac6c-5e76ae0530a8"
@@ -1449,9 +1657,9 @@
             "h": 2,
             "w": 6,
             "x": 0,
-            "y": 30
+            "y": 27
           },
-          "id": 199,
+          "id": 181,
           "libraryPanel": {
             "name": "Memory USage_2",
             "uid": "f8bf8cf2-b801-479a-b999-d2825a527f28"
@@ -1466,8 +1674,8 @@
           "fieldConfig": {
             "defaults": {
               "color": {
-                "fixedColor": "semi-dark-red",
-                "mode": "palette-classic"
+                "fixedColor": "text",
+                "mode": "continuous-YlBl"
               },
               "custom": {
                 "axisBorderShow": false,
@@ -1477,7 +1685,7 @@
                 "axisPlacement": "auto",
                 "barAlignment": 0,
                 "drawStyle": "line",
-                "fillOpacity": 51,
+                "fillOpacity": 50,
                 "gradientMode": "opacity",
                 "hideFrom": {
                   "legend": false,
@@ -1506,8 +1714,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1521,12 +1728,12 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
+            "h": 7,
             "w": 18,
             "x": 6,
-            "y": 30
+            "y": 27
           },
-          "id": 161,
+          "id": 86,
           "options": {
             "legend": {
               "calcs": [],
@@ -1548,7 +1755,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"default\", pod=~\"opendds-pub-.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"rti-dds\", pod=~\"fep-sub-rti.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Received",
               "range": true,
@@ -1561,13 +1768,14 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"default\", pod=~\"opendds-pub-.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"rti-dds\", pod=~\"fep-sub-rti.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Transmitted",
               "range": true,
               "refId": "B"
             }
           ],
+          "title": "RTI DDS Sub Packets per Second",
           "type": "timeseries"
         },
         {
@@ -1582,13 +1790,13 @@
                 "mode": "thresholds"
               },
               "mappings": [],
+              "max": 100,
               "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "#EAB839",
@@ -1606,12 +1814,12 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 6,
+            "h": 5,
             "w": 6,
             "x": 0,
-            "y": 32
+            "y": 29
           },
-          "id": 159,
+          "id": 125,
           "options": {
             "minVizHeight": 75,
             "minVizWidth": 75,
@@ -1636,7 +1844,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(container_memory_working_set_bytes{container=\"opendds-pub\"}) / sum(kube_pod_container_resource_limits{container=\"opendds-pub\"}) * 100",
+              "expr": "sum(container_memory_working_set_bytes{container=\"fep-sub-rti\"}) / sum(kube_pod_container_resource_limits{container=\"fep-sub-rti\"}) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -1648,7 +1856,7 @@
           "type": "gauge"
         }
       ],
-      "title": "OpenDDS Pub Container",
+      "title": "React-Frontend Container ",
       "type": "row"
     }
   ],
@@ -1751,8 +1959,8 @@
     ]
   },
   "timezone": "Asia/Yangon",
-  "title": "CIM Adaptor",
-  "uid": "baecdf1a-86ec-4245-a51a-c8d040370b65",
-  "version": 9,
+  "title": "WEBIS",
+  "uid": "e4b6b7ef-6761-4ba1-85ab-6b0ded123954",
+  "version": 12,
   "weekStart": ""
 }
