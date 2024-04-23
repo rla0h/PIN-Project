@@ -155,13 +155,15 @@
          ws.attach_condition(sca);
          ws.attach_condition(scb);
          PublicationMatchedStatusHolder matched =
-           new PublicationMatchedStatusHolder(new PublicationMatchedStatus());         Duration_t timeout = new Duration_t(DURATION_INFINITE_SEC.value,
+           new PublicationMatchedStatusHolder(new PublicationMatchedStatus());
+         Duration_t timeout = new Duration_t(DURATION_INFINITE_SEC.value,
                                              DURATION_INFINITE_NSEC.value);
  
          while (true) {
              final int resulta = dwa.get_publication_matched_status(matched);
              final int resultb = dwb.get_publication_matched_status(matched);
-             if (resulta != RETCODE_OK.value && resultb != RETCODE_OK.value) {                 System.err.println("ERROR: get_publication_matched_status()" +
+             if (resulta != RETCODE_OK.value && resultb != RETCODE_OK.value) {
+                 System.err.println("ERROR: get_publication_matched_status()" +
                                     "failed.");
                  return;
              }

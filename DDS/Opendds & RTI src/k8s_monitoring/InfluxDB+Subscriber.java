@@ -9,7 +9,18 @@
  import OpenDDS.DCPS.*;
  import org.omg.CORBA.StringSeqHolder;
  import Fep_module.*;
- 
+
+ import java.time.Instant;
+
+ import com.influxdb.annotations.Column;
+ import com.influxdb.annotations.Measurement;
+ import com.influxdb.client.InfluxDBClient;
+ import com.influxdb.client.InfluxDBClientFactory;
+ import com.influxdb.client.WriteApi;
+ import com.influxdb.client.domain.WritePrecision;
+ import com.influxdb.client.write.Point;
+ import com.influxdb.query.FluxTable;
+
  public class FEP_Subscriber {
      public static boolean checkReliable(String[] args) {
        for (int i = 0; i < args.length; ++i) {
@@ -127,11 +138,72 @@
          DataReader drb = sub.create_datareader(topb,
                                                qosh.value,
                                                listener,
-                                               DEFAULT_STATUS_MASK.value);                                              
-         if (!reliable) {
-             listener.set_expected_count(1);
-         }
- 
+                                               DEFAULT_STATUS_MASK.value);
+        //  System.out.println(qosh.value.history.kind.value()); // 1
+        //  System.out.println(qosh.value.reliability.kind.value()); // 1
+        //  System.out.println(qosh.value.liveliness.kind.value()); // 0
+        //  System.out.println(qosh.value.durability.kind.value()); // 0
+        //  System.out.println(qosh.value.durability.kind.value()); // 0
+        //  System.out.println(qosh.value.latency_budget.duration.sec); // 0
+        //  System.out.println(qosh.value.latency_budget.duration.nanosec); // 0
+        //  System.out.println(qosh.value.liveliness.kind.value()); // 0
+        //  System.out.println(qosh.value.destination_order.kind.value()); // 0
+
+         //System.out.println(qosh.value.ownership.kind.value()); // 0
+         String[] hisotry_qos_array = {"KEEP_LAST", "KEEP_ALL"};
+         String[] reliability_qos_array = {"BEST_EFFORT", "RELIABLE"};
+         String[] liveliness_qos_array = {"AUTOMATIC", "MANUAL_BY_NODE", "MANUAL_BY"};
+         String[] durability_qos_array = {"TRANSIENT_LOCAL", "VOLATILE"};
+         String[] ownership_qos_array = {"SHARED", "EXCLUSIVE"};
+  
+        String token = "CHECK INFLUX DB";
+        String bucket = "pin";
+        String org = "pin";
+        InfluxDBClient client = InfluxDBClientFactory.create("http://10.244.4.3:8086", token.toCharArray());
+        int value1 = qosh.value.history.kind.value();
+        int value2 = qosh.value.reliability.kind.value();
+        int value3 = qosh.value.liveliness.kind.value();
+        int value4 = qosh.value.durability.kind.value();
+        int value5 = qosh.value.ownership.kind.value();
+
+
+        String[] qosValuesToWrite = new String[5];
+        int count = 0;
+
+        if (value1 != 0) {
+            qosValuesToWrite[count] = hisotry_qos_array[value1];
+            count++;
+        }
+
+        if (value2 != 0) {
+            qosValuesToWrite[count] = reliability_qos_array[value2];
+            count++;
+        }
+
+        if (value3 != 0) {
+            qosValuesToWrite[count] = liveliness_qos_array[value3];
+            count++;
+        }
+
+        if (value4 != 0) {
+            qosValuesToWrite[count] = durability_qos_array[value4];
+            count++;
+        }
+
+        if (value5 != 0) {
+            qosValuesToWrite[count] = ownership_qos_array[value5];
+            count++;
+        }
+
+        String joinedQosValues = String.join(",", qosValuesToWrite);
+
+        Point point = Point
+                .measurement("qos")
+                .addField("qos", joinedQosValues)
+                .time(Instant.now(), WritePrecision.NS);
+        WriteApi writeApi = client.getWriteApi();
+        writeApi.writePoint(bucket, org, point);
+        client.close();
          if (dra == null) {
              System.err.println("ERROR: DataReader creation failed");
              return;

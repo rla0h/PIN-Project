@@ -1,3 +1,4 @@
+/* NetworkTopology_RecloserTopic */
 module Fep_module {
     const long UnitSymbol_m = 2;
     const long UnitSymbol_ohm = 30;
@@ -38,4 +39,3 @@ module Fep_module {
         long topicCount;
     };
 };
-
