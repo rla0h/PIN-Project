@@ -11,6 +11,160 @@ the necessary functions to insert incoming data into a dynamic array.
 #include <cstring>
 using namespace std;
 
+namespace sku
+{
+
+    enum class UnitSymbol : int
+    {
+        UnitSymbol_none = 0,
+        UnitSymbol_m = 2,
+        UnitSymbol_s = 4,
+        UnitSymbol_A = 5,
+        UnitSymbol_deg = 9,
+        UnitSymbol_rad = 10,
+        UnitSymbol_degC = 23,
+        UnitSymbol_F = 25,
+        UnitSymbol_C = 26,
+        UnitSymbol_H = 28,
+        UnitSymbol_V = 29,
+        UnitSymbol_ohm = 30,
+        UnitSymbol_Hz = 33,
+        UnitSymbol_W = 38,
+        UnitSymbol_VA = 61,
+        UnitSymbol_VAr = 63,
+        UnitSymbol_cosPhi = 65,
+        UnitSymbol_Vs = 66,
+        UnitSymbol_V2 = 67,
+        UnitSymbol_As = 68,
+        UnitSymbol_A2 = 69,
+        UnitSymbol_A2s = 70,
+        UnitSymbol_VAh = 71,
+        UnitSymbol_Wh = 72,
+        UnitSymbol_VArh = 73,
+        UnitSymbol_h = 84,
+        UnitSymbol_min = 85,
+        UnitSymbol_Q = 100,
+        UnitSymbol_Qh = 101,
+        UnitSymbol_V2h = 104,
+        UnitSymbol_A2h = 105,
+        UnitSymbol_Ah = 106,
+        UnitSymbol_count = 111,
+        UnitSymbol_sPers = 149,
+        UnitSymbol_HzPerHz = 150,
+        UnitSymbol_VPerV = 151,
+        UnitSymbol_APerA = 152,
+        UnitSymbol_VPerVA = 153
+    };
+    enum class UnitMultiplier : int
+    {
+        UnitMultiplier_y = -24,
+        UnitMultiplier_z = -21,
+        UnitMultiplier_a = -18,
+        UnitMultiplier_f = -15,
+        UnitMultiplier_p = -12,
+        UnitMultiplier_n = -9,
+        UnitMultiplier_micro = -6,
+        UnitMultiplier_m = -3,
+        UnitMultiplier_c = -2,
+        UnitMultiplier_d = -1,
+        UnitMultiplier_none = 0,
+        UnitMultiplier_da = 1,
+        UnitMultiplier_h = 2,
+        UnitMultiplier_k = 3,
+        UnitMultiplier_M = 6,
+        UnitMultiplier_G = 9,
+        UnitMultiplier_T = 12,
+        UnitMultiplier_P = 15,
+        UnitMultiplier_E = 18,
+        UnitMultiplier_Z = 21,
+        UnitMultiplier_Y = 24
+    };
+};
+
+class Common_D {
+public:
+    string name;
+    string mrid;
+    int unitSymbol;
+    int unitMultiplier;
+    int value;
+    float f_value;
+    bool dnp_normalOpen_ = false;
+    bool iec_normalOpen_ = false;
+    void set_properties(int data) {
+        if (data == (int)sku::UnitSymbol::UnitSymbol_ohm) {
+            this->unitSymbol = data;
+            Common_input_cnt++;
+        }
+        else if (data == (int)sku::UnitMultiplier::UnitMultiplier_z) {
+            this->unitMultiplier = data;
+            Common_input_cnt++;
+        }
+        else if (data == (int)sku::UnitMultiplier::UnitMultiplier_M) {
+            this->unitMultiplier = data;
+            Common_input_cnt++;
+        }
+        else if (data == (int)sku::UnitMultiplier::UnitMultiplier_m) {
+            this->unitMultiplier = data;
+            Common_input_cnt++;
+        }
+        else if (data == (int)sku::UnitMultiplier::UnitMultiplier_micro) {
+            this->unitMultiplier = data;
+            Common_input_cnt++;
+        }
+        else if (data == (int)sku::UnitSymbol::UnitSymbol_m) {
+            this->unitSymbol = data;
+            Common_input_cnt++;
+        }
+        else if (data == (int)sku::UnitMultiplier::UnitMultiplier_none) {
+            this->unitMultiplier = data;
+            Common_input_cnt++;
+        }
+        else {
+            this->value = data;
+            Common_input_cnt++;
+        }
+    };
+    void dnp_set_normalOpen(int data) {
+        if(data) {
+            this->dnp_normalOpen_ = true;
+        }
+    };
+    void iec_set_normalOpen(int data) {
+        if(data) {
+            this->iec_normalOpen_ = true;
+        }
+    };
+};
+
+// ACLineSegment
+class ACLineSegment : public Common_D;
+
+class Length : public ACLineSegment;
+
+class R : public ACLineSegment;
+
+class X : public ACLineSegment;
+
+class R0 : public ACLineSegment;
+
+class X0 : public ACLineSegment;
+
+// Switch
+class Switch : public Common_D;
+
+class C_XSWI : public Switch;
+
+class C_ZLIN : public Switch;
+class IEC_Length : public Switch;
+class IEC_R : public Switch;
+
+class IEC_X : public Switch;
+
+class IEC_R0 : public Switch;
+
+class IEC_X0 : public Switch;
+
 
 struct FEP
 {
