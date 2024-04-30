@@ -26,7 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 18283,
   "graphTooltip": 0,
-  "id": 31,
+  "id": 37,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -54,8 +54,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -136,8 +135,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -159,7 +157,7 @@
         "dynamicFieldDisplayValues": false,
         "dynamicHtmlGraphics": false,
         "dynamicProps": false,
-        "html": "<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>FEP Simulator</title>\r\n    <link rel=\"stylesheet\" href=\"styles.css\">\r\n</head>\r\n<body>\r\n    <h1 class=\"elegant-title\">DBIS</h1>\r\n</body>\r\n</html>\r\n",
+        "html": "<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>FEP Simulator</title>\r\n    <link rel=\"stylesheet\" href=\"styles.css\">\r\n</head>\r\n<body>\r\n    <h1 class=\"elegant-title\">DataBase Integration Service</h1>\r\n</body>\r\n</html>\r\n",
         "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
         "onInitOnResize": false,
         "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
@@ -205,6 +203,32 @@
       "id": 129,
       "panels": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 2,
             "w": 6,
@@ -212,49 +236,59 @@
             "y": 5
           },
           "id": 164,
-          "libraryPanel": {
-            "name": "CPU Usage_2",
-            "uid": "e57aa9fe-254e-4453-9837-97dd5bcf4682"
-          }
-        },
-        {
-          "gridPos": {
-            "h": 2,
-            "w": 4,
-            "x": 6,
-            "y": 5
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #d0dfff;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #d0dfff;\n    border-radius: 10px;\n    background-color: #d0dfff;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "\n<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">CPU Usage</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
           },
-          "id": 166,
-          "libraryPanel": {
-            "name": "Container IP_2",
-            "uid": "f3d86462-1d23-4aaa-8fff-517264aff5a5"
-          }
-        },
-        {
-          "gridPos": {
-            "h": 2,
-            "w": 5,
-            "x": 10,
-            "y": 5
-          },
-          "id": 174,
-          "libraryPanel": {
-            "name": "Running on(Node)",
-            "uid": "cf54dd58-3d99-4fe7-a169-a898a2e6f18c"
-          }
-        },
-        {
-          "gridPos": {
-            "h": 2,
-            "w": 4,
-            "x": 15,
-            "y": 5
-          },
-          "id": 172,
-          "libraryPanel": {
-            "name": "QoS Class",
-            "uid": "d08f87c7-d330-4547-b3b8-44d571661c58"
-          }
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
         },
         {
           "datasource": {
@@ -279,8 +313,271 @@
                     "value": 80
                   }
                 ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 6,
+            "y": 5
+          },
+          "id": 166,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #ffcd83;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #ffcd83;\n    border-radius: 10px;\n    background-color: #ffcd83;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">Container IP</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
               },
-              "unitScale": true
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 5,
+            "x": 10,
+            "y": 5
+          },
+          "id": 201,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #ffcd83;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #ffcd83;\n    border-radius: 10px;\n    background-color: #ffcd83;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">Running on(Node)</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 15,
+            "y": 5
+          },
+          "id": 202,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #ffcd83;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #ffcd83;\n    border-radius: 10px;\n    background-color: #ffcd83;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">QoS Class</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
             },
             "overrides": []
           },
@@ -376,8 +673,7 @@
                   }
                 ]
               },
-              "unit": "percent",
-              "unitScale": true
+              "unit": "percent"
             },
             "overrides": []
           },
@@ -403,7 +699,7 @@
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "targets": [
             {
               "datasource": {
@@ -445,8 +741,7 @@
                     "value": 80
                   }
                 ]
-              },
-              "unitScale": true
+              }
             },
             "overrides": []
           },
@@ -476,7 +771,7 @@
             "textMode": "name",
             "wideLayout": true
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "targets": [
             {
               "datasource": {
@@ -518,8 +813,7 @@
                   }
                 ]
               },
-              "unit": "none",
-              "unitScale": true
+              "unit": "none"
             },
             "overrides": []
           },
@@ -549,7 +843,7 @@
             "textMode": "name",
             "wideLayout": true
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "targets": [
             {
               "datasource": {
@@ -588,8 +882,7 @@
                   }
                 ]
               },
-              "unit": "none",
-              "unitScale": true
+              "unit": "none"
             },
             "overrides": [
               {
@@ -648,7 +941,7 @@
             "textMode": "name",
             "wideLayout": true
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "targets": [
             {
               "datasource": {
@@ -700,8 +993,7 @@
                   }
                 ]
               },
-              "unit": "none",
-              "unitScale": true
+              "unit": "none"
             },
             "overrides": []
           },
@@ -732,7 +1024,7 @@
             "textMode": "auto",
             "wideLayout": true
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "targets": [
             {
               "datasource": {
@@ -771,7 +1063,7 @@
             "content": "",
             "mode": "markdown"
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "transparent": true,
           "type": "text"
         },
@@ -796,7 +1088,7 @@
             "content": "",
             "mode": "markdown"
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "transparent": true,
           "type": "text"
         },
@@ -823,8 +1115,7 @@
                     "value": 80
                   }
                 ]
-              },
-              "unitScale": true
+              }
             },
             "overrides": []
           },
@@ -891,6 +1182,32 @@
           "type": "gapit-htmlgraphics-panel"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 2,
             "w": 5,
@@ -898,36 +1215,235 @@
             "y": 10
           },
           "id": 180,
-          "libraryPanel": {
-            "name": "dds topic title",
-            "uid": "ac131806-d573-46e8-8453-244e29b5938b"
-          }
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #18f100;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #18f100;\n    border-radius: 10px;\n    background-color: #18f100;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">DDS Topic</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 2,
             "w": 5,
             "x": 19,
             "y": 10
           },
-          "id": 191,
-          "libraryPanel": {
-            "name": "dds qos title",
-            "uid": "b1aec553-d6be-4270-85a9-3903a7d8f4c5"
-          }
+          "id": 203,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #18f100;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #18f100;\n    border-radius: 10px;\n    background-color: #18f100;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">DDS QoS</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 2,
             "w": 6,
             "x": 0,
             "y": 12
           },
-          "id": 168,
-          "libraryPanel": {
-            "name": "Memory USage_2",
-            "uid": "f8bf8cf2-b801-479a-b999-d2825a527f28"
-          }
+          "id": 200,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #d0dfff;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #d0dfff;\n    border-radius: 10px;\n    background-color: #d0dfff;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "\n<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">Memory Usage</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
         },
         {
           "datasource": {
@@ -986,8 +1502,7 @@
                   }
                 ]
               },
-              "unit": "pps",
-              "unitScale": true
+              "unit": "pps"
             },
             "overrides": []
           },
@@ -1096,8 +1611,7 @@
                   }
                 ]
               },
-              "unit": "percent",
-              "unitScale": true
+              "unit": "percent"
             },
             "overrides": []
           },
@@ -1123,7 +1637,7 @@
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "targets": [
             {
               "datasource": {
@@ -1142,6 +1656,320 @@
             }
           ],
           "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 1,
+            "w": 4,
+            "x": 6,
+            "y": 19
+          },
+          "id": 151,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "name",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"}",
+              "instant": true,
+              "legendFormat": "{{pod_ip}}",
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "links": [
+                {
+                  "title": "",
+                  "url": "/d/k8s_views_nodes/kubernetes-views-nodes?var-datasource=${datasource}&var-node=${__data.fields.node}"
+                }
+              ],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "rgb(255, 255, 255)"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 1,
+            "w": 5,
+            "x": 10,
+            "y": 19
+          },
+          "id": 152,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "name",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "kube_pod_info{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"}",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "{{ node }}",
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Burstable"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "text",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "BestEffort"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "orange",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 1,
+            "w": 4,
+            "x": 15,
+            "y": 19
+          },
+          "id": 154,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "name",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "kube_pod_status_qos_class{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"} > 0",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "{{ qos_class }}",
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "fieldMinMax": false,
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "red",
+                      "index": 0,
+                      "text": "Check the Container"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "noValue": "No Error",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 1,
+            "w": 5,
+            "x": 19,
+            "y": 19
+          },
+          "id": 198,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "titleSize": 30,
+              "valueSize": 25
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "count(kube_pod_container_status_terminated_reason{container=\"opendds-sub\"}) by (reason)",
+              "instant": false,
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "stat"
         }
       ],
       "title": "OpenDDS-JDBC Container",
@@ -1158,56 +1986,92 @@
       "id": 130,
       "panels": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 2,
             "w": 6,
             "x": 0,
             "y": 6
           },
-          "id": 182,
-          "libraryPanel": {
-            "name": "CPU Usage_2",
-            "uid": "e57aa9fe-254e-4453-9837-97dd5bcf4682"
-          }
-        },
-        {
-          "gridPos": {
-            "h": 2,
-            "w": 4,
-            "x": 6,
-            "y": 6
+          "id": 204,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #d0dfff;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #d0dfff;\n    border-radius: 10px;\n    background-color: #d0dfff;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "\n<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">CPU Usage</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
           },
-          "id": 183,
-          "libraryPanel": {
-            "name": "Container IP_2",
-            "uid": "f3d86462-1d23-4aaa-8fff-517264aff5a5"
-          }
-        },
-        {
-          "gridPos": {
-            "h": 2,
-            "w": 5,
-            "x": 10,
-            "y": 6
-          },
-          "id": 184,
-          "libraryPanel": {
-            "name": "Running on(Node)",
-            "uid": "cf54dd58-3d99-4fe7-a169-a898a2e6f18c"
-          }
-        },
-        {
-          "gridPos": {
-            "h": 2,
-            "w": 4,
-            "x": 15,
-            "y": 6
-          },
-          "id": 185,
-          "libraryPanel": {
-            "name": "QoS Class",
-            "uid": "d08f87c7-d330-4547-b3b8-44d571661c58"
-          }
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
         },
         {
           "datasource": {
@@ -1232,8 +2096,271 @@
                     "value": 80
                   }
                 ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 6,
+            "y": 6
+          },
+          "id": 206,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #ffcd83;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #ffcd83;\n    border-radius: 10px;\n    background-color: #ffcd83;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">Container IP</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
               },
-              "unitScale": true
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 5,
+            "x": 10,
+            "y": 6
+          },
+          "id": 207,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #ffcd83;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #ffcd83;\n    border-radius: 10px;\n    background-color: #ffcd83;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">Running on(Node)</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 15,
+            "y": 6
+          },
+          "id": 208,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #ffcd83;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #ffcd83;\n    border-radius: 10px;\n    background-color: #ffcd83;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">QoS Class</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
             },
             "overrides": []
           },
@@ -1329,8 +2456,7 @@
                   }
                 ]
               },
-              "unit": "percent",
-              "unitScale": true
+              "unit": "percent"
             },
             "overrides": []
           },
@@ -1356,7 +2482,7 @@
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "targets": [
             {
               "datasource": {
@@ -1379,331 +2505,13 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unitScale": true
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 1,
-            "w": 4,
-            "x": 6,
-            "y": 8
-          },
-          "id": 151,
-          "options": {
-            "colorMode": "none",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "mean"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "textMode": "name",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.3.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"}",
-              "instant": true,
-              "legendFormat": "{{pod_ip}}",
-              "range": false,
-              "refId": "A"
-            }
-          ],
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "links": [
-                {
-                  "title": "",
-                  "url": "/d/k8s_views_nodes/kubernetes-views-nodes?var-datasource=${datasource}&var-node=${__data.fields.node}"
-                }
-              ],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "rgb(255, 255, 255)"
-                  }
-                ]
-              },
-              "unit": "none",
-              "unitScale": true
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 1,
-            "w": 5,
-            "x": 10,
-            "y": 8
-          },
-          "id": 152,
-          "options": {
-            "colorMode": "none",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "mean"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "textMode": "name",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.3.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"}",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ node }}",
-              "refId": "A"
-            }
-          ],
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "none",
-              "unitScale": true
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Burstable"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "text",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "BestEffort"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "orange",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 1,
-            "w": 4,
-            "x": 15,
-            "y": 8
-          },
-          "id": 154,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "textMode": "name",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.3.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "kube_pod_status_qos_class{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"} > 0",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "{{ qos_class }}",
-              "refId": "A"
-            }
-          ],
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "fieldMinMax": false,
-              "mappings": [
-                {
-                  "options": {
-                    "1": {
-                      "color": "red",
-                      "index": 0,
-                      "text": "Check the Container"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "noValue": "No Error",
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "none",
-              "unitScale": true
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 1,
-            "w": 5,
-            "x": 19,
-            "y": 8
-          },
-          "id": 198,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {
-              "titleSize": 30,
-              "valueSize": 25
-            },
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.3.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "prometheus"
-              },
-              "editorMode": "code",
-              "expr": "count(kube_pod_container_status_terminated_reason{container=\"opendds-sub\"}) by (reason)",
-              "instant": false,
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
             "uid": "${datasource}"
           },
           "gridPos": {
             "h": 2,
             "w": 18,
             "x": 6,
-            "y": 9
+            "y": 8
           },
           "id": 196,
           "options": {
@@ -1715,22 +2523,9 @@
             "content": "",
             "mode": "markdown"
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "transparent": true,
           "type": "text"
-        },
-        {
-          "gridPos": {
-            "h": 2,
-            "w": 14,
-            "x": 6,
-            "y": 11
-          },
-          "id": 189,
-          "libraryPanel": {
-            "name": "Pacekts per second",
-            "uid": "dc507cfc-a3f6-4026-ac6c-5e76ae0530a8"
-          }
         },
         {
           "datasource": {
@@ -1755,8 +2550,95 @@
                     "value": 80
                   }
                 ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 14,
+            "x": 6,
+            "y": 10
+          },
+          "id": 189,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #dfdfdf;\n    padding-bottom: 1px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 1px 0;\n    border: 1px solid #dfdfdf;\n    border-radius: 10px;\n    background-color: #dfdfdf;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n.received {\n            color: green;\n        }\n\n.transmitted {\n    color: orange;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">Packets per Second (<span class=\"received\">Received</span>/<span class=\"transmitted\">Transmitted</span>)</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
               },
-              "unitScale": true
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
             },
             "overrides": []
           },
@@ -1764,7 +2646,7 @@
             "h": 2,
             "w": 4,
             "x": 20,
-            "y": 11
+            "y": 10
           },
           "id": 188,
           "options": {
@@ -1823,24 +2705,11 @@
           "type": "gapit-htmlgraphics-panel"
         },
         {
-          "gridPos": {
-            "h": 2,
-            "w": 6,
-            "x": 0,
-            "y": 13
-          },
-          "id": 181,
-          "libraryPanel": {
-            "name": "Memory USage_2",
-            "uid": "f8bf8cf2-b801-479a-b999-d2825a527f28"
-          }
-        },
-        {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "description": "Average",
+          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -1892,8 +2761,7 @@
                   }
                 ]
               },
-              "unit": "pps",
-              "unitScale": true
+              "unit": "pps"
             },
             "overrides": []
           },
@@ -1901,7 +2769,7 @@
             "h": 8,
             "w": 14,
             "x": 6,
-            "y": 13
+            "y": 12
           },
           "id": 86,
           "options": {
@@ -1945,8 +2813,95 @@
               "refId": "B"
             }
           ],
-          "title": "RTI DDS Sub Packets per Second",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 6,
+            "x": 0,
+            "y": 13
+          },
+          "id": 205,
+          "options": {
+            "SVGBaseFix": true,
+            "add100Percentage": true,
+            "calcsMutation": "standard",
+            "centerAlignContent": true,
+            "codeData": "{\n  \"text\": \"Random text\"\n}",
+            "css": "/* styles.css */\nbody {\n    margin: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    background-color: #eaeaea;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n    padding: 0 20px;\n    box-sizing: border-box;\n}\n\n.elegant-title {\n    font-size: 30px;\n    color: #000000;\n    border-bottom: 4px solid #d0dfff;\n    padding-bottom: 2px;\n    margin: 10px 0;\n    letter-spacing: 2px;\n    transition: color 0.5s ease;\n    padding: 0.2px 0;\n    border: 1px solid #d0dfff;\n    border-radius: 10px;\n    background-color: #d0dfff;\n    width: 100%;\n    box-sizing: border-box;\n    text-align: center;\n}\n",
+            "dynamicData": false,
+            "dynamicFieldDisplayValues": false,
+            "dynamicHtmlGraphics": false,
+            "dynamicProps": false,
+            "html": "\n<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n    <meta charset=\"UTF-8\">\n</head>\n<body>\n    <h1 class=\"elegant-title\">Memory Usage</h1>\n</body>\n</html>\n",
+            "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+            "onInitOnResize": false,
+            "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.get(length - 1);\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+            "overflow": "visible",
+            "panelupdateOnMount": true,
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull",
+                "last",
+                "firstNotNull",
+                "first",
+                "min",
+                "max",
+                "mean",
+                "sum",
+                "count",
+                "range",
+                "delta",
+                "step",
+                "diff",
+                "logmin",
+                "allIsZero",
+                "allIsNull",
+                "diffperc"
+              ]
+            },
+            "renderOnMount": true,
+            "rootCSS": "",
+            "useGrafanaScrollbar": true
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "refId": "A"
+            }
+          ],
+          "transparent": true,
+          "type": "gapit-htmlgraphics-panel"
         },
         {
           "datasource": {
@@ -1978,8 +2933,7 @@
                   }
                 ]
               },
-              "unit": "percent",
-              "unitScale": true
+              "unit": "percent"
             },
             "overrides": []
           },
@@ -2005,7 +2959,7 @@
             "showThresholdMarkers": true,
             "sizing": "auto"
           },
-          "pluginVersion": "10.3.3",
+          "pluginVersion": "10.4.1",
           "targets": [
             {
               "datasource": {
@@ -2023,7 +2977,6 @@
               "refId": "A"
             }
           ],
-          "title": "RTI DDS Sub Memory Usage",
           "type": "gauge"
         }
       ],
@@ -2132,6 +3085,6 @@
   "timezone": "",
   "title": "DBIS",
   "uid": "cf3dfcb4-8572-477c-b26b-f68c06e7d932",
-  "version": 18,
+  "version": 4,
   "weekStart": ""
 }

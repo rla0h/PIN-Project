@@ -65,8 +65,9 @@ OpenDDS with Ubuntu 20.04
   ```
 * Start to Publisher
   ```bash
-  $ $JAVA_HOME/bin/java -ea -cp classes:$DDS_ROOT/lib/*:classes -Djava.library.path=$DDS_ROOT/lib TestPublisher -DCPSConfigFile ../tcp.ini -w
+  $ $JAVA_HOME/bin/java -ea -cp classes:$DDS_ROOT/lib/*:classes -Djava.library.path=$DDS_ROOT/lib TestPublisher -DCPSConfigFile ../tcp.ini -r
   ```
+  * -r ==> QoS를 Reliable 사용 하겠다!
 * start to Subscriber
   ```bash
   $JAVA_HOME/bin/java -ea -cp classes:$DDS_ROOT/lib/*:classes -Djava.library.path=$DDS_ROOT/lib TestSubscriber -r
