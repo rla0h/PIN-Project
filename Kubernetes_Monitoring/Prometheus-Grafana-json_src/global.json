@@ -26,7 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 18283,
   "graphTooltip": 0,
-  "id": 29,
+  "id": 32,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -54,8 +54,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -145,8 +144,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -236,8 +234,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -327,8 +324,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -415,8 +411,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -500,8 +495,7 @@
               }
             ]
           },
-          "unit": "percentunit",
-          "unitScale": true
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -530,7 +524,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "10.3.3",
+      "pluginVersion": "10.4.1",
       "targets": [
         {
           "datasource": {
@@ -606,8 +600,7 @@
               "type": "value"
             }
           ],
-          "unit": "none",
-          "unitScale": true
+          "unit": "none"
         },
         "overrides": []
       },
@@ -711,8 +704,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -806,8 +798,7 @@
               }
             ]
           },
-          "unit": "percentunit",
-          "unitScale": true
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -837,7 +828,7 @@
         "text": {},
         "valueMode": "color"
       },
-      "pluginVersion": "10.3.3",
+      "pluginVersion": "10.4.1",
       "targets": [
         {
           "datasource": {
@@ -892,8 +883,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -983,8 +973,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -1106,8 +1095,7 @@
               }
             ]
           },
-          "unit": "percentunit",
-          "unitScale": true
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -1118,7 +1106,6 @@
         "y": 13
       },
       "id": 24,
-      "links": [],
       "options": {
         "legend": {
           "calcs": [
@@ -1219,10 +1206,10 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"default\", container=\"fep-pub-rti\"}[1m]))",
+          "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"default\", container=\"webis-backend\"}[1m]))",
           "hide": false,
           "instant": false,
-          "legendFormat": "RTI DDS Publisher",
+          "legendFormat": "WEBIS Backend",
           "range": true,
           "refId": "F"
         },
@@ -1232,10 +1219,10 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"default\", container=\"fep-sub-rti\"}[1m]))",
+          "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"default\", container=\"webis-frontend\"}[1m]))",
           "hide": false,
           "instant": false,
-          "legendFormat": "RTI DDS Subscriber",
+          "legendFormat": "WEBIS Frontend",
           "range": true,
           "refId": "G"
         },
@@ -1264,6 +1251,32 @@
           "legendFormat": "OpenDDS Subscriber",
           "range": true,
           "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"default\", container=\"postgres\"}[1m]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "postgres",
+          "range": true,
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"neo4j\", container=\"neo4j\"}[1m]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "neo4j",
+          "range": true,
+          "refId": "K"
         }
       ],
       "type": "timeseries"
@@ -1324,8 +1337,7 @@
               }
             ]
           },
-          "unit": "bytes",
-          "unitScale": true
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -1336,7 +1348,6 @@
         "y": 13
       },
       "id": 129,
-      "links": [],
       "options": {
         "legend": {
           "calcs": [
@@ -1456,6 +1467,58 @@
           "legendFormat": "OpenDDS Subscriber",
           "range": true,
           "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_memory_working_set_bytes{namespace=\"default\", container=\"webis-frontend\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "WEBIS Frontend",
+          "range": true,
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_memory_working_set_bytes{namespace=\"default\", container=\"webis-backend\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "WEBIS Backend",
+          "range": true,
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_memory_working_set_bytes{namespace=\"default\", container=\"postgres\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "postgres",
+          "range": true,
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_memory_working_set_bytes{namespace=\"neo4j\", container=\"neo4j\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "neo4j",
+          "range": true,
+          "refId": "K"
         }
       ],
       "type": "timeseries"
@@ -1562,6 +1625,6 @@
   "timezone": "Asia/Yangon",
   "title": "Global",
   "uid": "fffe0861-97d0-45f8-b53e-db4572a358d7",
-  "version": 11,
+  "version": 3,
   "weekStart": ""
 }

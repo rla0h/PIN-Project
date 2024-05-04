@@ -26,7 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 18283,
   "graphTooltip": 0,
-  "id": 38,
+  "id": 33,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -714,7 +714,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"opendds-sub\"}[1m])))",
+              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"webis-backend\"}[1m])))",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -787,7 +787,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-sub-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"webis-backend-.*\"}",
               "instant": true,
               "legendFormat": "{{pod_ip}}",
               "range": false,
@@ -860,7 +860,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-sub-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"webis-backend-.*\"}",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ node }}",
@@ -959,7 +959,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_status_qos_class{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"opendds-sub-.*\"} > 0",
+              "expr": "kube_pod_status_qos_class{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"webis-backend-.*\"} > 0",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ qos_class }}",
@@ -1042,7 +1042,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "count(kube_pod_container_status_terminated_reason{container=\"opendds-sub\"}) by (reason)",
+              "expr": "count(kube_pod_container_status_terminated_reason{container=\"webis-backend\"}) by (reason)",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -1552,7 +1552,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"default\", pod=~\"opendds-sub-.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"default\", pod=~\"webis-backend-.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Received",
               "range": true,
@@ -1565,7 +1565,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"default\", pod=~\"opendds-sub-.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"default\", pod=~\"webis-backend-.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Transmitted",
               "range": true,
@@ -1801,7 +1801,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(container_memory_working_set_bytes{container=\"opendds-sub\"}) / sum(kube_pod_container_resource_limits{container=\"opendds-sub\"}) * 100",
+              "expr": "sum(container_memory_working_set_bytes{container=\"webis-backend\"}) / sum(kube_pod_container_resource_limits{container=\"webis-backend\"}) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -2338,7 +2338,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"fep-sub-rti\"}[1m])))",
+              "expr": "sum(100 * (rate(container_cpu_usage_seconds_total{container=\"webis-frontend\"}[1m])))",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -2396,6 +2396,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -2408,7 +2411,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"webis-frontend-.*\"}",
               "instant": true,
               "legendFormat": "{{pod_ip}}",
               "range": false,
@@ -2466,6 +2469,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -2478,7 +2484,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_info{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"}",
+              "expr": "kube_pod_info{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"webis-frontend-.*\"}",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ node }}",
@@ -2562,6 +2568,9 @@
               "values": false
             },
             "showPercentChange": false,
+            "text": {
+              "valueSize": 27
+            },
             "textMode": "name",
             "wideLayout": true
           },
@@ -2574,7 +2583,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "kube_pod_status_qos_class{namespace=\"rti-dds\", container=\"kube-state-metrics\", pod=~\"fep-sub-rti-.*\"} > 0",
+              "expr": "kube_pod_status_qos_class{namespace=\"default\", container=\"kube-state-metrics\", pod=~\"webis-frontend-.*\"} > 0",
               "instant": true,
               "interval": "",
               "legendFormat": "{{ qos_class }}",
@@ -2657,7 +2666,7 @@
                 "uid": "prometheus"
               },
               "editorMode": "code",
-              "expr": "count(kube_pod_container_status_terminated_reason{container=\"opendds-sub\"}) by (reason)",
+              "expr": "count(kube_pod_container_status_terminated_reason{container=\"webis-frontend\"}) by (reason)",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -2866,7 +2875,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "description": "Average",
+          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -2951,7 +2960,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"rti-dds\", pod=~\"fep-sub-rti.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_receive_packets_total{namespace=\"default\", pod=~\"webis-frontend.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Received",
               "range": true,
@@ -2964,14 +2973,13 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"rti-dds\", pod=~\"fep-sub-rti.*\"}[$__rate_interval]))",
+              "expr": "sum(rate(container_network_transmit_packets_total{namespace=\"default\", pod=~\"webis-frontend.*\"}[$__rate_interval]))",
               "interval": "$resolution",
               "legendFormat": "Transmitted",
               "range": true,
               "refId": "B"
             }
           ],
-          "title": "RTI DDS Sub Packets per Second",
           "type": "timeseries"
         },
         {
@@ -3040,7 +3048,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum(container_memory_working_set_bytes{container=\"fep-sub-rti\"}) / sum(kube_pod_container_resource_limits{container=\"fep-sub-rti\"}) * 100",
+              "expr": "sum(container_memory_working_set_bytes{container=\"webis-frontend\"}) / sum(kube_pod_container_resource_limits{container=\"webis-frontend\"}) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "$resolution",
@@ -3157,6 +3165,6 @@
   "timezone": "Asia/Yangon",
   "title": "WEBIS",
   "uid": "e4b6b7ef-6761-4ba1-85ab-6b0ded123954",
-  "version": 4,
+  "version": 3,
   "weekStart": ""
 }

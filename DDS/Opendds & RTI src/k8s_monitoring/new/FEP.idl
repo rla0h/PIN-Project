@@ -1,0 +1,617 @@
+module Topology {
+    typedef long UnitSymbol;
+    typedef long UnitMultiplier;
+    typedef long WindingConnection;
+    typedef long PhaseCode;
+    typedef long SinglePhaseKind;
+    typedef long BatteryStateKind;
+    typedef long CsOperatingModeKind;
+    typedef long CsPpccControlKind;
+    typedef long VsPpccControlKind;
+    typedef long VsQpccControlKind;
+    typedef long DCPolarityKind;
+    typedef long DCConverterOperatingModeKind;
+
+    // UnitSymbol
+    const long UnitSymbol_none = 0;
+    const long UnitSymbol_m = 2;
+    const long UnitSymbol_s = 4;
+    const long UnitSymbol_A = 5;
+    const long UnitSymbol_deg = 9;
+    const long UnitSymbol_rad = 10;
+    const long UnitSymbol_degC = 23;
+    const long UnitSymbol_F = 25;
+    const long UnitSymbol_C = 26;
+    const long UnitSymbol_h_upper = 28;
+    const long UnitSymbol_V = 29;
+    const long UnitSymbol_ohm = 30;
+    const long UnitSymbol_Hz = 33;
+    const long UnitSymbol_W = 38;
+    const long UnitSymbol_VA = 61;
+    const long UnitSymbol_VAr = 63;
+    const long UnitSymbol_cosPhi = 65;
+    const long UnitSymbol_Vs = 66;
+    const long UnitSymbol_V2 = 67;
+    const long UnitSymbol_As = 68;
+    const long UnitSymbol_A2 = 69;
+    const long UnitSymbol_A2s = 70;
+    const long UnitSymbol_VAh = 71;
+    const long UnitSymbol_Wh = 72;
+    const long UnitSymbol_VArh = 73;
+    const long UnitSymbol_h_lower = 84;
+    const long UnitSymbol_min = 85;
+    const long UnitSymbol_Q = 100;
+    const long UnitSymbol_Qh = 101;
+    const long UnitSymbol_V2h = 104;
+    const long UnitSymbol_A2h = 105;
+    const long UnitSymbol_Ah = 106;
+    const long UnitSymbol_count = 111;
+    const long UnitSymbol_sPers = 149;
+    const long UnitSymbol_HzPerHz = 150;
+    const long UnitSymbol_VPerV = 151;
+    const long UnitSymbol_APerA = 152;
+    const long UnitSymbol_VPerVA = 153;
+
+    // UnitMultiplier
+    const long UnitMultiplier_y_lower = -24;
+    const long UnitMultiplier_z_lower = -21;
+    const long UnitMultiplier_a = -18;
+    const long UnitMultiplier_f = -15;
+    const long UnitMultiplier_p_lower = -12;
+    const long UnitMultiplier_n = -9;
+    const long UnitMultiplier_micro = -6;
+    const long UnitMultiplier_m_lower = -3;
+    const long UnitMultiplier_c = -2;
+    const long UnitMultiplier_d = -1;
+    const long UnitMultiplier_none = 0;
+    const long UnitMultiplier_da = 1;
+    const long UnitMultiplier_h = 2;
+    const long UnitMultiplier_k = 3;
+    const long UnitMultiplier_m_upper = 6;
+    const long UnitMultiplier_G = 9;
+    const long UnitMultiplier_T = 12;
+    const long UnitMultiplier_p_upper = 15;
+    const long UnitMultiplier_E = 18;
+    const long UnitMultiplier_z_upper = 21;
+    const long UnitMultiplier_y_upper = 24;
+
+    // WindingConnection
+    const long WindingConnection_D = 0;
+    const long WindingConnection_Y = 1;
+    const long WindingConnection_Z = 2;
+    const long WindingConnection_Yn = 3;
+    const long WindingConnection_Zn = 4;
+    const long WindingConnection_A = 5;
+    const long WindingConnection_I = 6;
+
+    // PhaseCode
+    const long PhaseCode_ABCN = 225;
+    const long PhaseCode_ABC = 224;
+    const long PhaseCode_ABN = 193;
+    const long PhaseCode_ACN = 41;
+    const long PhaseCode_BCN = 97;
+    const long PhaseCode_AB = 132;
+    const long PhaseCode_AC = 96;
+    const long PhaseCode_BC = 66;
+    const long PhaseCode_AN = 129;
+    const long PhaseCode_BN = 65;
+    const long PhaseCode_CN = 33;
+    const long PhaseCode_A = 128;
+    const long PhaseCode_B = 64;
+    const long PhaseCode_C = 32;
+    const long PhaseCode_N = 16;
+    const long PhaseCode_s1N = 528;
+    const long PhaseCode_s2N = 272;
+    const long PhaseCode_s12N = 784;
+    const long PhaseCode_s1 = 512;
+    const long PhaseCode_s2 = 256;
+    const long PhaseCode_s12 = 768;
+    const long PhaseCode_none = 0;
+    const long PhaseCode_X = 1024;
+    const long PhaseCode_XY = 3072;
+    const long PhaseCode_XN = 1040;
+    const long PhaseCode_XYN = 3088;
+
+    // SinglePhaseKind
+    const long A = 1;
+    const long B = 2;
+    const long C = 3;
+    const long N = 4;
+    const long s1 = 5;
+    const long s2 = 6;
+
+    // BatteryStateKind
+    const long BatteryStateKind_discharging = 0;
+    const long BatteryStateKind_full = 1;
+    const long BatteryStateKind_waiting = 2;
+    const long BatteryStateKind_charging = 3;
+    const long BatteryStateKind_empty = 4;
+
+    // CsOperatingModeKind
+    const long CsOperatingModeKind_inverter = 0;
+    const long CsOperatingModeKind_rectifier = 1;
+
+    // CsPpccControlKind
+    const long CsPpccControlKind_activePower = 0;
+    const long CsPpccControlKind_dcVoltage = 1;
+    const long CsPpccControlKind_dcCurrent = 2;
+
+    // VsPpccControlKind
+    const long VsPpccControlKind_pPcc = 0;
+    const long VsPpccControlKind_udc = 1;
+    const long VsPpccControlKind_pPccAndUdcDroop = 2;
+    const long VsPpccControlKind_pPccAndUdcDroopWithCompensation = 3;
+    const long VsPpccControlKind_pPccAndUdcDroopPilot = 4;
+    const long VsPpccControlKind_phasePcc = 5;
+
+    // VsQpccControlKind
+    const long VsQpccControlKind_reactivePcc = 0;
+    const long VsQpccControlKind_voltagePcc = 1;
+    const long VsQpccControlKind_powerFactorPcc = 2;
+    const long VsQpccControlKind_pulseWidthModulation = 3;
+
+    // DCPolarityKind
+    const long DCPolarityKind_positive = 0;
+    const long DCPolarityKind_middle = 1;
+    const long DCPolarityKind_negative = 2;
+
+    // DCConverterOperatingModeKind
+    const long DCConverterOperatingModeKind_bipolar = 0;
+    const long DCConverterOperatingModeKind_monopolarMetallicReturn = 1;
+    const long DCConverterOperatingModeKind_monopolarGroundReturn = 2;
+
+    struct ActivePower {
+	    UnitMultiplier multiplier;  
+	    UnitSymbol unit;  
+	    float value;
+    };
+
+    typedef ActivePower AngleRadians;
+    typedef ActivePower AngleDegrees;
+    typedef ActivePower ApparentPower;
+    typedef ActivePower Length;
+    typedef ActivePower Reactance;
+    typedef ActivePower ReactivePower;
+    typedef ActivePower Resistance;
+    typedef ActivePower Voltage;
+    typedef ActivePower CurrentFlow;
+    typedef ActivePower ActivePowerPerCurrentFlow;
+    typedef ActivePower PerCent;
+    typedef ActivePower PU;
+    typedef ActivePower RealEnergy;
+    typedef ActivePower Seconds;
+    typedef ActivePower Capacitance;
+    typedef ActivePower Inductance;
+
+    struct IdentifiedObject {
+	    string description;  
+	    string mRID;  
+	    string name;  
+	    string aliasName;  
+    };
+
+    struct ACDCTerminal {
+        IdentifiedObject identified_object; // originally inherited
+    	boolean connected;
+	    long sequenceNumber;
+    };
+
+    struct ConnectivityNode {
+        IdentifiedObject identified_object; // originally inherited
+	    octet _dummy_prevent_empty_class_ConnectivityNode;	
+    };
+
+    struct TransformerEnd {
+        IdentifiedObject identified_object; // originally inherited
+	    octet _dummy_prevent_empty_class_TransformerEnd;
+    };
+
+    struct PowerSystemResource {
+        IdentifiedObject identified_object; // originally inherited
+	    octet _dummy_prevent_empty_class_PowerSystemResource;
+    };
+
+    struct Equipment {
+        PowerSystemResource power_system_resource; // originally inherited
+	    octet _dummy_prevent_empty_class_Equipment;
+    };
+
+    struct PowerTransformerEnd {
+        TransformerEnd transformer_end; // originally inherited
+        WindingConnection connectionKind;  
+        Resistance r;  
+        Resistance r0;  
+        ApparentPower ratedS;  
+        Voltage ratedU;  
+        Reactance x;  
+        Reactance x0;  
+    };
+
+    struct ConductingEquipment {
+        Equipment equipment_; // originally inherited
+	    octet _dummy_prevent_empty_class_ConductingEquipment;
+    };
+
+    struct Conductor {
+        ConductingEquipment conducting_equipment; // originally inherited
+	    Length length_;
+    };
+
+    struct EnergyConnection {
+        ConductingEquipment conducting_equipment; // originally inherited
+	    octet _dummy_prevent_empty_class_EnergyConnection;
+    };
+
+    struct EnergyConsumer {
+        EnergyConnection energy_connection; // originally inherited
+        ActivePower p;  
+        ReactivePower q;
+    };
+
+    struct EnergySource {
+        EnergyConnection energy_connection; // originally inherited
+        ActivePower activePower_;  
+        ReactivePower reactivePower_;  
+        Voltage nominalVoltage;  
+        Resistance r;  
+        Resistance r0;  
+        Resistance rn;  
+        AngleRadians voltageAngle;  
+        Voltage voltageMagnitude;  
+        Reactance x;  
+        Reactance x0;  
+        Reactance xn;  
+        ActivePower pMin;  
+        ActivePower pMax;  
+    };
+
+    struct RegulatingCondEq {
+        EnergyConnection energy_connection; // originally inherited
+        boolean controlEnabled;  
+    };
+
+    struct PowerElectronicsUnit {
+        Equipment equipment_; // originally inherited
+        ActivePower maxP;  
+        ActivePower minP; 
+        ActivePower p;  
+        ReactivePower q;   
+    };
+
+    struct BatteryUnit {
+        PowerElectronicsUnit power_electronics_unit; // originally inherited
+        BatteryStateKind batteryState;
+        RealEnergy ratedE;
+        RealEnergy storedE;
+    };
+
+    struct PowerElectronicsWindUnit {
+        PowerElectronicsUnit power_electronics_unit; // originally inherited
+        octet _dummy_prevent_empty_class_PowerElectronicsWindUnit;
+    };
+
+    struct PhotoVoltaicUnit {
+        PowerElectronicsUnit power_electronics_unit; // originally inherited
+        octet _dummy_prevent_empty_class_PhotoVoltaicUnit;
+    };
+
+    struct PowerElectronicsConnection {
+        RegulatingCondEq regulating_cond_eq; // originally inherited
+        ReactivePower maxQ;  	
+        ReactivePower minQ;  
+        ApparentPower ratedS;  
+        Voltage ratedU;  
+        ActivePower p;  
+        ReactivePower q;  
+        PU maxIFault; 
+        Resistance r;  
+        Resistance r0;  
+        Resistance rn;  
+        Reactance x;  
+        Reactance x0;  
+        Reactance xn;  
+        PowerElectronicsUnit peu;
+    };
+
+    struct PowerTransformer {
+        ConductingEquipment conducting_equipment; // originally inherited
+        PowerTransformerEnd a_pte;
+    };
+
+    // "Switch" keyword syntax error, add underbar
+    struct SSwitch {
+        ConductingEquipment conducting_equipment; // originally inherited
+        boolean normalOpen;
+        boolean open;
+        CurrentFlow ratedCurrent;
+    };
+
+    struct ProtectionEquipment {
+        Equipment equipment_; // originally inherited
+        Seconds relayDelayTime;
+        float highLimit;
+        float lowLimit;
+        boolean powerDirectionFlag;
+        UnitMultiplier unitMultiplier_;  
+        UnitSymbol unitSymbol_;  
+    };
+
+    struct CurrentRelay {
+        ProtectionEquipment protection_equipment; // originally inherited
+        CurrentFlow currentLimit1;
+        CurrentFlow currentLimit2;
+        CurrentFlow currentLimit3;
+        boolean inverseTimeFlag;
+        Seconds timeDelay1;
+        Seconds timeDelay2;
+        Seconds timeDelay3;
+    };
+
+    struct RecloseSequence {
+        IdentifiedObject identified_object; // originally inherited
+        Seconds recloseDelay;
+        long recloseStep;
+    };
+
+    struct ProtectedSwitch {
+        SSwitch switchh; // originally inherited
+        CurrentFlow breakingCapacity;
+        RecloseSequence r_seq;
+    };
+
+    struct Recloser {
+        ProtectedSwitch protected_switch; // originally inherited
+        octet _dummy_prevent_empty_class_Recloser;
+    };
+
+    struct ACLineSegment {
+        Conductor conductor_; // originally inherited
+        Resistance r;  
+        Resistance r0;  
+        Reactance x;  
+        Reactance x0;  
+    };
+
+    struct ACDCConverter {
+        ConductingEquipment conducting_equipment; // originally inherited
+        ApparentPower baseS;  
+        CurrentFlow idc;  
+        ActivePower idleLoss;  
+        Voltage maxUdc;  
+        Voltage minUdc;  
+        long numberOfValves;  
+        ActivePower p;  
+        ActivePower poleLossP;  
+        ReactivePower q;  
+        Voltage ratedUdc;  
+        Resistance resistiveLoss;  
+        ActivePowerPerCurrentFlow switchingLoss;  
+        ActivePower targetPpcc;  
+        Voltage targetUdc;  
+        Voltage uc; 
+        Voltage udc;  
+        Voltage valveU0;  
+        ActivePower maxP;  
+        ActivePower minP;  
+    };
+
+    struct CsConverter {
+        ACDCConverter acdc_converter; // originally inherited
+        AngleDegrees alpha;  
+        AngleDegrees gamma;  
+        AngleDegrees maxAlpha;  
+        AngleDegrees maxGamma;  
+        CurrentFlow maxIdc;  
+        AngleDegrees minAlpha;  
+        AngleDegrees minGamma;  
+        CurrentFlow minIdc;  
+        CsOperatingModeKind operatingMode;  
+        CsPpccControlKind pPccControl;  
+        CurrentFlow ratedIdc;  
+        AngleDegrees targetAlpha;  
+        AngleDegrees targetGamma;  
+        CurrentFlow targetIdc;  
+    };
+
+    struct VsConverter {
+        ACDCConverter acdc_converter; // originally inherited
+        AngleDegrees delta;  
+        PU droop;  
+        Resistance droopCompensation;  
+        float maxModulationIndex;  
+        CurrentFlow maxValveCurrent;  
+        VsPpccControlKind pPccControl;  
+        VsQpccControlKind qPccControl;  
+        PerCent qShare;  
+        ReactivePower targetQpcc;  
+        Voltage targetUpcc;  
+        Voltage uv;  
+        float targetPowerFactorPcc;  
+        AngleDegrees targetPhasePcc;  
+        float targetPWMfactor;  
+    };
+
+    struct ConnectivityNodeContainer {
+        PowerSystemResource power_system_resource; // originally inherited
+        octet _dummy_prevent_empty_class_ConnectivityNodeContainer;
+    };
+
+    struct EquipmentContainer {
+        ConnectivityNodeContainer connectivity_node_container; // originally inherited
+        octet _dummy_prevent_empty_class_EquipmentContainer;
+    };
+
+    struct DCEquipmentContainer {
+        EquipmentContainer equipment_container; // originally inherited
+        octet _dummy_prevent_empty_class_DCEquipmentContainer;
+    };
+
+    struct DCLine {
+        DCEquipmentContainer dc_equipment_container; // originally inherited
+        octet _dummy_prevent_empty_class_DCLine;
+    };
+
+    struct DCConverterUnit {
+        DCEquipmentContainer dc_equipment_container; // originally inherited
+        DCConverterOperatingModeKind operationMode;
+    };
+
+    struct DCConductingEquipment {
+        Equipment equipment_; // originally inherited
+        Voltage ratedUdc;
+    };
+
+    struct DCLineSegment {
+        DCConductingEquipment dc_conducting_equipment; // originally inherited
+        Capacitance capacitance_;
+        Inductance inductance_;
+        Resistance resistance_;
+        Length length_;
+    };
+
+    struct DCSwitch {
+        DCConductingEquipment dc_conducting_equipment; // originally inherited
+        octet _dummy_prevent_empty_class_DCSwitch;
+    };
+
+    struct DCBreaker {
+        DCSwitch dc_switch; // originally inherited
+        octet _dummy_prevent_empty_class_DCBreaker;
+    };
+
+    struct DCDisconnector {
+        DCSwitch dc_switch; // originally inherited
+        octet _dummy_prevent_empty_class_DCDisconnector;
+    };
+
+    struct DCNode {
+        IdentifiedObject identified_object; // originally inherited
+        octet _dummy_prevent_empty_class_DCNode;
+    };
+
+    struct DCBaseTerminal {
+        ACDCTerminal acdc_terminal; // originally inherited
+        DCNode a_dc_nd;
+    };
+
+    struct DCTerminal {
+        DCBaseTerminal dc_base_terminal; // originally inherited
+        DCConductingEquipment a_dc_ce;  
+    };
+
+    struct ACDCConverterDCTerminal {
+        DCBaseTerminal dc_base_terminal; // originally inherited
+        DCPolarityKind polarity;  
+        ACDCConverter a_acdc_conv;
+    };
+
+    struct Terminal {
+        ACDCTerminal acdc_terminal; // originally inherited
+        PhaseCode phases;  
+        ConductingEquipment a_ce;  
+        ConnectivityNode a_cn;  
+    };
+
+    // Topology Profile Topic
+    @topic
+    struct TerminalTopic {
+        Terminal t;
+        long topicCount;
+    };
+
+    @topic
+    struct ConnectivityNodeTopic {
+        ConnectivityNode cn;
+        long topicCount;
+    };
+
+    @topic
+    struct ACLineSegmentTopic {
+        ACLineSegment acls;
+        long topicCount;
+    };
+
+    @topic
+    struct EnergyConsumerTopic {
+        EnergyConsumer ec;
+        long topicCount;
+    };
+
+    @topic
+    struct EnergySourceTopic {
+        EnergySource t;
+        long topicCount;
+    };
+
+    @topic
+    struct SwitchTopic {
+        SSwitch s;
+        long topicCount;
+    };
+
+    @topic
+    struct PowerTransformerTopic {
+        PowerTransformer pt;
+        long topicCount;
+    };
+
+    @topic
+    struct RecloserTopic {
+        Recloser r;
+        long topicCount;
+    };
+
+    @topic
+    struct ACDCConverterTopic {
+        ACDCConverter acdc;
+        long topicCount;
+    };
+
+    @topic
+    struct PhotoVoltaicUnitTopic {
+        PhotoVoltaicUnit pv;
+        long topicCount;
+    };
+
+    @topic
+    struct BatteryUnitTopic {
+        BatteryUnit battery;
+        long topicCount;
+    };
+
+    @topic
+    struct PowerElectronicsWindUnitTopic {
+        PowerElectronicsWindUnit wind;
+        long topicCount;
+    };
+
+    @topic
+    struct DCLineSegmentTopic {
+        DCLineSegment dcls;
+        long topicCount;
+    };
+
+    @topic
+    struct DCSwitchTopic {
+        DCSwitch dcsw;
+        long topicCount;
+    };
+
+    @topic
+    struct DCNodeTopic {
+        DCNode dcnd;
+        long topicCount;
+    };
+
+    @topic
+    struct DCTerminalTopic {
+        DCTerminal dc_t;
+        long topicCount;
+    };
+
+    @topic
+    struct ACDCConverterDCTerminalTopic {
+        ACDCConverterDCTerminal ac_dc_t;
+        long topicCount;
+    };
+};
