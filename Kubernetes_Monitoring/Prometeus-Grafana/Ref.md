@@ -1,11 +1,37 @@
 Prometheus
----
+---- 
+[kube-prometheus-stack](#kube-prometheus-stack)
+- [kube-prometheus-stack](#kube-prometheus-stack)
+  - [Architecture](#architecture)
+    - [Prometheus Operator](#prometheus-operator)
+    - [Prometheus Server](#prometheus-server)
+    - [Alert Manager](#alert-manager)
+    - [Prometheus node-exporter](#prometheus-node-exporter)
+    - [Promethues Adaptor for Kubernetes Metircs APIs](#promethues-adaptor-for-kubernetes-metircs-apis)
+    - [kube-state-metrics](#kube-state-metrics)
+    - [Grafana](#grafana)
+  - [Configure](#configure)
+    - [Chart](#chart)
+    - [templates](#templates)
+    - [crds](#crds)
+    - [Chart.yaml](#chartyaml)
+    - [Values.yaml](#valuesyaml)
+- [Prometheus Install](#prometheus-install)
+  - [Helm install](#helm-install)
+  - [Install Prometheus using helm](#install-prometheus-using-helm)
+    - [Modify Password in values yaml](#modify-password-in-values-yaml)
+    - [monitoring namespace create](#monitoring-namespace-create)
+    - [helm install prometheus](#helm-install-prometheus)
+    - [check prometheus](#check-prometheus)
+    - [Edit prometheus-grafana \& prometheus-kube-prometheus-prometheus](#edit-prometheus-grafana--prometheus-kube-prometheus-prometheus)
+    - [Edit Grafana.ini](#edit-grafanaini)
+
 * https://xinet.kr/?p=3805
 * https://leehosu.github.io/kube-prometheus-stack
 * https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 ---
 # kube-prometheus-stack
-* Kubernetes cluster에 맞게 구성된 오픈 소스 프로젝트
+* Kubernetes cluster에 맞게 구성된 오픈 소스 프로젝트[[
 * Promethus를 기반으로 하며, 쿠버네티스 클러스터의 다양한 컴포넌트 들의 메트릭 데이터를 수집하고 이를 시계열 데이터로 생성하여 모니터링 및 경고 기능을 제공
 * helm chart로 쉽게 설치 가능!
 ## Architecture
