@@ -1,7 +1,7 @@
 Prometheus
 ---
-https://xinet.kr/?p=3805
-https://leehosu.github.io/kube-prometheus-stack
+* https://xinet.kr/?p=3805
+* https://leehosu.github.io/kube-prometheus-stack
 ---
 # kube-prometheus-stack
 * Kubernetes cluster에 맞게 구성된 오픈 소스 프로젝트
