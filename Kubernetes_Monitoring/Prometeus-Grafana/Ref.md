@@ -1,6 +1,5 @@
 Prometheus
 ---- 
-[kube-prometheus-stack](#kube-prometheus-stack)
 - [kube-prometheus-stack](#kube-prometheus-stack)
   - [Architecture](#architecture)
     - [Prometheus Operator](#prometheus-operator)
