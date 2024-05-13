@@ -600,7 +600,7 @@
               "type": "value"
             }
           ],
-          "unit": "none"
+          "unit": "bool"
         },
         "overrides": []
       },
@@ -626,7 +626,7 @@
         "pieType": "donut",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "count"
           ],
           "fields": "",
           "values": false
@@ -1625,6 +1625,6 @@
   "timezone": "Asia/Yangon",
   "title": "Global",
   "uid": "fffe0861-97d0-45f8-b53e-db4572a358d7",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }

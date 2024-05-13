@@ -1,21 +1,65 @@
 Prometheus
 ---
 https://xinet.kr/?p=3805
-https://teichae.tistory.com/entry/Kubernetes-Monitoring-Grafana%EC%97%90-Prometheus-Data-Source-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%
+https://leehosu.github.io/kube-prometheus-stack
 ---
+# kube-prometheus-stack
+* Kubernetes cluster에 맞게 구성된 오픈 소스 프로젝트
+* Promethus를 기반으로 하며, 쿠버네티스 클러스터의 다양한 컴포넌트 들의 메트릭 데이터를 수집하고 이를 시계열 데이터로 생성하여 모니터링 및 경고 기능을 제공
+* helm chart로 쉽게 설치 가능!
+## Architecture
+![alt text](image.png)
+### Prometheus Operator
+* Kubernetes 내에서 Prometheus 서버와 관련된 리소스들을 관리하기 위한 컨트롤러
+* Promethues와 관련된 설정, 서비스 디스커버리, Rule 및 Dashboard 관리 가능
+### Prometheus Server
+* 고가용성을 제공하는 Promethues Server
+* Metrics data를 스크랩 및 저장
+### Alert Manager
+* Prometheus가 수집한 메트릭 데이터를 기반으로 경고를 생성하고 관리하는 역할
+### Prometheus node-exporter
+* Host의 metric을 수집하는 역할
+* CPU, Memory, Disk I/O 등의 데이터를 수집하여 Prometheus로 전달
+### Promethues Adaptor for Kubernetes Metircs APIs
+* Kubernetes의 metric API와 연동하여 클러스터 내부의 리소스 메트릭 데이터를 수집하고 Prometheus로 전달
+### kube-state-metrics
+* 쿠버네티스 클러스터의 상태 정보를 메트릭으로 수집
+* Pod, Deployment, Node 등의 상태정보를 모니터링 가능
+### Grafana
+* 데이터 시각화 및 대시보드 생성 도구로써, 수집한 메트릭 데이터를 그래프나 대시보드 형태로 시각화하여 사용자에게 제공
+## Configure
+![alt text](image-1.png)
+### Chart
+* Helm 차트의 종속 Chart를 포함
+* grafana, kube-state-metrics, prometheus-node-exporter 존재
+### templates
+* Helm chart의 템플릿 파일들을 포함
+* 템플릿은 Kubernetes 리소스의 정의를 작성하는 데 사용되며, 애플리케이션의 배포, 서비스, 구성 등을 관리
+### crds
+* Custom Resource Definitions(CRDs) 파일을 포함할 수 있는 위치
+* Kubernetes API에 사용자 정의 리소스와 그에 대한 스키마를 추가하는 데 사용
+### Chart.yaml
+* Helm 차트의 메타정보를 정의
+### Values.yaml
+* Helm 차트의 기본 구성 값을 정의
+* 애플리케이션의 설정 옵션, 환경 변수, 리소스 크기 등을 설정 가능
+
 # Prometheus Install
 ## Helm install
 * [Helm install](https://helm.sh/docs/intro/install/)
 * Kubernetes Opensource Package Manager
 * Kubernetes용으로 구축된 소프트웨어를 제공, 공유 및 사용할 수 있는 기능을 제공
 
-## Install Prometheus
-* installed Prometheus Version = 57.0.2 tgz
-  * wget install ..
+## Install Prometheus using helm
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack
+```
 ### Modify Password in values yaml
-  ```yaml
-  adminPassword : 123!!@@##
-  ```
+```yaml
+adminPassword : 123!!@@##
+```
 ### monitoring namespace create
 ```bash
 kubectl create namespace monitoring
