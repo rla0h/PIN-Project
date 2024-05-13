@@ -30,7 +30,7 @@ Prometheus
 * https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 ---
 # kube-prometheus-stack
-* Kubernetes cluster에 맞게 구성된 오픈 소스 프로젝트[[
+* Kubernetes cluster에 맞게 구성된 오픈 소스 프로젝트
 * Promethus를 기반으로 하며, 쿠버네티스 클러스터의 다양한 컴포넌트 들의 메트릭 데이터를 수집하고 이를 시계열 데이터로 생성하여 모니터링 및 경고 기능을 제공
 * helm chart로 쉽게 설치 가능!
 ## Architecture
