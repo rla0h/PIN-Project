@@ -14,7 +14,7 @@ Send OpenDDS JSON Message
 
 # OpenDDS Configure
 ```bash
-udo ./configure --verbose --java --doc-group3 --rapidjson --features=java_pre_jpms=0
+./configure --verbose --java --doc-group3 --rapidjson --features=java_pre_jpms=0
 ```
 ## include [RapidJSON](https://rapidjson.org/) 
 * A fast JSON parser/generator for C++ with both SAX/DOM style API
