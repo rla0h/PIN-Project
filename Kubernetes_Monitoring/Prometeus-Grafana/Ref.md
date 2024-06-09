@@ -81,6 +81,7 @@ Prometheus
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack
+helm pull [RELEASE_NAME] prometheus-community/kube-prometheus-stack # File 형식으로 다운
 ```
 ### Modify Password in values yaml
 ```yaml
